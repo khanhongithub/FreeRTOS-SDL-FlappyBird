@@ -526,6 +526,30 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.s
 .PHONY : src/main.c.s
 
+src/renderer.o: src/renderer.c.o
+.PHONY : src/renderer.o
+
+# target to build an object file
+src/renderer.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o
+.PHONY : src/renderer.c.o
+
+src/renderer.i: src/renderer.c.i
+.PHONY : src/renderer.i
+
+# target to preprocess a source file
+src/renderer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.i
+.PHONY : src/renderer.c.i
+
+src/renderer.s: src/renderer.c.s
+.PHONY : src/renderer.s
+
+# target to generate assembly for a file
+src/renderer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.s
+.PHONY : src/renderer.c.s
+
 src/resources.o: src/resources.c.o
 .PHONY : src/resources.o
 
@@ -549,6 +573,30 @@ src/resources.s: src/resources.c.s
 src/resources.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.s
 .PHONY : src/resources.c.s
+
+src/singleplayer.o: src/singleplayer.c.o
+.PHONY : src/singleplayer.o
+
+# target to build an object file
+src/singleplayer.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o
+.PHONY : src/singleplayer.c.o
+
+src/singleplayer.i: src/singleplayer.c.i
+.PHONY : src/singleplayer.i
+
+# target to preprocess a source file
+src/singleplayer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.i
+.PHONY : src/singleplayer.c.i
+
+src/singleplayer.s: src/singleplayer.c.s
+.PHONY : src/singleplayer.s
+
+# target to generate assembly for a file
+src/singleplayer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.s
+.PHONY : src/singleplayer.c.s
 
 src/statemachine.o: src/statemachine.c.o
 .PHONY : src/statemachine.o
@@ -656,9 +704,15 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/renderer.o"
+	@echo "... src/renderer.i"
+	@echo "... src/renderer.s"
 	@echo "... src/resources.o"
 	@echo "... src/resources.i"
 	@echo "... src/resources.s"
+	@echo "... src/singleplayer.o"
+	@echo "... src/singleplayer.i"
+	@echo "... src/singleplayer.s"
 	@echo "... src/statemachine.o"
 	@echo "... src/statemachine.i"
 	@echo "... src/statemachine.s"

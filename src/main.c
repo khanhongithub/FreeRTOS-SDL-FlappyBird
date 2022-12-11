@@ -30,9 +30,12 @@
 #include "main.h"
 #include "priorties.h"
 #include "resources.h"
+#include "singleplayer.h"
 
 // handles for all the tasks
 TaskHandle_t StatemachineTask = NULL;
+
+QueueHandle_t scene_queue = NULL;
 
 buttons_buffer_t buttons = { 0 };
 
@@ -60,11 +63,15 @@ int main(int argc, char *argv[])
         goto err_buttons_lock;
 
     // create queues
-    
+    scene_queue = xQueueCreate(1,sizeof(game_data_t));
+    if(scene_queue == NULL) {
+        PRINT_ERROR("failed to create scene queue");
+    }
+
     // counting Semaphore
     
     // add states    
-        AddState("Singlplayer",);
+        AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
     // create statemachine
 
     #if 1

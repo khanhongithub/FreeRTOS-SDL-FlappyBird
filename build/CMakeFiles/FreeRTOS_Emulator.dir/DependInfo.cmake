@@ -24,7 +24,9 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Utils.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/animations.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/main.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o.d"
+  "/home/baseduser/ESPL/ESPL/src/renderer.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/resources.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o.d"
+  "/home/baseduser/ESPL/ESPL/src/singleplayer.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/statemachine.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/statemachine.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/statemachine.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/timef.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/timef.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/timef.c.o.d"
   )

@@ -17,6 +17,5 @@ typedef struct hour_minute_second{
     int minute;
     int second;
 }hour_minute_second_t;
-
 hour_minute_second_t UnixTimestampToHMS(long int unix_time_stemp);
 int oscilation(double frequency_hz);

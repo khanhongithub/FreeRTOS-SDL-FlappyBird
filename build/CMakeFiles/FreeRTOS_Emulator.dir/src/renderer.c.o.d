@@ -1,5 +1,5 @@
-CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o: \
- /home/baseduser/ESPL/ESPL/src/main.c /usr/include/stdc-predef.h \
+CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o: \
+ /home/baseduser/ESPL/ESPL/src/renderer.c /usr/include/stdc-predef.h \
  /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
  /usr/include/bits/wordsize.h /usr/include/bits/timesize.h \
@@ -183,4 +183,5 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o: \
  /home/baseduser/ESPL/ESPL/include/main.h \
  /home/baseduser/ESPL/ESPL/include/priorties.h \
  /home/baseduser/ESPL/ESPL/include/resources.h \
- /home/baseduser/ESPL/ESPL/include/singleplayer.h
+ /home/baseduser/ESPL/ESPL/include/singleplayer.h \
+ /home/baseduser/ESPL/ESPL/include/renderer.h
