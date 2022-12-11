@@ -61,13 +61,16 @@ public void vSingleplayerTask(void *pvParameters)
     short int gap_counter = 0;
     short int obstacle_field = 0x0000;
     char second_pos = 0;
-    short int player_position = 0;
+    double player_position = 0;
+    double vertical_speed = 0;
     TickType_t last_wake_time = xTaskGetTickCount();
     game_data_t data = { 0 };
 
     while (running)
     {
         tumEventFetchEvents(FETCH_EVENT_NO_GL_CHECK | FETCH_EVENT_NO_GL_CHECK);
+        data.gamer_over = false;
+        
         global_counter = collision_counter + gap_counter;
         
         // counting is done twice as fast other wise the game is too easy
@@ -80,20 +83,35 @@ public void vSingleplayerTask(void *pvParameters)
         
         // update player position
         if(xSemaphoreTake(buttons.lock, 0) == pdPASS) {
-            
-            player_position -= 2 * buttons.buttons[KEYCODE(W)];
-            player_position += 2 * buttons.buttons[KEYCODE(S)];
 
+            bool cur_SPACE, prev_SPACE, flap = false;
+
+            cur_SPACE = buttons.buttons[KEYCODE(SPACE)];
+            flap = !prev_SPACE && cur_SPACE;
+            prev_SPACE = cur_SPACE;
             xSemaphoreGive(buttons.lock); 
+        
+            if(flap)
+                vertical_speed = -4;
+        }
+            player_position += vertical_speed;
+
+        if(player_position + PLAYER_RADIUS + 1 >= SCREEN_HEIGHT) {
+            player_position = SCREEN_HEIGHT - PLAYER_RADIUS - 1;
+            vertical_speed = 0;
+            data.gamer_over = true;
+        }
+        else {
+            vertical_speed += GRAVITY;
         }
 
-        data.gamer_over = false; 
+         
         second_pos = (obstacle_field << 4) >> 12;
         // check if collision counter is running and first bit is 1
         if(collision_counter != 0 && ((second_pos & 0b1000) != 0)) {
             second_pos &= 0b0111;
             // check for collision
-            printf("sec: %d\npos: %d\n", second_pos, player_position);
+            printf("sec: %d\npos: %f\n", second_pos, player_position);
             bool no_collision = 
             (12 - (second_pos + 2)) * STANDART_GRID_LENGTH - (MID_GAP / 2) <= 
             player_position - (PLAYER_RADIUS + 1)

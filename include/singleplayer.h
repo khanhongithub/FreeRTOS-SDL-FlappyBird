@@ -13,6 +13,8 @@
 
 #define PLAYER_RADIUS 20
 
+#define GRAVITY 0.1
+
 typedef struct game_data {
     short int highscore;
     short int obstacles;
