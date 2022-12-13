@@ -21,6 +21,7 @@ typedef struct game_data {
     short int global_counter;  
     short int player1_position;
     char gamer_over;
+    char jump;
 }game_data_t;
 
 void SingleplayerEnter(void);

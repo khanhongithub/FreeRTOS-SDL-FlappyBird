@@ -49,19 +49,22 @@ public void SingleplayerRun(void)
 public void SingleplayerExit(void)
 {
     vTaskDelete(SingleplayerTask);
+    xSemaphoreGive(buttons.lock);
     RendererExit();
 }
 
 public void vSingleplayerTask(void *pvParameters)
 {
     // init
+    static struct timespec the_time;
     bool running = true;
     short int global_counter = 0;
     short int collision_counter = 0;
+    bool cur_SPACE, prev_SPACE, flap = false;
     short int gap_counter = 0;
     short int obstacle_field = 0x0000;
     char second_pos = 0;
-    double player_position = 0;
+    double player_position = SCREEN_HEIGHT / 2;
     double vertical_speed = 0;
     TickType_t last_wake_time = xTaskGetTickCount();
     game_data_t data = { 0 };
@@ -76,27 +79,32 @@ public void vSingleplayerTask(void *pvParameters)
         // counting is done twice as fast other wise the game is too easy
         gap_counter += 2 * (gap_counter < SPACE_BETWEEN);
         collision_counter += 2 * ((collision_counter < (OBSTACLE_WIDTH * 
-                              STANDART_GRID_LENGTH) && gap_counter == SPACE_BETWEEN));
+                            STANDART_GRID_LENGTH) && gap_counter == SPACE_BETWEEN));
 
         //printf("gap: %d, col: %d, glob: %d\n", 
         //       gap_counter, collision_counter, global_counter);
         
-        // update player position
+        // update player position when jumping
         if(xSemaphoreTake(buttons.lock, 0) == pdPASS) {
-
-            bool cur_SPACE, prev_SPACE, flap = false;
 
             cur_SPACE = buttons.buttons[KEYCODE(SPACE)];
             flap = !prev_SPACE && cur_SPACE;
             prev_SPACE = cur_SPACE;
             xSemaphoreGive(buttons.lock); 
-        
+            
+            data.jump = flap;
             if(flap)
-                vertical_speed = -4;
+                vertical_speed = -4.2;
         }
             player_position += vertical_speed;
-
-        if(player_position + PLAYER_RADIUS + 1 >= SCREEN_HEIGHT) {
+        
+        // ensure player is within legal position
+        if(player_position - PLAYER_RADIUS <= 0) {
+            player_position = PLAYER_RADIUS + 1;
+            vertical_speed = 0;
+            data.gamer_over = true;
+        }
+        else if(player_position + PLAYER_RADIUS + 1 >= SCREEN_HEIGHT) {
             player_position = SCREEN_HEIGHT - PLAYER_RADIUS - 1;
             vertical_speed = 0;
             data.gamer_over = true;
@@ -105,23 +113,21 @@ public void vSingleplayerTask(void *pvParameters)
             vertical_speed += GRAVITY;
         }
 
-         
-        second_pos = (obstacle_field << 4) >> 12;
+        second_pos = (obstacle_field << 4) >> 12; // <- second pipe for collision
         // check if collision counter is running and first bit is 1
         if(collision_counter != 0 && ((second_pos & 0b1000) != 0)) {
             second_pos &= 0b0111;
-            // check for collision
-            printf("sec: %d\npos: %f\n", second_pos, player_position);
+            // printf("sec: %d\npos: %f\n", second_pos, player_position);
+            
             bool no_collision = 
             (12 - (second_pos + 2)) * STANDART_GRID_LENGTH - (MID_GAP / 2) <= 
             player_position - (PLAYER_RADIUS + 1)
             &&
             player_position + (PLAYER_RADIUS + 1) <=
             (12 - (second_pos + 2)) * STANDART_GRID_LENGTH + (MID_GAP / 2);
-            printf("b: %d\n", no_collision);
-            
+                        
             if(!no_collision) {
-                //exit(EXIT_SUCCESS);
+                // todo: pause screen and throw menu
                 data.gamer_over = true;
             }
         }
@@ -131,17 +137,17 @@ public void vSingleplayerTask(void *pvParameters)
         data.player1_position = player_position;
         xQueueOverwrite(scene_queue, &data);
 
-        // printf("size: %ld\n", sizeof(obstacle_field));
         // when collision_counter reaches its maxs it is reset
-        // push over obstacle map
         if(global_counter >= STANDART_GAP_DISTANCE * STANDART_GRID_LENGTH) {
+            clock_gettime(CLOCK_REALTIME,&the_time);
             obstacle_field <<= 4;
-            obstacle_field |= rand() % 8 | 0b1000;
-            printf("rand: %0X\n", obstacle_field);
+            // generate new forth obstacle and bitwise-or it into the map
+            obstacle_field |= (rand() /+ the_time.tv_nsec) % 8 | 0b1000;
+            // printf("rand: %X\n", obstacle_field);
             gap_counter = 0;
             collision_counter = 0;
         }        
-        // generate new forth obstacle and bitor it into the map
+        
         vTaskDelayUntil(&last_wake_time, SINGLEPLAYER_FREQUENCY);
     }    
 }

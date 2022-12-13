@@ -36,7 +36,7 @@
 #ifndef __TUM_DRAW_H__
 #define __TUM_DRAW_H__
 
-#define WINDOW_TITLE "FreeRTOS Emulator"
+#define WINDOW_TITLE "Flappy Bird"
 
 /**
  * Sets the width (in pixels) of the screen

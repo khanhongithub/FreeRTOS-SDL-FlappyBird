@@ -30,37 +30,122 @@
 
 TaskHandle_t RenderingTask = NULL;
 
+image_handle_t player_sprite = NULL;
+image_handle_t pipe_bottom = NULL;
+image_handle_t pipe_top = NULL;
+image_handle_t background_sprite = NULL;
+
+void checkDraw(unsigned char status, const char *msg)
+{
+    if (status) {
+        if (msg)
+            fprintf(stderr, "[ERROR] %s, %s\n", msg,
+                    tumGetErrorMessage());
+        else {
+            fprintf(stderr, "[ERROR] %s\n", tumGetErrorMessage());
+        }
+    }
+}
+
+void DrawBackground(void)
+{
+    short int bg_width = 0;
+    static float counter = 0; 
+
+    if(background_sprite == NULL) {    
+        background_sprite = tumDrawLoadScaledImage(BACKGROUND_SPRITE, 1.15);
+        bg_width = tumDrawGetLoadedImageWidth(background_sprite);
+    }
+    bg_width = tumDrawGetLoadedImageWidth(background_sprite);
+    // counter has length of image width for seemless texture scrolling
+    counter = counter + 0.25;//= (counter < bg_width);
+    counter *= (counter <= bg_width);
+    
+    tumDrawLoadedImage(background_sprite, - counter, 0);
+    tumDrawLoadedImage(background_sprite, - counter + bg_width, 0);   
+    tumDrawLoadedImage(background_sprite, - counter + 2 * bg_width, 0);
+    tumDrawLoadedImage(background_sprite, - counter + 3 * bg_width, 0);  
+    tumDrawLoadedImage(background_sprite, - counter + 4 * bg_width, 0);
+    //tumDrawLoadedImage(background_sprite, - counter + 5 * bg_width, 0);    
+}
+
 void DrawObstacle(short int x_position, char type, short int counter)
 {
+    static int image_height_top_pipe;
+    static int image_height_bottom_pipe;
     short int middle_gap = MID_GAP;
     short int bottom_length = 0;
     short int top_length = 0;
 
+    if(pipe_top == NULL) 
+    {
+        pipe_top = tumDrawLoadScaledImage(PIPE_TOP_SPRITE, 1.98);
+        //printf("loaded image\n");
+    }
+
+    if(pipe_bottom == NULL) 
+    {
+        pipe_bottom = tumDrawLoadScaledImage(PIPE_BOTTOM_SPRITE, 1.98);
+        //printf("loaded image\n");
+    }
+
     if((type & 0x8) == 0) {
         return;
     }
-    type &= 0x7;
+    type &= 0x7; // <- removing 4th bit
 
     // get obstacle
     top_length = 11 * STANDART_GRID_LENGTH - ((type + 1) * STANDART_GRID_LENGTH); 
-    bottom_length = (type + 2) * STANDART_GRID_LENGTH ;//;
+    bottom_length = (type + 2) * STANDART_GRID_LENGTH;
     // printf("tl: %d, t: %d\n", top_length, type);
-
+    
+    // top pipe 
+    #if 0
     tumDrawFilledBox(x_position - counter,
                      0, 
                      OBSTACLE_WIDTH * STANDART_GRID_LENGTH, 
                      top_length - (middle_gap / 2), Green);
+    #endif   
+    if((image_height_top_pipe = tumDrawGetLoadedImageHeight(pipe_top)) != -1) {
+        tumDrawLoadedImage(pipe_top, 
+                           x_position - counter - 2, /* pipe image isnt centered*/
+                           top_length - (middle_gap / 2) - image_height_top_pipe);
+    }
 
+    // bottom pipe
+    #if 0
     tumDrawFilledBox(x_position - counter,
                      SCREEN_HEIGHT - bottom_length + (middle_gap / 2), 
                      OBSTACLE_WIDTH * STANDART_GRID_LENGTH, 
-                     bottom_length - (middle_gap / 2), Green);
+                     bottom_length - (middle_gap / 2), Green);;
+    #endif
+    if((image_height_bottom_pipe = tumDrawGetLoadedImageHeight(pipe_bottom)) != -1) {
+        tumDrawLoadedImage(pipe_bottom, 
+                           x_position - counter - 2, /* pipe image isnt centered*/
+                           SCREEN_HEIGHT - bottom_length + (middle_gap / 2) ); 
+    }
 } 
 
 void DrawPlayer(short int player_height, int color)
 {
+    static int image_height;
+    if(player_sprite == NULL) 
+    {
+        player_sprite = tumDrawLoadScaledImage(PLAYER_SPRITE, 0.09);
+        //printf("loaded image\n");
+    }
+    /*
     tumDrawCircle(FIRST_POSITION + OBSTACLE_WIDTH * STANDART_GRID_LENGTH, 
                   player_height, PLAYER_RADIUS, Orange);
+    */
+
+    if((image_height = tumDrawGetLoadedImageHeight(player_sprite)) != -1) {
+        tumDrawLoadedImage(player_sprite,
+                           FIRST_POSITION + OBSTACLE_WIDTH * STANDART_GRID_LENGTH 
+                           - image_height / 2,
+                           player_height - image_height / 2 + 4);
+        // printf("heiu: %d\n", image_height);
+    }
 }
 
 void RendererEnter(void)
@@ -93,6 +178,8 @@ void vRendererTask(void* pcParameters)
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
         xQueuePeek(scene_queue, &buffer, 0);
         
+        DrawBackground();
+
         DrawObstacle(FIRST_POSITION, (buffer.obstacles & 0xF000) >> 12, 
                      buffer.global_counter);
 
