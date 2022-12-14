@@ -48,7 +48,7 @@
 /**
  * Default font to be used by the SDL TTF library
  */
-#define DEFAULT_FONT "IBMPlexSans-Medium.ttf"
+#define DEFAULT_FONT "04B_19__.TTF"
 
 /**
  * Location of font TTF files

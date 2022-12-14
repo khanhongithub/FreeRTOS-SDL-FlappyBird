@@ -137,14 +137,14 @@ void DrawGameoverScreen(short int high_score, short int score)
                                  (SCREEN_HEIGHT / 2) - (GAMEOVER_BOX_HEIGHT / 2), 
                                  GAMEOVER_BOX_WIDTH, 
                                  GAMEOVER_BOX_HEIGHT, 
-                                 White);
+                                 0x52394a);
     
     tumDrawFilledBox((SCREEN_WIDTH / 2) - (GAMEOVER_BOX_WIDTH_CONTENT / 2), 
                                  SCREEN_HEIGHT / 2 - 
                                  (GAMEOVER_BOX_HEIGHT_CONTENT / 2), 
                                  GAMEOVER_BOX_WIDTH_CONTENT, 
                                  GAMEOVER_BOX_HEIGHT_CONTENT, 
-                                 Orange);
+                                 0xded794);
 
     if((image_height = tumDrawGetLoadedImageHeight(gameover_sprite)) != -1 &&
        (image_width = tumDrawGetLoadedImageWidth(gameover_sprite)) != -1) {
@@ -200,6 +200,7 @@ void vRendererTask(void* pcParameters)
 {
     game_data_t buffer;
     char highscore_text[30];
+    char score_text[30];
     TickType_t last_wake_time = xTaskGetTickCount();
 
     tumDrawBindThread();
@@ -229,7 +230,14 @@ void vRendererTask(void* pcParameters)
         tumDrawText(highscore_text,
         10,
         SCREEN_HEIGHT / 20,
-        Red);
+        Black);
+
+        sprintf(score_text, "score: %d", buffer.score);
+        tumDrawText(score_text,
+        10,
+        SCREEN_HEIGHT / 20 + 15,
+        Black);
+
         // moving background regradless what happens
         // raed from queue
         if(buffer.gamer_over) {

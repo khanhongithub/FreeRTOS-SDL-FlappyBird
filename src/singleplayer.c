@@ -60,7 +60,7 @@ public void vSingleplayerTask(void *pvParameters)
 
     static struct timespec the_time;
     static short int high_score = 0;
-    
+
     short int global_counter = 0;
     short int collision_counter = 0;
     short int score = 0;
@@ -139,11 +139,14 @@ public void vSingleplayerTask(void *pvParameters)
         }
 
         // detect tha player has left obstcle
-        high_score += (gap_counter == PLAYER_RADIUS && 
+        score += (gap_counter == PLAYER_RADIUS && 
                        ((obstacle_field & 0xA000) != 0));
-       
+        if(score >= high_score)
+            high_score = score;
+
         data.global_counter = global_counter;
         data.obstacles = obstacle_field;
+        data.score = score;
         data.highscore = high_score;
         data.player1_position = player_position;
         xQueueOverwrite(scene_queue, &data);
