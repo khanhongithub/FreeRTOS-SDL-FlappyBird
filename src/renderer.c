@@ -34,6 +34,7 @@ image_handle_t player_sprite = NULL;
 image_handle_t pipe_bottom = NULL;
 image_handle_t pipe_top = NULL;
 image_handle_t background_sprite = NULL;
+image_handle_t gameover_sprite = NULL;
 
 void checkDraw(unsigned char status, const char *msg)
 {
@@ -58,15 +59,14 @@ void DrawBackground(void)
     }
     bg_width = tumDrawGetLoadedImageWidth(background_sprite);
     // counter has length of image width for seemless texture scrolling
-    counter = counter + 0.25;//= (counter < bg_width);
+    counter = counter + 0.25;
     counter *= (counter <= bg_width);
     
     tumDrawLoadedImage(background_sprite, - counter, 0);
     tumDrawLoadedImage(background_sprite, - counter + bg_width, 0);   
     tumDrawLoadedImage(background_sprite, - counter + 2 * bg_width, 0);
     tumDrawLoadedImage(background_sprite, - counter + 3 * bg_width, 0);  
-    tumDrawLoadedImage(background_sprite, - counter + 4 * bg_width, 0);
-    //tumDrawLoadedImage(background_sprite, - counter + 5 * bg_width, 0);    
+    tumDrawLoadedImage(background_sprite, - counter + 4 * bg_width, 0);    
 }
 
 void DrawObstacle(short int x_position, char type, short int counter)
@@ -126,6 +126,36 @@ void DrawObstacle(short int x_position, char type, short int counter)
     }
 } 
 
+void DrawGameoverScreen(short int high_score, short int score)
+{
+    static int image_height, image_width;
+    if(gameover_sprite == NULL) {
+        gameover_sprite = tumDrawLoadScaledImage(GAME_OVER_SPRITE, 0.5);
+    } 
+
+    tumDrawFilledBox(SCREEN_WIDTH / 2 - (GAMEOVER_BOX_WIDTH / 2), 
+                                 (SCREEN_HEIGHT / 2) - (GAMEOVER_BOX_HEIGHT / 2), 
+                                 GAMEOVER_BOX_WIDTH, 
+                                 GAMEOVER_BOX_HEIGHT, 
+                                 White);
+    
+    tumDrawFilledBox((SCREEN_WIDTH / 2) - (GAMEOVER_BOX_WIDTH_CONTENT / 2), 
+                                 SCREEN_HEIGHT / 2 - 
+                                 (GAMEOVER_BOX_HEIGHT_CONTENT / 2), 
+                                 GAMEOVER_BOX_WIDTH_CONTENT, 
+                                 GAMEOVER_BOX_HEIGHT_CONTENT, 
+                                 Orange);
+
+    if((image_height = tumDrawGetLoadedImageHeight(gameover_sprite)) != -1 &&
+       (image_width = tumDrawGetLoadedImageWidth(gameover_sprite)) != -1) {
+       tumDrawLoadedImage(gameover_sprite,
+                          SCREEN_WIDTH / 2
+                          - image_width / 2,
+                          SCREEN_HEIGHT / 2 - image_height / 2);
+    }
+
+}
+
 void DrawPlayer(short int player_height, int color)
 {
     static int image_height;
@@ -169,6 +199,7 @@ void RendererExit(void)
 void vRendererTask(void* pcParameters)
 {
     game_data_t buffer;
+    char highscore_text[30];
     TickType_t last_wake_time = xTaskGetTickCount();
 
     tumDrawBindThread();
@@ -193,12 +224,21 @@ void vRendererTask(void* pcParameters)
                      buffer.global_counter);
 
         DrawPlayer(buffer.player1_position, Orange);
+
+        sprintf(highscore_text, "high score: %d", buffer.highscore);
+        tumDrawText(highscore_text,
+        10,
+        SCREEN_HEIGHT / 20,
+        Red);
         // moving background regradless what happens
         // raed from queue
-        if(buffer.gamer_over)
-            tumDrawFilledBox(0, 0, 100, SCREEN_HEIGHT, Red);
+        if(buffer.gamer_over) {
+            tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
+            DrawGameoverScreen(0, 0);  
+            tumDrawUpdateScreen();
+        }
+            
         tumDrawUpdateScreen();
         vTaskDelayUntil(&last_wake_time, RENDER_FREQUENCY);
-    }
-    
+    }   
 }

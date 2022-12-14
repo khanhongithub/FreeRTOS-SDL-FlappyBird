@@ -1,3 +1,6 @@
+#ifndef _STDBOOL_H
+#include <stdbool.h>
+#endif
 
 #define STANDART_GAP_DISTANCE 8
 #define FIRST_GAP_DISTANCE (STANDART_GAP_DISTANCE - 2)
@@ -17,10 +20,11 @@
 
 typedef struct game_data {
     short int highscore;
+    short int score;
     short int obstacles;
     short int global_counter;  
     short int player1_position;
-    char gamer_over;
+    bool gamer_over;
     char jump;
 }game_data_t;
 
