@@ -62,4 +62,5 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o: \
  /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/list.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Event.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Draw.h \
+ /home/baseduser/ESPL/ESPL/include/EmulatorConfig.h \
  /home/baseduser/ESPL/ESPL/include/resources.h

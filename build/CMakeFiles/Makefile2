@@ -82,7 +82,7 @@ clean: CMakeFiles/FreeRTOS_Emulator.dir/clean
 CMakeFiles/commit.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/commit.dir/build.make CMakeFiles/commit.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/commit.dir/build.make CMakeFiles/commit.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=23 "Built target commit"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=25 "Built target commit"
 .PHONY : CMakeFiles/commit.dir/all
 
 # Build rule for subdir invocation for target.
@@ -108,12 +108,12 @@ CMakeFiles/commit.dir/clean:
 CMakeFiles/FreeRTOS_Emulator.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 "Built target FreeRTOS_Emulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 "Built target FreeRTOS_Emulator"
 .PHONY : CMakeFiles/FreeRTOS_Emulator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/FreeRTOS_Emulator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/baseduser/ESPL/ESPL/build/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/baseduser/ESPL/ESPL/build/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/FreeRTOS_Emulator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/baseduser/ESPL/ESPL/build/CMakeFiles 0
 .PHONY : CMakeFiles/FreeRTOS_Emulator.dir/rule

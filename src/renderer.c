@@ -53,7 +53,7 @@ void DrawBackground(void)
     short int bg_width = 0;
     static float counter = 0; 
 
-    if(background_sprite == NULL) {    
+    if(background_sprite == NULL) {
         background_sprite = tumDrawLoadScaledImage(BACKGROUND_SPRITE, 1.15);
         bg_width = tumDrawGetLoadedImageWidth(background_sprite);
     }
@@ -128,9 +128,12 @@ void DrawObstacle(short int x_position, char type, short int counter)
 
 void DrawGameoverScreen(short int high_score, short int score)
 {
+    char high_score_text[30];
+    char score_text[30];
+    static bool played_sound = false;
     static int image_height, image_width;
     if(gameover_sprite == NULL) {
-        gameover_sprite = tumDrawLoadScaledImage(GAME_OVER_SPRITE, 0.5);
+        gameover_sprite = tumDrawLoadScaledImage(GAME_OVER_SPRITE, 0.25);
     } 
 
     tumDrawFilledBox(SCREEN_WIDTH / 2 - (GAMEOVER_BOX_WIDTH / 2), 
@@ -148,12 +151,55 @@ void DrawGameoverScreen(short int high_score, short int score)
 
     if((image_height = tumDrawGetLoadedImageHeight(gameover_sprite)) != -1 &&
        (image_width = tumDrawGetLoadedImageWidth(gameover_sprite)) != -1) {
+       
        tumDrawLoadedImage(gameover_sprite,
                           SCREEN_WIDTH / 2
                           - image_width / 2,
-                          SCREEN_HEIGHT / 2 - image_height / 2);
+                          SCREEN_HEIGHT / 3 - image_height / 2);
+
+        sprintf(high_score_text, "best: %d", high_score);
+        sprintf(score_text, "score: %d", score);
+        
+        tumDrawText(high_score_text, 
+                    5 * SCREEN_WIDTH / 8,
+                    SCREEN_HEIGHT / 2 + 15,
+                    Black);
+
+        tumDrawText(score_text, 
+                    5 * SCREEN_WIDTH / 8,
+                    SCREEN_HEIGHT / 2 - 15,
+                    Black);
+
+        tumDrawFilledBox(SCREEN_WIDTH / 3, 
+                         SCREEN_HEIGHT / 2 - 30, 
+                         INGAME_BUTTON_WIDTH, 
+                         INGAME_BUTTON_HEIGTH, 
+                         White);
+
+        tumDrawFilledBox(SCREEN_WIDTH / 3, 
+                         SCREEN_HEIGHT / 2 + 30, 
+                         INGAME_BUTTON_WIDTH, 
+                         INGAME_BUTTON_HEIGTH, 
+                         White);
+        
+        tumDrawFilledBox(SCREEN_WIDTH / 3,
+                         SCREEN_HEIGHT / 2 + 30,
+                         INGAME_BUTTON_CONTENT_WIDTH,
+                         INGAME_BUTTON_CONTENT_HEIGTH,
+                         Red);
+        
+        tumDrawFilledBox(SCREEN_WIDTH / 3,
+                         SCREEN_HEIGHT / 2 - 30,
+                         INGAME_BUTTON_CONTENT_WIDTH,
+                         INGAME_BUTTON_CONTENT_HEIGTH,
+                         Red);
     }
 
+    if(!tumSoundLoadUserSample(DEATH_SOUND) && !played_sound) {
+           tumSoundPlayUserSample("../resources/waveforms/death.wav");
+           played_sound = true;
+    }
+         
 }
 
 void DrawPlayer(short int player_height, int color)
@@ -184,7 +230,7 @@ void RendererEnter(void)
                    mainGENERIC_STACK_SIZE, 
                    NULL, mainGENERIC_PRIORITY + 1, 
                    RenderingTask) != pdPASS) {
-        PRINT_ERROR("failed to create rendering task\n");
+        DEBUG_PRINT("failed to create rendering task\n");
     }
 }
 
@@ -202,6 +248,8 @@ void vRendererTask(void* pcParameters)
     char highscore_text[30];
     char score_text[30];
     TickType_t last_wake_time = xTaskGetTickCount();
+    buffer.gamer_over = false;
+    bool death_sound_played = false;
 
     tumDrawBindThread();
     while (1)
@@ -241,8 +289,10 @@ void vRendererTask(void* pcParameters)
         // moving background regradless what happens
         // raed from queue
         if(buffer.gamer_over) {
+            
+                
             tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
-            DrawGameoverScreen(0, 0);  
+            DrawGameoverScreen(buffer.highscore, buffer.score);  
             tumDrawUpdateScreen();
         }
             

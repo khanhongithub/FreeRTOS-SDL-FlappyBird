@@ -36,7 +36,7 @@ public void SingleplayerEnter(void)
                    mainGENERIC_STACK_SIZE, 
                    NULL, mainGENERIC_PRIORITY, 
                    SingleplayerTask) != pdPASS) {
-        PRINT_ERROR("failed to create singleplayer task\n");
+        DEBUG_PRINT("failed to create singleplayer task\n");
     }
     RendererEnter();
 }

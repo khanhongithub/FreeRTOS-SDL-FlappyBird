@@ -51,6 +51,8 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o: \
  /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/list.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Ball.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Draw.h \
+ /home/baseduser/ESPL/ESPL/include/EmulatorConfig.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Draw.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Event.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Sound.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Utils.h \

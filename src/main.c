@@ -45,17 +45,17 @@ int main(int argc, char *argv[])
     printf("Initializing: ");
 
     if (tumDrawInit(bin_folder_path)) {
-        PRINT_ERROR("Failed to initialize drawing");
+        DEBUG_PRINT("Failed to initialize drawing");
         goto err_init_drawing;
     }
 
     if (tumEventInit()) {
-        PRINT_ERROR("Failed to initialize events");
+        DEBUG_PRINT("Failed to initialize events");
         goto err_init_events;
     }
 
     if (tumSoundInit(bin_folder_path)) {
-        PRINT_ERROR("Failed to initialize audio");
+        DEBUG_PRINT("Failed to initialize audio");
         goto err_init_audio;
     }
     
@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
     // create queues
     scene_queue = xQueueCreate(1,sizeof(game_data_t));
     if(scene_queue == NULL) {
-        PRINT_ERROR("failed to create scene queue");
+        DEBUG_PRINT("failed to create scene queue");
     }
 
     // counting Semaphore
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
     vTaskStartScheduler();
     
     return EXIT_SUCCESS;
-err_semaphores:    
+//err_semaphores:    
 err_StatemachineTask:
     vTaskDelete(StatemachineTask);
 err_buttons_lock:

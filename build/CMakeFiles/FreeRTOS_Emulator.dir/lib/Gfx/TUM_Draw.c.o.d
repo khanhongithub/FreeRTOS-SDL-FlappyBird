@@ -34,10 +34,14 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o: \
  /usr/include/bits/time.h /usr/include/bits/types/struct_tm.h \
  /usr/include/bits/types/struct_itimerspec.h \
  /usr/include/bits/types/locale_t.h /usr/include/bits/types/__locale_t.h \
- /usr/include/SDL2/SDL.h /usr/include/SDL2/SDL_main.h \
- /usr/include/SDL2/SDL_stdinc.h /usr/include/SDL2/SDL_config.h \
- /usr/include/SDL2/SDL_platform.h /usr/include/SDL2/begin_code.h \
- /usr/include/SDL2/close_code.h /usr/include/stdio.h \
+ /usr/include/unistd.h /usr/include/bits/posix_opt.h \
+ /usr/include/bits/environments.h /usr/include/bits/confname.h \
+ /usr/include/bits/getopt_posix.h /usr/include/bits/getopt_core.h \
+ /usr/include/bits/unistd_ext.h /usr/include/SDL2/SDL.h \
+ /usr/include/SDL2/SDL_main.h /usr/include/SDL2/SDL_stdinc.h \
+ /usr/include/SDL2/SDL_config.h /usr/include/SDL2/SDL_platform.h \
+ /usr/include/SDL2/begin_code.h /usr/include/SDL2/close_code.h \
+ /usr/include/stdio.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdarg.h \
  /usr/include/bits/types/__fpos_t.h /usr/include/bits/types/__mbstate_t.h \
  /usr/include/bits/types/__fpos64_t.h /usr/include/bits/types/__FILE.h \
@@ -169,6 +173,8 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o: \
  /usr/include/bits/setjmp.h \
  /usr/include/bits/types/struct___jmp_buf_tag.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Draw.h \
+ /home/baseduser/ESPL/ESPL/include/EmulatorConfig.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Font.h \
  /usr/include/SDL2/SDL_ttf.h \
- /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Utils.h
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Utils.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Print.h

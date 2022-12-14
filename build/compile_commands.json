@@ -91,6 +91,16 @@
 },
 {
   "directory": "/home/baseduser/ESPL/ESPL/build",
+  "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/baseduser/ESPL/ESPL/include -I/home/baseduser/ESPL/ESPL/lib/Gfx/include -I/home/baseduser/ESPL/ESPL/lib/AsyncIO/include -I/home/baseduser/ESPL/ESPL/lib/tracer/include -g -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c",
+  "file": "/home/baseduser/ESPL/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c"
+},
+{
+  "directory": "/home/baseduser/ESPL/ESPL/build",
+  "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/baseduser/ESPL/ESPL/include -I/home/baseduser/ESPL/ESPL/lib/Gfx/include -I/home/baseduser/ESPL/ESPL/lib/AsyncIO/include -I/home/baseduser/ESPL/ESPL/lib/tracer/include -g -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c",
+  "file": "/home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c"
+},
+{
+  "directory": "/home/baseduser/ESPL/ESPL/build",
   "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/baseduser/ESPL/ESPL/include -I/home/baseduser/ESPL/ESPL/lib/Gfx/include -I/home/baseduser/ESPL/ESPL/lib/AsyncIO/include -I/home/baseduser/ESPL/ESPL/lib/tracer/include -g -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Sound.c",
   "file": "/home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Sound.c"
 },

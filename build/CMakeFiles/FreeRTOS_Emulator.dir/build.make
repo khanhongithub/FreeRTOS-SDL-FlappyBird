@@ -321,10 +321,38 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Font.c -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.s
 
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o: /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o: CMakeFiles/FreeRTOS_Emulator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o -MF CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o.d -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c
+
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c > CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.i
+
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.s
+
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o: /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o: CMakeFiles/FreeRTOS_Emulator.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o -MF CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o.d -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c
+
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c > CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.i
+
+CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.s
+
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o: /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Sound.c
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o: CMakeFiles/FreeRTOS_Emulator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o -MF CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o.d -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Sound.c
 
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.i: cmake_force
@@ -338,7 +366,7 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.s: cmake_force
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o: /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Utils.c
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o: CMakeFiles/FreeRTOS_Emulator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o -MF CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o.d -o CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o -c /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Utils.c
 
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.i: cmake_force
@@ -352,7 +380,7 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.s: cmake_force
 CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
 CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o: /home/baseduser/ESPL/ESPL/lib/AsyncIO/AsyncIO.c
 CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o: CMakeFiles/FreeRTOS_Emulator.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o -MF CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o.d -o CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o -c /home/baseduser/ESPL/ESPL/lib/AsyncIO/AsyncIO.c
 
 CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.i: cmake_force
@@ -383,6 +411,8 @@ FreeRTOS_Emulator_OBJECTS = \
 "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Event.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.o" \
+"CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o" \
+"CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o"
@@ -408,6 +438,8 @@ FreeRTOS_Emulator_EXTERNAL_OBJECTS =
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Event.c.o
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.o
+/home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o
+/home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o
@@ -419,7 +451,7 @@ FreeRTOS_Emulator_EXTERNAL_OBJECTS =
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: /usr/lib/libSDL2_mixer.so
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: /usr/lib/libSDL2_ttf.so
 /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Linking C executable /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/baseduser/ESPL/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Linking C executable /home/baseduser/ESPL/ESPL/bin/FreeRTOS_Emulator"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/FreeRTOS_Emulator.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

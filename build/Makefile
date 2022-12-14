@@ -430,6 +430,54 @@ lib/Gfx/TUM_Font.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.s
 .PHONY : lib/Gfx/TUM_Font.c.s
 
+lib/Gfx/TUM_FreeRTOS_Utils.o: lib/Gfx/TUM_FreeRTOS_Utils.c.o
+.PHONY : lib/Gfx/TUM_FreeRTOS_Utils.o
+
+# target to build an object file
+lib/Gfx/TUM_FreeRTOS_Utils.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o
+.PHONY : lib/Gfx/TUM_FreeRTOS_Utils.c.o
+
+lib/Gfx/TUM_FreeRTOS_Utils.i: lib/Gfx/TUM_FreeRTOS_Utils.c.i
+.PHONY : lib/Gfx/TUM_FreeRTOS_Utils.i
+
+# target to preprocess a source file
+lib/Gfx/TUM_FreeRTOS_Utils.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.i
+.PHONY : lib/Gfx/TUM_FreeRTOS_Utils.c.i
+
+lib/Gfx/TUM_FreeRTOS_Utils.s: lib/Gfx/TUM_FreeRTOS_Utils.c.s
+.PHONY : lib/Gfx/TUM_FreeRTOS_Utils.s
+
+# target to generate assembly for a file
+lib/Gfx/TUM_FreeRTOS_Utils.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.s
+.PHONY : lib/Gfx/TUM_FreeRTOS_Utils.c.s
+
+lib/Gfx/TUM_Print.o: lib/Gfx/TUM_Print.c.o
+.PHONY : lib/Gfx/TUM_Print.o
+
+# target to build an object file
+lib/Gfx/TUM_Print.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o
+.PHONY : lib/Gfx/TUM_Print.c.o
+
+lib/Gfx/TUM_Print.i: lib/Gfx/TUM_Print.c.i
+.PHONY : lib/Gfx/TUM_Print.i
+
+# target to preprocess a source file
+lib/Gfx/TUM_Print.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.i
+.PHONY : lib/Gfx/TUM_Print.c.i
+
+lib/Gfx/TUM_Print.s: lib/Gfx/TUM_Print.c.s
+.PHONY : lib/Gfx/TUM_Print.s
+
+# target to generate assembly for a file
+lib/Gfx/TUM_Print.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.s
+.PHONY : lib/Gfx/TUM_Print.c.s
+
 lib/Gfx/TUM_Sound.o: lib/Gfx/TUM_Sound.c.o
 .PHONY : lib/Gfx/TUM_Sound.o
 
@@ -692,6 +740,12 @@ help:
 	@echo "... lib/Gfx/TUM_Font.o"
 	@echo "... lib/Gfx/TUM_Font.i"
 	@echo "... lib/Gfx/TUM_Font.s"
+	@echo "... lib/Gfx/TUM_FreeRTOS_Utils.o"
+	@echo "... lib/Gfx/TUM_FreeRTOS_Utils.i"
+	@echo "... lib/Gfx/TUM_FreeRTOS_Utils.s"
+	@echo "... lib/Gfx/TUM_Print.o"
+	@echo "... lib/Gfx/TUM_Print.i"
+	@echo "... lib/Gfx/TUM_Print.s"
 	@echo "... lib/Gfx/TUM_Sound.o"
 	@echo "... lib/Gfx/TUM_Sound.i"
 	@echo "... lib/Gfx/TUM_Sound.s"

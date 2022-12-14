@@ -1,8 +1,7 @@
 CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o: \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/Gfx/TUM_Print.c \
- /usr/include/stdc-predef.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Print.c /usr/include/stdc-predef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdarg.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/FreeRTOS.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/FreeRTOS.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
@@ -13,25 +12,25 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/include/FreeRTOSConfig.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/projdefs.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/portable.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/deprecated_definitions.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/portable/GCC/Posix/portmacro.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/mpu_wrappers.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/queue.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/task.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/list.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/semphr.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/FreeRTOS_Kernel/include/queue.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/Gfx/include/TUM_Print.h \
+ /home/baseduser/ESPL/ESPL/include/FreeRTOSConfig.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/projdefs.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/portable.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/deprecated_definitions.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix/portmacro.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/mpu_wrappers.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/queue.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/task.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/list.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/semphr.h \
+ /home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include/queue.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Print.h \
  /usr/include/stdio.h /usr/include/bits/types/__fpos_t.h \
  /usr/include/bits/types/__mbstate_t.h \
  /usr/include/bits/types/__fpos64_t.h /usr/include/bits/types/__FILE.h \
  /usr/include/bits/types/FILE.h /usr/include/bits/types/struct_FILE.h \
  /usr/include/bits/stdio_lim.h /usr/include/bits/floatn.h \
  /usr/include/bits/floatn-common.h \
- /home/baseduser/ESPL/FreeRTOS-Emulator/lib/Gfx/include/TUM_Utils.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Utils.h \
  /usr/include/stdlib.h /usr/include/bits/waitflags.h \
  /usr/include/bits/waitstatus.h /usr/include/sys/types.h \
  /usr/include/bits/types/clock_t.h /usr/include/bits/types/clockid_t.h \

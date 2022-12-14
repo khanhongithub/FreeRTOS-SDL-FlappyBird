@@ -68,7 +68,8 @@
         "tum_event.h": "c",
         "tum_sound.h": "c",
         "tum_font.h": "c",
-        "tum_utils.h": "c"
+        "tum_utils.h": "c",
+        "emulatorconfig.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

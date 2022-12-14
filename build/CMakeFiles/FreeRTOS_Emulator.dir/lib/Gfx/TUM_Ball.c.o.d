@@ -36,4 +36,5 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Ball.c.o: \
  /usr/include/bits/stdlib-float.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Ball.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Draw.h \
+ /home/baseduser/ESPL/ESPL/include/EmulatorConfig.h \
  /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Sound.h

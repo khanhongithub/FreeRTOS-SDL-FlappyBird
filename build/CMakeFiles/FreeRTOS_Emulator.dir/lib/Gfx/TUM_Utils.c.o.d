@@ -35,15 +35,22 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o: \
  /usr/include/bits/setjmp.h \
  /usr/include/bits/types/struct___jmp_buf_tag.h \
  /usr/include/bits/pthread_stack_min-dynamic.h /usr/include/regex.h \
- /usr/include/stdio.h /usr/include/bits/libc-header-start.h \
+ /usr/include/stdlib.h /usr/include/bits/libc-header-start.h \
+ /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+ /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \
+ /usr/include/alloca.h /usr/include/bits/stdlib-float.h \
+ /usr/include/stdio.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdarg.h \
  /usr/include/bits/types/__fpos_t.h /usr/include/bits/types/__mbstate_t.h \
  /usr/include/bits/types/__fpos64_t.h /usr/include/bits/types/__FILE.h \
  /usr/include/bits/types/FILE.h /usr/include/bits/types/struct_FILE.h \
  /usr/include/bits/types/cookie_io_functions_t.h \
- /usr/include/bits/stdio_lim.h /usr/include/bits/floatn.h \
- /usr/include/bits/floatn-common.h /usr/include/stdlib.h \
- /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
- /usr/include/alloca.h /usr/include/bits/stdlib-float.h \
- /usr/include/string.h /usr/include/strings.h /usr/include/libgen.h \
- /usr/include/assert.h
+ /usr/include/bits/stdio_lim.h /usr/include/string.h \
+ /usr/include/strings.h /usr/include/libgen.h /usr/include/assert.h \
+ /usr/include/dirent.h /usr/include/bits/dirent.h \
+ /usr/include/bits/posix1_lim.h /usr/include/bits/local_lim.h \
+ /usr/include/linux/limits.h /usr/include/bits/dirent_ext.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Utils.h \
+ /home/baseduser/ESPL/ESPL/lib/Gfx/include/TUM_Print.h \
+ /home/baseduser/ESPL/ESPL/include/EmulatorConfig.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdatomic.h
