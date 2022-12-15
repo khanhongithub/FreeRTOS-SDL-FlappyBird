@@ -15,6 +15,7 @@
 #include "TUM_Sound.h"
 #include "TUM_Utils.h"
 #include "TUM_Font.h"
+#include "TUM_Print.h"
 
 #include "animations.h"
 #include "timef.h"
@@ -130,7 +131,6 @@ void DrawGameoverScreen(short int high_score, short int score)
 {
     char high_score_text[30];
     char score_text[30];
-    static bool played_sound = false;
     static int image_height, image_width;
     if(gameover_sprite == NULL) {
         gameover_sprite = tumDrawLoadScaledImage(GAME_OVER_SPRITE, 0.25);
@@ -193,13 +193,7 @@ void DrawGameoverScreen(short int high_score, short int score)
                          INGAME_BUTTON_CONTENT_WIDTH,
                          INGAME_BUTTON_CONTENT_HEIGTH,
                          Red);
-    }
-
-    if(!tumSoundLoadUserSample(DEATH_SOUND) && !played_sound) {
-           tumSoundPlayUserSample("../resources/waveforms/death.wav");
-           played_sound = true;
-    }
-         
+    }         
 }
 
 void DrawPlayer(short int player_height, int color)
@@ -249,7 +243,7 @@ void vRendererTask(void* pcParameters)
     char score_text[30];
     TickType_t last_wake_time = xTaskGetTickCount();
     buffer.gamer_over = false;
-    bool death_sound_played = false;
+    bool played_sound = false;
 
     tumDrawBindThread();
     while (1)
@@ -276,26 +270,35 @@ void vRendererTask(void* pcParameters)
 
         sprintf(highscore_text, "high score: %d", buffer.highscore);
         tumDrawText(highscore_text,
-        10,
-        SCREEN_HEIGHT / 20,
-        Black);
+                    10,
+                    SCREEN_HEIGHT / 20,
+                    Black);
 
         sprintf(score_text, "score: %d", buffer.score);
         tumDrawText(score_text,
-        10,
-        SCREEN_HEIGHT / 20 + 15,
-        Black);
+                    10,
+                    SCREEN_HEIGHT / 20 + 15,
+                    Black);
 
         // moving background regradless what happens
         // raed from queue
         if(buffer.gamer_over) {
-            
+            // death noise
+            if(!tumSoundLoadUserSample(DEATH_SOUND) && !played_sound) {
+                tumSoundPlayUserSample("../resources/waveforms/death.wav");
+                played_sound = true;
                 
+            }
+
             tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
             DrawGameoverScreen(buffer.highscore, buffer.score);  
             tumDrawUpdateScreen();
         }
-            
+
+        // if sound has already been play and game has been restarted
+        // sound_played flag is reset
+        played_sound = buffer.gamer_over && played_sound;
+
         tumDrawUpdateScreen();
         vTaskDelayUntil(&last_wake_time, RENDER_FREQUENCY);
     }   

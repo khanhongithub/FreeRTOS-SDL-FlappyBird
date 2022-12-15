@@ -169,7 +169,7 @@ public void vSingleplayerTask(void *pvParameters)
             clock_gettime(CLOCK_REALTIME,&the_time);
             obstacle_field <<= 4;
             // generate new forth obstacle and bitwise-or it into the map
-            obstacle_field |= (rand() /+ the_time.tv_nsec) % 8 | 0b1000;
+            obstacle_field |= (rand() &+ the_time.tv_nsec) % 8 | 0b1000;
             // printf("rand: %X\n", obstacle_field);
             gap_counter = 0;
             collision_counter = 0;

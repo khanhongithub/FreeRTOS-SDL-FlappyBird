@@ -79,7 +79,6 @@ public bool AddState(char *task_name,
     state_array.states[state_array.state_counter] = ret;
     state_array.state_counter++;
 
-    // assigne id
     return true;
 }
 
