@@ -47,11 +47,17 @@ button_t *CreateButton(int main_color, int border_color, int x, int y,
 
 void DrawButton(button_t *button_to_be_drawn)
 {
+
+	tumDrawFilledBox(button_to_be_drawn->top_left_corner_x - 2,
+			 button_to_be_drawn->top_left_corner_y - 2,
+			 button_to_be_drawn->width + 4, button_to_be_drawn->heigth + 4,
+			 button_to_be_drawn->border_color);
+
 	tumDrawFilledBox(button_to_be_drawn->top_left_corner_x,
 			 button_to_be_drawn->top_left_corner_y,
 			 button_to_be_drawn->width, button_to_be_drawn->heigth,
 			 button_to_be_drawn->main_color);
-
+	
 	tumDrawCenteredText(button_to_be_drawn->button_text,
 			    button_to_be_drawn->position_x,
 			    button_to_be_drawn->position_y, Black);

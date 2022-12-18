@@ -50,8 +50,8 @@ public void SingleplayerRun(void)
 public void SingleplayerExit(void)
 {
     vTaskDelete(SingleplayerTask);
-    xSemaphoreGive(buttons.lock);
     RendererExit();
+    xSemaphoreGive(buttons.lock); 
 }
 
 public void vSingleplayerTask(void *pvParameters)
