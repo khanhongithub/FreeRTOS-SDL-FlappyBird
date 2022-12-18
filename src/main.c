@@ -37,6 +37,8 @@ TaskHandle_t StatemachineTask = NULL;
 
 QueueHandle_t scene_queue = NULL;
 
+SemaphoreHandle_t restart_signal_singleplayer = NULL;
+
 buttons_buffer_t buttons = { 0 };
 
 int main(int argc, char *argv[])
@@ -66,7 +68,15 @@ int main(int argc, char *argv[])
     scene_queue = xQueueCreate(1,sizeof(game_data_t));
     if(scene_queue == NULL) {
         DEBUG_PRINT("failed to create scene queue");
+        goto err_queue;
     }
+
+    restart_signal_singleplayer = xSemaphoreCreateBinary();
+    if(restart_signal_singleplayer == NULL) {
+        DEBUG_PRINT("failed to create semaphore");
+        goto err_semaphore;
+    }
+    
 
     // counting Semaphore
     
@@ -89,6 +99,8 @@ int main(int argc, char *argv[])
 //err_semaphores:    
 err_StatemachineTask:
     vTaskDelete(StatemachineTask);
+err_semaphore:
+err_queue:
 err_buttons_lock:
     tumSoundExit();
 err_init_audio:

@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <inttypes.h>
-#include <assert.h>
 
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -26,6 +24,7 @@
 #include "resources.h"
 #include "singleplayer.h"
 #include "renderer.h"
+#include "gui.h"
 
 #define RENDER_FREQUENCY pdMS_TO_TICKS(5)
 
@@ -135,7 +134,7 @@ void DrawGameoverScreen(short int high_score, short int score)
     if(gameover_sprite == NULL) {
         gameover_sprite = tumDrawLoadScaledImage(GAME_OVER_SPRITE, 0.25);
     } 
-
+    
     tumDrawFilledBox(SCREEN_WIDTH / 2 - (GAMEOVER_BOX_WIDTH / 2), 
                                  (SCREEN_HEIGHT / 2) - (GAMEOVER_BOX_HEIGHT / 2), 
                                  GAMEOVER_BOX_WIDTH, 
@@ -169,7 +168,7 @@ void DrawGameoverScreen(short int high_score, short int score)
                     5 * SCREEN_WIDTH / 8,
                     SCREEN_HEIGHT / 2 - 15,
                     Black);
-
+        /*
         tumDrawFilledBox(SCREEN_WIDTH / 3, 
                          SCREEN_HEIGHT / 2 - 30, 
                          INGAME_BUTTON_WIDTH, 
@@ -193,6 +192,7 @@ void DrawGameoverScreen(short int high_score, short int score)
                          INGAME_BUTTON_CONTENT_WIDTH,
                          INGAME_BUTTON_CONTENT_HEIGTH,
                          Red);
+        */
     }         
 }
 
@@ -228,6 +228,16 @@ void RendererEnter(void)
     }
 }
 
+void RestarGameSinglePlayer(void)
+{
+    xSemaphoreGive(restart_signal_singleplayer);
+}
+
+void ExitSinplePlayer(void)
+{
+    exit(EXIT_SUCCESS);
+}
+
 void RendererRun(void)
 {}
 
@@ -241,10 +251,31 @@ void vRendererTask(void* pcParameters)
     game_data_t buffer;
     char highscore_text[30];
     char score_text[30];
-    TickType_t last_wake_time = xTaskGetTickCount();
+    
     buffer.gamer_over = false;
     bool played_sound = false;
 
+    button_arry_t gameover_buttons = { .size = 0 };
+    button_arry_t *gameover_buttons_ptr = &gameover_buttons;
+    
+    AddButton(CreateButton(0xe6611e, 0x552F05, 
+                                    SCREEN_WIDTH / 3,
+                                    SCREEN_HEIGHT / 2 - 30,
+                                    100, 30, "Restart", RestarGameSinglePlayer),
+                                    gameover_buttons_ptr);
+    AddButton(CreateButton(0xe6611e, 0x552F05, 
+                                    SCREEN_WIDTH / 3,
+                                    SCREEN_HEIGHT / 2 + 30,
+                                    100, 30, "Exit", ExitSinplePlayer), 
+                                    gameover_buttons_ptr);
+    /* AddButton(CreateButton(0xe6611e, 0x552F05, 
+                                    SCREEN_WIDTH / 3 + 130,
+                                    SCREEN_HEIGHT / 2 + 30,
+                                    100, 30, "Exit but 2", ExitSinplePlayer), 
+                                    gameover_buttons_ptr);
+    */
+    TickType_t last_wake_time = xTaskGetTickCount();
+    
     tumDrawBindThread();
     while (1)
     {
@@ -280,6 +311,9 @@ void vRendererTask(void* pcParameters)
                     SCREEN_HEIGHT / 20 + 15,
                     Black);
 
+        //draw buttons
+
+
         // moving background regradless what happens
         // raed from queue
         if(buffer.gamer_over) {
@@ -291,7 +325,9 @@ void vRendererTask(void* pcParameters)
             }
 
             tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
-            DrawGameoverScreen(buffer.highscore, buffer.score);  
+            DrawGameoverScreen(buffer.highscore, buffer.score);
+            UpdateButtons(gameover_buttons_ptr);
+            DrawButtons(gameover_buttons_ptr);
             tumDrawUpdateScreen();
         }
 
