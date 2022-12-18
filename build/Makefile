@@ -550,6 +550,30 @@ src/animations.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.s
 .PHONY : src/animations.c.s
 
+src/gui.o: src/gui.c.o
+.PHONY : src/gui.o
+
+# target to build an object file
+src/gui.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o
+.PHONY : src/gui.c.o
+
+src/gui.i: src/gui.c.i
+.PHONY : src/gui.i
+
+# target to preprocess a source file
+src/gui.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.i
+.PHONY : src/gui.c.i
+
+src/gui.s: src/gui.c.s
+.PHONY : src/gui.s
+
+# target to generate assembly for a file
+src/gui.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.s
+.PHONY : src/gui.c.s
+
 src/main.o: src/main.c.o
 .PHONY : src/main.o
 
@@ -755,6 +779,9 @@ help:
 	@echo "... src/animations.o"
 	@echo "... src/animations.i"
 	@echo "... src/animations.s"
+	@echo "... src/gui.o"
+	@echo "... src/gui.i"
+	@echo "... src/gui.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

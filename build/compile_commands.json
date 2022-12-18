@@ -6,6 +6,11 @@
 },
 {
   "directory": "/home/baseduser/ESPL/ESPL/build",
+  "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/baseduser/ESPL/ESPL/include -I/home/baseduser/ESPL/ESPL/lib/Gfx/include -I/home/baseduser/ESPL/ESPL/lib/AsyncIO/include -I/home/baseduser/ESPL/ESPL/lib/tracer/include -g -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o -c /home/baseduser/ESPL/ESPL/src/gui.c",
+  "file": "/home/baseduser/ESPL/ESPL/src/gui.c"
+},
+{
+  "directory": "/home/baseduser/ESPL/ESPL/build",
   "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/include -I/home/baseduser/ESPL/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/baseduser/ESPL/ESPL/include -I/home/baseduser/ESPL/ESPL/lib/Gfx/include -I/home/baseduser/ESPL/ESPL/lib/AsyncIO/include -I/home/baseduser/ESPL/ESPL/lib/tracer/include -g -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o -c /home/baseduser/ESPL/ESPL/src/main.c",
   "file": "/home/baseduser/ESPL/ESPL/src/main.c"
 },

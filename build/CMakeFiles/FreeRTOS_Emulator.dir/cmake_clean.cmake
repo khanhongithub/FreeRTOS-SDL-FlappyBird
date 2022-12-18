@@ -35,6 +35,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o.d"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.o"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.o.d"
+  "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o"
+  "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o.d"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o.d"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o"

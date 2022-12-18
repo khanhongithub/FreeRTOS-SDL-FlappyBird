@@ -25,6 +25,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Sound.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o.d"
   "/home/baseduser/ESPL/ESPL/lib/Gfx/TUM_Utils.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/animations.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.o.d"
+  "/home/baseduser/ESPL/ESPL/src/gui.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/main.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/renderer.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o.d"
   "/home/baseduser/ESPL/ESPL/src/resources.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o.d"
