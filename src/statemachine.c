@@ -25,6 +25,7 @@
 
 TickType_t xLastWakeTime;
 
+next_state_t next_state;
 
 typedef struct state
 {
@@ -44,9 +45,43 @@ typedef struct // hold the currently existing states
 
 state_array_t state_array = { 0 };
 
-private int OneIfStateChanged()
+bool StateLockInit(void)
 {
-    int change_state = 0;
+    next_state.lock = xSemaphoreCreateMutex(); // Mutex for access to button queue
+    
+    if (!next_state.lock) {
+        fprintf(stderr, "Failed to create next state lock");
+        return false;
+    }
+    return true;
+}
+
+short int GetNextState(void)
+{
+    static short int next_state_buffer;
+
+    if (xSemaphoreTake(next_state.lock, 0)) {
+        next_state_buffer = next_state.next_state;
+        next_state_buffer %= state_array.state_counter; // <- rollover in case of 
+                                                        // invalid index
+        xSemaphoreGive(next_state.lock);
+    }
+    return next_state_buffer;
+}
+
+bool SetNextState(short int next_state_to_be_set)
+{
+    if (xSemaphoreTake(next_state.lock, portMAX_DELAY)) {
+        next_state.next_state = next_state_to_be_set;
+        xSemaphoreGive(next_state.lock);
+        return true;
+    }
+    return false;
+}
+
+bool OneIfStateChanged(void)
+{
+    bool change_state = 0;
     static bool prev_E, cur_E = 0; // <- previous and current state of key which is either 0 or 1
    
     if (xSemaphoreTake(buttons.lock, 0) == pdTRUE) {
@@ -57,10 +92,10 @@ private int OneIfStateChanged()
         xSemaphoreGive(buttons.lock);
         return change_state;
     }
-    return 0;
+    return false;
 }
 
-public bool AddState(char *task_name, 
+bool AddState(char *task_name, 
                      void (*enter) (void), 
                      void (*run) (void), 
                      void (*exit) (void))
@@ -82,9 +117,10 @@ public bool AddState(char *task_name,
     return true;
 }
 
-public void vStatemachineTask(void *pvParameters)
+void vStatemachineTask(void *pvParameters)
 {
     // Initialise the xLastWakeTime variable with the current time.
+
     int evaluate = OneIfStateChanged();
     static int current_state = 0; 
     
@@ -102,7 +138,7 @@ public void vStatemachineTask(void *pvParameters)
             goto start;
         }
         
-        // tumEventFetchEvents(FETCH_EVENT_NONBLOCK | FETCH_EVENT_NO_GL_CHECK);
+        tumEventFetchEvents(FETCH_EVENT_NONBLOCK | FETCH_EVENT_NO_GL_CHECK);
         
         evaluate = OneIfStateChanged();
         state_array.states[current_state] -> exit_flag = (bool) evaluate;
@@ -113,22 +149,29 @@ public void vStatemachineTask(void *pvParameters)
             current_state, state_array.states[current_state] -> exit_flag);
         }        
         #endif
+
         // main state machine
+ 
+        // enter
         if((state_array.states[current_state] -> init_flag) != true) {
             state_array.states[current_state] -> enter(); // <-- run code for init
             state_array.states[current_state] -> init_flag = true;
         }
-            
+        
+        // run
         if((state_array.states[current_state] -> init_flag) == true) {
             state_array.states[current_state] -> run(); // <-- run code normally
         }
 
+        // exit
         if((state_array.states[current_state] -> exit_flag) == true) {
-        
             state_array.states[current_state] -> exit(); // <-- run code on exit
             state_array.states[current_state] -> exit_flag = false;
             state_array.states[current_state] -> init_flag = false;
-            current_state++;
+            
+            current_state = GetNextState();
+
+            // current_state++; // jump to any state and not next one
             if(current_state >= state_array.state_counter) {
                 DEBUG_PRINT("reached end of state list, returning to start \n");
                 current_state = 0;

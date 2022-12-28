@@ -100,7 +100,7 @@ void UpdateButton(button_t *button_to_be_updated, bool falling)
 			(button_to_be_updated->bottom_right_corner_y > mouse_y);
 
 		// if th mouse was inside the button trigger call function
-		if (within_button_bound) {
+		if (within_button_bound  && button_to_be_updated->ActionWhenPressed != NULL) {
 			button_to_be_updated->ActionWhenPressed();
 		}
 	}

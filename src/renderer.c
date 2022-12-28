@@ -168,47 +168,73 @@ void DrawGameoverScreen(short int high_score, short int score)
                     5 * SCREEN_WIDTH / 8,
                     SCREEN_HEIGHT / 2 - 15,
                     Black);
-        /*
-        tumDrawFilledBox(SCREEN_WIDTH / 3, 
-                         SCREEN_HEIGHT / 2 - 30, 
-                         INGAME_BUTTON_WIDTH, 
-                         INGAME_BUTTON_HEIGTH, 
-                         White);
-
-        tumDrawFilledBox(SCREEN_WIDTH / 3, 
-                         SCREEN_HEIGHT / 2 + 30, 
-                         INGAME_BUTTON_WIDTH, 
-                         INGAME_BUTTON_HEIGTH, 
-                         White);
-        
-        tumDrawFilledBox(SCREEN_WIDTH / 3,
-                         SCREEN_HEIGHT / 2 + 30,
-                         INGAME_BUTTON_CONTENT_WIDTH,
-                         INGAME_BUTTON_CONTENT_HEIGTH,
-                         Red);
-        
-        tumDrawFilledBox(SCREEN_WIDTH / 3,
-                         SCREEN_HEIGHT / 2 - 30,
-                         INGAME_BUTTON_CONTENT_WIDTH,
-                         INGAME_BUTTON_CONTENT_HEIGTH,
-                         Red);
-        */
     }         
 }
 
-void DrawPlayer(short int player_height, int color)
+spritesheet_handle_t jump_spritesheet = NULL;
+sequence_handle_t forward_sequence = NULL;
+// sequence_handle_t reverse_sequence = NULL;
+
+void vDrawInitAnnimations(void)
 {
-    static int image_height;
+    char *jump_spritesheet_path = tumUtilFindResourcePath(JUMP_ANIMATION_SPRITE);
+    image_handle_t jump_spritesheet_image =
+        // tumDrawLoadImage(jump_spritesheet_path);
+        tumDrawLoadScaledImage(jump_spritesheet_path, 1.00);
+    jump_spritesheet =
+        tumDrawLoadSpritesheet(jump_spritesheet_image, 8, 1);    
+        //fprints(stderr, "%p\n", jump_spritesheet);
+    
+    animation_handle_t jump_animation =
+        tumDrawAnimationCreate(jump_spritesheet);
+    tumDrawAnimationAddSequence(jump_animation, "FORWARDS", 0, 0,
+                                SPRITE_SEQUENCE_HORIZONTAL_POS, 8);
+    
+    //tumDrawAnimationAddSequence(jump_animation, "REVERSE", 0, 7,
+    //                            SPRITE_SEQUENCE_HORIZONTAL_NEG, 8);
+    
+    forward_sequence =
+        tumDrawAnimationSequenceInstantiate(jump_animation, "FORWARDS",
+                                            300);
+    /*reverse_sequence =
+        tumDrawAnimationSequenceInstantiate(jump_animation, "REVERSE",
+                                            300);
+    */
+}
+
+void vDrawSpriteAnnimations(TickType_t xLastFrameTime, int player_height)
+{
+    tumDrawAnimationDrawFrame(
+        forward_sequence,
+        xTaskGetTickCount() - xLastFrameTime,
+        FIRST_POSITION + 3 * PLAYER_RADIUS + 3 * OBSTACLE_WIDTH + 5, 
+                    player_height - 3 - 2 * PLAYER_RADIUS);
+    /*
+    tumDrawAnimationDrawFrame(
+        reverse_sequence,
+        xTaskGetTickCount() - xLastFrameTime,
+        SCREEN_WIDTH - 90,
+        SCREEN_HEIGHT - 60);
+    checkDraw(tumDrawSprite(jump_spritesheet, 5, 0,
+                            SCREEN_WIDTH - 130, SCREEN_HEIGHT - 60),
+              __FUNCTION__);
+    */
+}
+
+void DrawPlayerHitBox(short int player_height, int color)
+{
     if(player_sprite == NULL) 
     {
         player_sprite = tumDrawLoadScaledImage(PLAYER_SPRITE, 0.09);
         //printf("loaded image\n");
     }
-    /*
-    tumDrawCircle(FIRST_POSITION + OBSTACLE_WIDTH * STANDART_GRID_LENGTH, 
-                  player_height, PLAYER_RADIUS, Orange);
-    */
 
+    tumDrawCircle(FIRST_POSITION + PLAYER_RADIUS + 
+                  OBSTACLE_WIDTH * STANDART_GRID_LENGTH, 
+                   player_height, PLAYER_RADIUS, Orange);
+    
+    /*
+    static int image_height;
     if((image_height = tumDrawGetLoadedImageHeight(player_sprite)) != -1) {
         tumDrawLoadedImage(player_sprite,
                            FIRST_POSITION + OBSTACLE_WIDTH * STANDART_GRID_LENGTH 
@@ -216,6 +242,7 @@ void DrawPlayer(short int player_height, int color)
                            player_height - image_height / 2 + 4);
         // printf("heiu: %d\n", image_height);
     }
+    */
 }
 
 void RendererEnter(void)
@@ -268,13 +295,10 @@ void vRendererTask(void* pcParameters)
                                     SCREEN_HEIGHT / 2 + 30,
                                     100, 30, "Exit", ExitSinplePlayer), 
                                     gameover_buttons_ptr);
-    /* AddButton(CreateButton(0xe6611e, 0x552F05, 
-                                    SCREEN_WIDTH / 3 + 130,
-                                    SCREEN_HEIGHT / 2 + 30,
-                                    100, 30, "Exit but 2", ExitSinplePlayer), 
-                                    gameover_buttons_ptr);
-    */
+
+    vDrawInitAnnimations();
     TickType_t last_wake_time = xTaskGetTickCount();
+    TickType_t last_wake_time_animation = xTaskGetTickCount();
     
     tumDrawBindThread();
     while (1)
@@ -297,7 +321,7 @@ void vRendererTask(void* pcParameters)
         DrawObstacle(FOURTH_POSITION, (buffer.obstacles & 0x000F) >> 0, 
                      buffer.global_counter);
 
-        DrawPlayer(buffer.player1_position, Orange);
+        // DrawPlayerHitBox(buffer.player1_position, Orange);
 
         sprintf(highscore_text, "high score: %d", buffer.highscore);
         tumDrawText(highscore_text,
@@ -310,8 +334,13 @@ void vRendererTask(void* pcParameters)
                     10,
                     SCREEN_HEIGHT / 20 + 15,
                     Black);
+        
+        vDrawSpriteAnnimations(last_wake_time_animation, buffer.player1_position); 
+        last_wake_time_animation = xTaskGetTickCount();
 
-        //draw buttons
+        if(buffer.jump && !tumSoundLoadUserSample(JUMP_SOUND)) {
+                tumSoundPlayUserSample(JUMP_SOUND);
+        }
 
 
         // moving background regradless what happens
@@ -320,8 +349,7 @@ void vRendererTask(void* pcParameters)
             // death noise
             if(!tumSoundLoadUserSample(DEATH_SOUND) && !played_sound) {
                 tumSoundPlayUserSample("../resources/waveforms/death.wav");
-                played_sound = true;
-                
+                played_sound = true;                
             }
 
             tumEventFetchEvents(FETCH_EVENT_NONBLOCK);

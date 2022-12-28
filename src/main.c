@@ -31,6 +31,7 @@
 #include "priorties.h"
 #include "resources.h"
 #include "singleplayer.h"
+#include "cheatmenu.h"
 
 // handles for all the tasks
 TaskHandle_t StatemachineTask = NULL;
@@ -64,6 +65,15 @@ int main(int argc, char *argv[])
     if (!buttonsInit())
         goto err_buttons_lock;
 
+    if (!CheatLockInit())
+        goto err_buttons_lock;
+
+    if (!ScoreLockInit())
+        goto err_buttons_lock;
+
+    if (!StateLockInit())
+        goto err_buttons_lock;
+    
     // create queues
     scene_queue = xQueueCreate(1,sizeof(game_data_t));
     if(scene_queue == NULL) {
@@ -77,11 +87,13 @@ int main(int argc, char *argv[])
         goto err_semaphore;
     }
     
-
     // counting Semaphore
     
     // add states    
+        // main menu
         AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
+        // multiplayer  
+        AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
     // create statemachine
 
     #if 1
