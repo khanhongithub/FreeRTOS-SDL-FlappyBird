@@ -38,7 +38,7 @@ public void SingleplayerEnter(void)
     if(xTaskCreate(vSingleplayerTask, "SingleplayerTask", 
                    mainGENERIC_STACK_SIZE, 
                    NULL, mainGENERIC_PRIORITY, 
-                   SingleplayerTask) != pdPASS) {
+                   &SingleplayerTask) != pdPASS) {
         DEBUG_PRINT("failed to create singleplayer task\n");
     }
     RendererEnter();
@@ -64,7 +64,7 @@ public void vSingleplayerTask(void *pvParameters)
     static struct timespec the_time;
     static short int high_score = 0;
 
-    bool space_pressed_first_time = false;
+    // bool space_pressed_first_time = false;
     short int global_counter = 0;
     short int collision_counter = 0;
     short int score = 0;
@@ -148,7 +148,7 @@ public void vSingleplayerTask(void *pvParameters)
         else if(player_position + PLAYER_RADIUS + 1 >= SCREEN_HEIGHT) {
             player_position = SCREEN_HEIGHT - PLAYER_RADIUS - 1;
             vertical_speed = 0;
-            data.gamer_over = true;
+            data.gamer_over = !ignore_collision;
         }
         else {
             vertical_speed += GRAVITY;
@@ -166,7 +166,7 @@ public void vSingleplayerTask(void *pvParameters)
         */
         second_pos = (obstacle_field << 4) >> 12; // <- second pipe for collision
         // check if collision counter is running and first bit is 1
-        if((collision_counter != 0 
+        if ( !ignore_collision && (collision_counter != 0 
            || gap_counter >= SPACE_BETWEEN - (2 * PLAYER_RADIUS)) 
            && ((second_pos & 0b1000) != 0)) { // <- check if obstacle visible
 

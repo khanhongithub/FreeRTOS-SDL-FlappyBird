@@ -250,7 +250,7 @@ void RendererEnter(void)
     if(xTaskCreate(vRendererTask, "RendererTask", 
                    mainGENERIC_STACK_SIZE, 
                    NULL, mainGENERIC_PRIORITY + 1, 
-                   RenderingTask) != pdPASS) {
+                   &RenderingTask) != pdPASS) {
         DEBUG_PRINT("failed to create rendering task\n");
     }
 }
@@ -260,9 +260,10 @@ void RestarGameSinglePlayer(void)
     xSemaphoreGive(restart_signal_singleplayer);
 }
 
-void ExitSinplePlayer(void)
+void ExitSinglePlayer(void)
 {
-    exit(EXIT_SUCCESS);
+    SetNextState(0);
+    // exit(EXIT_SUCCESS);
 }
 
 void RendererRun(void)
@@ -293,7 +294,7 @@ void vRendererTask(void* pcParameters)
     AddButton(CreateButton(0xe6611e, 0x552F05, 
                                     SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 + 30,
-                                    100, 30, "Exit", ExitSinplePlayer), 
+                                    100, 30, "Exit", ExitSinglePlayer), 
                                     gameover_buttons_ptr);
 
     vDrawInitAnnimations();

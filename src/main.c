@@ -36,6 +36,7 @@
 // handles for all the tasks
 TaskHandle_t StatemachineTask = NULL;
 
+
 QueueHandle_t scene_queue = NULL;
 
 SemaphoreHandle_t restart_signal_singleplayer = NULL;
@@ -91,9 +92,9 @@ int main(int argc, char *argv[])
     
     // add states    
         // main menu
+        AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
         AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
         // multiplayer  
-        AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
     // create statemachine
 
     #if 1

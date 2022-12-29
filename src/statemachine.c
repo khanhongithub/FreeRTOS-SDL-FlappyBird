@@ -60,7 +60,9 @@ short int GetNextState(void)
 {
     static short int next_state_buffer;
 
+    assert(&next_state != NULL);
     if (xSemaphoreTake(next_state.lock, 0)) {
+        fprints(stderr, "the next state is %d\n", next_state.next_state);
         next_state_buffer = next_state.next_state;
         next_state_buffer %= state_array.state_counter; // <- rollover in case of 
                                                         // invalid index
@@ -71,7 +73,9 @@ short int GetNextState(void)
 
 bool SetNextState(short int next_state_to_be_set)
 {
+
     if (xSemaphoreTake(next_state.lock, portMAX_DELAY)) {
+        fprints(stderr, "successs\n");
         next_state.next_state = next_state_to_be_set;
         xSemaphoreGive(next_state.lock);
         return true;
@@ -81,18 +85,18 @@ bool SetNextState(short int next_state_to_be_set)
 
 bool OneIfStateChanged(void)
 {
-    bool change_state = 0;
-    static bool prev_E, cur_E = 0; // <- previous and current state of key which is either 0 or 1
-   
-    if (xSemaphoreTake(buttons.lock, 0) == pdTRUE) {
-        cur_E = buttons.buttons[KEYCODE(E)];
-        change_state = !prev_E & cur_E;  
-        prev_E = cur_E;
+    bool change_state = false;
+    static short int prev_state, cur_state;
+    assert(&next_state != NULL);
 
-        xSemaphoreGive(buttons.lock);
-        return change_state;
+    if (xSemaphoreTake(next_state.lock, 0) == pdPASS) {
+        cur_state = next_state.next_state;
+        change_state = prev_state != cur_state;
+        prev_state = cur_state; 
+        xSemaphoreGive(next_state.lock);
+        fprints(stderr, "=======pre: %d cur: %d\n", prev_state, cur_state);
     }
-    return false;
+    return change_state;
 }
 
 bool AddState(char *task_name, 
@@ -121,8 +125,8 @@ void vStatemachineTask(void *pvParameters)
 {
     // Initialise the xLastWakeTime variable with the current time.
 
-    int evaluate = OneIfStateChanged();
-    static int current_state = 0; 
+    bool state_changed = OneIfStateChanged();
+    static int short current_state = 0; 
     
     xLastWakeTime = xTaskGetTickCount();
     while(1)
@@ -132,7 +136,7 @@ void vStatemachineTask(void *pvParameters)
         
         DEBUG_PRINT("statemachine\n");
         xGetButtonInput();
-        if(state_array.state_counter == 0) { // <- prevents segfault
+        if(state_array.state_counter == 0) {
             DEBUG_PRINT("no states found\n");
             //exit(EXIT_SUCCESS);
             goto start;
@@ -140,38 +144,39 @@ void vStatemachineTask(void *pvParameters)
         
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK | FETCH_EVENT_NO_GL_CHECK);
         
-        evaluate = OneIfStateChanged();
-        state_array.states[current_state] -> exit_flag = (bool) evaluate;
-        #if DEBUG
-        if(evaluate)
+
+        if (current_state != GetNextState())
         {
-            fprintf(stderr, "\nreceived signal to exit\n exit flag of processs:%d is %d\n",
+            fprints(stderr, "#####next state is differnet that current state\n");            
+            state_array.states[current_state] -> exit_flag = true;
+            fprints(stderr, "\nreceived signal to exit\n exit flag of processs:%d is %d\n",
             current_state, state_array.states[current_state] -> exit_flag);
-        }        
-        #endif
+            
+        }
 
         // main state machine
- 
+
         // enter
         if((state_array.states[current_state] -> init_flag) != true) {
-            state_array.states[current_state] -> enter(); // <-- run code for init
+            state_array.states[current_state] -> enter();
             state_array.states[current_state] -> init_flag = true;
         }
         
         // run
         if((state_array.states[current_state] -> init_flag) == true) {
-            state_array.states[current_state] -> run(); // <-- run code normally
+            state_array.states[current_state] -> run();
         }
 
         // exit
         if((state_array.states[current_state] -> exit_flag) == true) {
-            state_array.states[current_state] -> exit(); // <-- run code on exit
+            state_array.states[current_state] -> exit();
             state_array.states[current_state] -> exit_flag = false;
             state_array.states[current_state] -> init_flag = false;
-            
-            current_state = GetNextState();
+        
+            current_state = GetNextState();    
+            fprints(stderr, "-----new state: %d\n", current_state);
+            fprints(stderr, "///////exiting\n");
 
-            // current_state++; // jump to any state and not next one
             if(current_state >= state_array.state_counter) {
                 DEBUG_PRINT("reached end of state list, returning to start \n");
                 current_state = 0;

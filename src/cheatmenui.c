@@ -13,6 +13,7 @@
 #include "TUM_Draw.h"
 #include "TUM_Event.h"
 #include "TUM_Sound.h"
+#include "TUM_Font.h"
 #include "TUM_Utils.h"
 #include "TUM_Font.h"
 
@@ -33,7 +34,6 @@ TaskHandle_t CheatmenuTask = NULL;
 
 enabled_cheats_t cheats = { .ignore_collision = false };
 score_t global_score = { .globabl_highscore = 0 };
-
 
 bool CheatLockInit(void)
 {
@@ -57,12 +57,18 @@ bool ScoreLockInit(void)
     return true;
 }
 
+void ReturnToMenu(void)
+{
+    fprints(stderr, "test\n");   
+    SetNextState(1);
+}
+
 void CheatmenuEnter(void)
 {
     if(xTaskCreate(vCheatmenuTask, "CheatmenuTask", 
                    mainGENERIC_STACK_SIZE, 
                    NULL, mainGENERIC_PRIORITY, 
-                   CheatmenuTask) != pdPASS) {
+                   &CheatmenuTask) != pdPASS) {
         DEBUG_PRINT("failed to cheatmenu task\n");
     }
 }
@@ -72,7 +78,10 @@ void CheatmenuRun(void)
 
 void CheatmenuExit(void)
 {
+    fprints(stderr, "pre\n");
     vTaskDelete(CheatmenuTask);
+    fprints(stderr, "post\n"); 
+    //vTaskSuspend(CheatmenuTask);
 }
 
 // methods for interacting with cheat structures
@@ -115,11 +124,6 @@ void ChangeScore(short int delta)
         global_score.globabl_highscore += delta;
         xSemaphoreGive(global_score.lock);
     }
-}
-
-void ReturnToMainMenu()
-{
-    // change the next state to be the main menu
 }
 
 void IncreaseScoreBy1(void) {
@@ -173,7 +177,7 @@ void vCheatmenuTask(void *pcParameters) {
     AddButton(CreateButton(0xe6611e, 0x552F05, 
                                     2 * SCREEN_WIDTH / 3 + 75,
                                     SCREEN_HEIGHT / 2 +60,
-                                    150, 30, "Back", NULL), // <-- add custom func
+                                    150, 30, "Back", ReturnToMenu),
                                     cheat_menu_buttons_ptr);
 
     TickType_t last_wake_time = xTaskGetTickCount();
