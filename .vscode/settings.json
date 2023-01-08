@@ -70,7 +70,8 @@
         "tum_font.h": "c",
         "tum_utils.h": "c",
         "emulatorconfig.h": "c",
-        "a.out.h": "c"
+        "a.out.h": "c",
+        "cheatmenu.h": "c"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }

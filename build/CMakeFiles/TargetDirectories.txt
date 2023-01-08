@@ -1,4 +1,0 @@
-/home/baseduser/ESPL/ESPL/build/CMakeFiles/commit.dir
-/home/baseduser/ESPL/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir
-/home/baseduser/ESPL/ESPL/build/CMakeFiles/edit_cache.dir
-/home/baseduser/ESPL/ESPL/build/CMakeFiles/rebuild_cache.dir

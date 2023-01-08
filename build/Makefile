@@ -550,6 +550,30 @@ src/animations.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/animations.c.s
 .PHONY : src/animations.c.s
 
+src/cheatmenui.o: src/cheatmenui.c.o
+.PHONY : src/cheatmenui.o
+
+# target to build an object file
+src/cheatmenui.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o
+.PHONY : src/cheatmenui.c.o
+
+src/cheatmenui.i: src/cheatmenui.c.i
+.PHONY : src/cheatmenui.i
+
+# target to preprocess a source file
+src/cheatmenui.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.i
+.PHONY : src/cheatmenui.c.i
+
+src/cheatmenui.s: src/cheatmenui.c.s
+.PHONY : src/cheatmenui.s
+
+# target to generate assembly for a file
+src/cheatmenui.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.s
+.PHONY : src/cheatmenui.c.s
+
 src/gui.o: src/gui.c.o
 .PHONY : src/gui.o
 
@@ -597,6 +621,54 @@ src/main.s: src/main.c.s
 src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.s
 .PHONY : src/main.c.s
+
+src/multiplayer.o: src/multiplayer.c.o
+.PHONY : src/multiplayer.o
+
+# target to build an object file
+src/multiplayer.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o
+.PHONY : src/multiplayer.c.o
+
+src/multiplayer.i: src/multiplayer.c.i
+.PHONY : src/multiplayer.i
+
+# target to preprocess a source file
+src/multiplayer.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.i
+.PHONY : src/multiplayer.c.i
+
+src/multiplayer.s: src/multiplayer.c.s
+.PHONY : src/multiplayer.s
+
+# target to generate assembly for a file
+src/multiplayer.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.s
+.PHONY : src/multiplayer.c.s
+
+src/multiplayer_config.o: src/multiplayer_config.c.o
+.PHONY : src/multiplayer_config.o
+
+# target to build an object file
+src/multiplayer_config.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.o
+.PHONY : src/multiplayer_config.c.o
+
+src/multiplayer_config.i: src/multiplayer_config.c.i
+.PHONY : src/multiplayer_config.i
+
+# target to preprocess a source file
+src/multiplayer_config.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.i
+.PHONY : src/multiplayer_config.c.i
+
+src/multiplayer_config.s: src/multiplayer_config.c.s
+.PHONY : src/multiplayer_config.s
+
+# target to generate assembly for a file
+src/multiplayer_config.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.s
+.PHONY : src/multiplayer_config.c.s
 
 src/renderer.o: src/renderer.c.o
 .PHONY : src/renderer.o
@@ -779,12 +851,21 @@ help:
 	@echo "... src/animations.o"
 	@echo "... src/animations.i"
 	@echo "... src/animations.s"
+	@echo "... src/cheatmenui.o"
+	@echo "... src/cheatmenui.i"
+	@echo "... src/cheatmenui.s"
 	@echo "... src/gui.o"
 	@echo "... src/gui.i"
 	@echo "... src/gui.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/multiplayer.o"
+	@echo "... src/multiplayer.i"
+	@echo "... src/multiplayer.s"
+	@echo "... src/multiplayer_config.o"
+	@echo "... src/multiplayer_config.i"
+	@echo "... src/multiplayer_config.s"
 	@echo "... src/renderer.o"
 	@echo "... src/renderer.i"
 	@echo "... src/renderer.s"
