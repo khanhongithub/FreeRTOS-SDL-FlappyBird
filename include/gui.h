@@ -1,6 +1,17 @@
+#ifndef __TUM_DRAW_H__
+#include "TUM_Draw.h"
+#endif
+
 #ifndef this
 #define this (*_local_instance_)
 #endif
+
+#define BUTTON_MAIN_SATURATED 0xe6611e
+#define BUTTON_MAIN 0xe6824f
+#define BUTTON_MAIN_SET Gray
+#define BUTTON_BORDER 0x552F05
+#define Light_Green 0x46bc40
+#define Dark_Red 0xaa0000
 
 typedef struct gui_button button_t;
 
