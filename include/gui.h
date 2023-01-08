@@ -1,4 +1,10 @@
-typedef struct {
+#ifndef this
+#define this (*_local_instance_)
+#endif
+
+typedef struct gui_button button_t;
+
+struct gui_button{
 	int main_color;
 	int border_color;
 
@@ -14,20 +20,20 @@ typedef struct {
 	int bottom_right_corner_x;
 	int bottom_right_corner_y;
 
-	void (*ActionWhenPressed)(void);
-} button_t;
+	void (*ActionWhenPressed)(button_t *_local_instance_);
+};
 
 typedef struct {
 	int size;
 	button_t **ui_button;
-} button_arry_t;
+} button_array_t;
 
 button_t *CreateButton(int main_color, int border_color, int x, int y,
 		       int width, int heigth, char *text,
-		       void (*function)(void));
+		       void (*function)(button_t *_local_instance_));
 
 void DrawButton(button_t *button_to_be_drawn);
-void DrawButtons(button_arry_t *buttons_to_be_drawn);
-void AddButton(button_t *button_to_be_added, button_arry_t *array_to_add_into);
+void DrawButtons(button_array_t *buttons_to_be_drawn);
+void AddButton(button_t *button_to_be_added, button_array_t *array_to_add_into);
 void UpdateButton(button_t *button_to_be_updated, bool falling);
-void UpdateButtons(button_arry_t *buttons_to_be_updated);
+void UpdateButtons(button_array_t *buttons_to_be_updated);

@@ -12,7 +12,7 @@
 
 button_t *CreateButton(int main_color, int border_color, int x, int y,
 		       int width, int heigth, char *text,
-		       void (*function)(void))
+		       void (*function)(button_t *_local_instance_))
 {
 	// malloc new space
 	button_t *new_button = malloc(sizeof(button_t));
@@ -47,7 +47,6 @@ button_t *CreateButton(int main_color, int border_color, int x, int y,
 
 void DrawButton(button_t *button_to_be_drawn)
 {
-
 	tumDrawFilledBox(button_to_be_drawn->top_left_corner_x - 2,
 			 button_to_be_drawn->top_left_corner_y - 2,
 			 button_to_be_drawn->width + 4, button_to_be_drawn->heigth + 4,
@@ -63,21 +62,20 @@ void DrawButton(button_t *button_to_be_drawn)
 			    button_to_be_drawn->position_y, Black);
 }
 
-void DrawButtons(button_arry_t *buttons_to_be_drawn)
+void DrawButtons(button_array_t *buttons_to_be_drawn)
 {
 	for (int i = 0; i < buttons_to_be_drawn->size; i++) {
 		DrawButton(buttons_to_be_drawn->ui_button[i]);
 	}
 }
 
-void AddButton(button_t *button_to_be_added, button_arry_t *array_to_add_into)
+void AddButton(button_t *button_to_be_added, button_array_t *array_to_add_into)
 {
 	array_to_add_into->ui_button =
 		realloc(array_to_add_into->ui_button,
 			sizeof(button_t *) * (array_to_add_into->size + 1));
 
-	array_to_add_into->ui_button[array_to_add_into->size] =
-		button_to_be_added;
+	array_to_add_into->ui_button[array_to_add_into->size] = button_to_be_added;
 	array_to_add_into->size++;
 }
 
@@ -101,12 +99,13 @@ void UpdateButton(button_t *button_to_be_updated, bool falling)
 
 		// if th mouse was inside the button trigger call function
 		if (within_button_bound  && button_to_be_updated->ActionWhenPressed != NULL) {
-			button_to_be_updated->ActionWhenPressed();
+			button_to_be_updated->ActionWhenPressed(button_to_be_updated);
 		}
 	}
 }
 
-void UpdateButtons(button_arry_t *buttons_to_be_updated)
+
+void UpdateButtons(button_array_t *buttons_to_be_updated)
 {
 	static bool cur_left_click, prev_left_click,
 		left_mouse_falling_edge = false;
