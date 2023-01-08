@@ -58,8 +58,7 @@ bool ScoreLockInit(void)
 }
 
 void ReturnToMenu(void)
-{
-    fprints(stderr, "test\n");   
+{ 
     SetNextState(1);
 }
 
@@ -78,10 +77,7 @@ void CheatmenuRun(void)
 
 void CheatmenuExit(void)
 {
-    fprints(stderr, "pre\n");
     vTaskDelete(CheatmenuTask);
-    fprints(stderr, "post\n"); 
-    //vTaskSuspend(CheatmenuTask);
 }
 
 // methods for interacting with cheat structures
@@ -110,10 +106,12 @@ int HighScore(void) {
 }
 
 
-void ToggleCollision(void)
+void ToggleCollision(button_t *_local_instance_)
 {
     if (xSemaphoreTake(cheats.lock, 0)) {
         cheats.ignore_collision ^= 1; // <- toggles collision
+        this.main_color = cheats.ignore_collision * Red +
+                !cheats.ignore_collision * Green;
         xSemaphoreGive(cheats.lock);
     }
 }
@@ -141,10 +139,10 @@ void IncreaseScoreBy1000(void) {
 
 void vCheatmenuTask(void *pcParameters) {
 
-    button_arry_t cheat_menu_buttons = { .size = 0 };
-    button_arry_t *cheat_menu_buttons_ptr = &cheat_menu_buttons;
+    button_array_t cheat_menu_buttons = { .size = 0 };
+    button_array_t *cheat_menu_buttons_ptr = &cheat_menu_buttons;
 
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(Green, 0x552F05, 
                                     SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 - 30,
                                     150, 30, "Toggle Collision", ToggleCollision),
@@ -175,8 +173,8 @@ void vCheatmenuTask(void *pcParameters) {
                                     cheat_menu_buttons_ptr);
 
     AddButton(CreateButton(0xe6611e, 0x552F05, 
-                                    2 * SCREEN_WIDTH / 3 + 75,
-                                    SCREEN_HEIGHT / 2 +60,
+                                    SCREEN_WIDTH / 2,
+                                    3 * SCREEN_HEIGHT / 4,
                                     150, 30, "Back", ReturnToMenu),
                                     cheat_menu_buttons_ptr);
 
@@ -202,8 +200,8 @@ void vCheatmenuTask(void *pcParameters) {
             sprintf(score_string, "Highscore: %d", global_score.globabl_highscore);
             
             tumDrawCenteredText(score_string,
-                                SCREEN_WIDTH / 2,
-                                SCREEN_HEIGHT / 2, Black);
+                                SCREEN_WIDTH / 2 + 270,
+                                SCREEN_HEIGHT / 2 + 50, Black);
             xSemaphoreGive(global_score.lock);
         }    
 

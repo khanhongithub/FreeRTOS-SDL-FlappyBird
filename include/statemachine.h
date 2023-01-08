@@ -1,4 +1,6 @@
+#ifndef _STDBOOL_H
 #include <stdbool.h>
+#endif
 
 typedef struct next_state_s {
     SemaphoreHandle_t lock;

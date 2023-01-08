@@ -21,7 +21,7 @@
 #include "statemachine.h"
 #include "resources.h"
 
-#define STATEMACHINE_FREQUENCY 80
+#define STATEMACHINE_FREQUENCY 150
 
 TickType_t xLastWakeTime;
 
@@ -62,7 +62,7 @@ short int GetNextState(void)
 
     assert(&next_state != NULL);
     if (xSemaphoreTake(next_state.lock, 0)) {
-        fprints(stderr, "the next state is %d\n", next_state.next_state);
+        //fprints(stderr, "the next state is %d\n", next_state.next_state);
         next_state_buffer = next_state.next_state;
         next_state_buffer %= state_array.state_counter; // <- rollover in case of 
                                                         // invalid index
@@ -75,7 +75,6 @@ bool SetNextState(short int next_state_to_be_set)
 {
 
     if (xSemaphoreTake(next_state.lock, portMAX_DELAY)) {
-        fprints(stderr, "successs\n");
         next_state.next_state = next_state_to_be_set;
         xSemaphoreGive(next_state.lock);
         return true;
@@ -94,7 +93,7 @@ bool OneIfStateChanged(void)
         change_state = prev_state != cur_state;
         prev_state = cur_state; 
         xSemaphoreGive(next_state.lock);
-        fprints(stderr, "=======pre: %d cur: %d\n", prev_state, cur_state);
+        //fprints(stderr, "=======pre: %d cur: %d\n", prev_state, cur_state);
     }
     return change_state;
 }
@@ -147,11 +146,10 @@ void vStatemachineTask(void *pvParameters)
 
         if (current_state != GetNextState())
         {
-            fprints(stderr, "#####next state is differnet that current state\n");            
+            //fprints(stderr, "#####next state is differnet that current state\n");            
             state_array.states[current_state] -> exit_flag = true;
-            fprints(stderr, "\nreceived signal to exit\n exit flag of processs:%d is %d\n",
-            current_state, state_array.states[current_state] -> exit_flag);
-            
+            //fprints(stderr, "\n exiting\n exit flag of processs:%d is %d\n",
+            //current_state, state_array.states[current_state] -> exit_flag);
         }
 
         // main state machine
@@ -174,8 +172,8 @@ void vStatemachineTask(void *pvParameters)
             state_array.states[current_state] -> init_flag = false;
         
             current_state = GetNextState();    
-            fprints(stderr, "-----new state: %d\n", current_state);
-            fprints(stderr, "///////exiting\n");
+            //fprints(stderr, "-----new state: %d\n", current_state);
+            //fprints(stderr, "///////exiting\n");
 
             if(current_state >= state_array.state_counter) {
                 DEBUG_PRINT("reached end of state list, returning to start \n");

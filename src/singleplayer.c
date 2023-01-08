@@ -125,6 +125,7 @@ public void vSingleplayerTask(void *pvParameters)
         ██║     ██║  ██║   ██║   ███████║██║╚██████╗███████║
         ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝ ╚═════╝╚══════╝
         */
+       
         // update player position when jumping
         if(xSemaphoreTake(buttons.lock, 0) == pdPASS) {
 
@@ -153,17 +154,15 @@ public void vSingleplayerTask(void *pvParameters)
         else {
             vertical_speed += GRAVITY;
         }
-
         /*
-
          ██████╗ ██████╗ ██╗     ██╗     ██╗███████╗██╗ ██████╗ ███╗   ██╗
         ██╔════╝██╔═══██╗██║     ██║     ██║██╔════╝██║██╔═══██╗████╗  ██║
         ██║     ██║   ██║██║     ██║     ██║███████╗██║██║   ██║██╔██╗ ██║
         ██║     ██║   ██║██║     ██║     ██║╚════██║██║██║   ██║██║╚██╗██║
         ╚██████╗╚██████╔╝███████╗███████╗██║███████║██║╚██████╔╝██║ ╚████║
-         ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝
-                                                                  
+         ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝                                                   
         */
+
         second_pos = (obstacle_field << 4) >> 12; // <- second pipe for collision
         // check if collision counter is running and first bit is 1
         if ( !ignore_collision && (collision_counter != 0 

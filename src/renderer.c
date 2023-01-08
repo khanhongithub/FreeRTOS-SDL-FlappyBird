@@ -283,8 +283,8 @@ void vRendererTask(void* pcParameters)
     buffer.gamer_over = false;
     bool played_sound = false;
 
-    button_arry_t gameover_buttons = { .size = 0 };
-    button_arry_t *gameover_buttons_ptr = &gameover_buttons;
+    button_array_t gameover_buttons = { .size = 0 };
+    button_array_t *gameover_buttons_ptr = &gameover_buttons;
     
     AddButton(CreateButton(0xe6611e, 0x552F05, 
                                     SCREEN_WIDTH / 3,
