@@ -255,12 +255,12 @@ void RendererEnter(void)
     }
 }
 
-void RestarGameSinglePlayer(void)
+void RestarGameSinglePlayer(button_t *_local_instance_)
 {
     xSemaphoreGive(restart_signal_singleplayer);
 }
 
-void ExitSinglePlayer(void)
+void ExitSinglePlayer(button_t  *_local_instance_)
 {
     SetNextState(0);
     // exit(EXIT_SUCCESS);

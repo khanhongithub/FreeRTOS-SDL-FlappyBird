@@ -57,7 +57,7 @@ bool ScoreLockInit(void)
     return true;
 }
 
-void ReturnToMenu(void)
+void ReturnToMenu(button_t *_local_instance_)
 { 
     SetNextState(1);
 }
@@ -124,16 +124,17 @@ void ChangeScore(short int delta)
     }
 }
 
-void IncreaseScoreBy1(void) {
+void IncreaseScoreBy1(button_t *_local_instance_) {
     ChangeScore(1);
 }
-void IncreaseScoreBy10(void) {
+
+void IncreaseScoreBy10(button_t *_local_instance_) {
     ChangeScore(10);
 }
-void IncreaseScoreBy100(void) {
+void IncreaseScoreBy100(button_t *_local_instance_) {
     ChangeScore(100);
 }
-void IncreaseScoreBy1000(void) {
+void IncreaseScoreBy1000(button_t *_local_instance_) {
     ChangeScore(1000);
 }
 
