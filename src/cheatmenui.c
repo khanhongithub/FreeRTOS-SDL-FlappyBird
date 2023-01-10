@@ -24,7 +24,6 @@
 #include "main.h"
 #include "priorties.h"
 #include "resources.h"
-//#include "singleplayer.h"
 #include "gui.h"
 #include "cheatmenu.h"
 
@@ -37,7 +36,7 @@ score_t global_score = { .globabl_highscore = 0 };
 
 bool CheatLockInit(void)
 {
-    cheats.lock = xSemaphoreCreateMutex(); // Mutex for access to button queue
+    cheats.lock = xSemaphoreCreateMutex();
     
     if (!cheats.lock) {
         fprintf(stderr, "Failed to create cheats lock");
@@ -48,7 +47,7 @@ bool CheatLockInit(void)
 
 bool ScoreLockInit(void)
 {
-    global_score.lock = xSemaphoreCreateMutex(); // Mutex for access to button queue
+    global_score.lock = xSemaphoreCreateMutex(); 
     
     if (!global_score.lock) {
         fprintf(stderr, "Failed to create score lock");

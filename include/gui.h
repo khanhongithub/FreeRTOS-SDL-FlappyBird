@@ -17,6 +17,8 @@
 #define Passive_Yellow 0xdfc42d
 #define Dark_Red 0xaa0000
 
+#define MAX_TEXT_LEN 256
+
 typedef struct gui_button button_t;
 
 struct gui_button{
@@ -27,7 +29,7 @@ struct gui_button{
 	int position_y;
 	int width;
 	int heigth;
-	char *button_text;
+	char button_text[MAX_TEXT_LEN];
 	short button_text_length;
 
 	int top_left_corner_x;
@@ -43,7 +45,7 @@ typedef struct {
 	button_t **ui_button;
 } button_array_t;
 
-button_t *CreateButton(int main_color, int border_color, int x, int y,
+button_t *CreateButton(int main_color, int border_color, int x, int y, 
 		       int width, int heigth, char *text,
 		       void (*function)(button_t *_local_instance_));
 

@@ -35,9 +35,9 @@ void vMultiplayerTask(void *pvArgs)
 {
     // host or client <- retrive via struct
 
-    // connect to client <- retrive via struct ip, port, etc
+    // connect to client or host <- retrive via struct ip, port, etc
 
-    // have both players started the game -> fix in main game loop
+    // have both players started the game via menu
 
     // inject received data into local gameloop
 

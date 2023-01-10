@@ -2,6 +2,9 @@
 #include <stdbool.h>
 #endif
 
+// #include "semphr.h"
+
+
 #define host true
 #define client false
 
@@ -12,8 +15,8 @@ typedef char ipv4[16];
 typedef struct multiplayer_config {
     connection_mode type; // <- either host or client
 
-    ipv4 own_ip[16]; // <- own instance
-    ipv4 connection_endpoint_ip[16]; // <- instance that is being connected to
+    ipv4 own_ip; // <- own instance
+    ipv4 other_ip; // <- instance that is being connected to
 
 }multiplayer_config_t;
 

@@ -25,8 +25,7 @@ button_t *CreateButton(int main_color, int border_color, int x, int y,
 	(new_button->width) = width;
 	(new_button->heigth) = heigth;
 
-	(new_button->button_text_length) = strlen(text);
-	(new_button->button_text) = malloc(strlen(text) + 1);
+	(new_button->button_text_length) = MAX_TEXT_LEN;
 	//*(new_button -> button_text) = text;
 	strcpy(new_button->button_text, text);
 

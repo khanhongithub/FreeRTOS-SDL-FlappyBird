@@ -146,7 +146,7 @@ public void vSingleplayerTask(void *pvParameters)
             vertical_speed = 0;
             //data.gamer_over = true;
         }
-        else if(player_position + PLAYER_RADIUS + 1 >= SCREEN_HEIGHT) {
+        else if (player_position + PLAYER_RADIUS + 1 >= SCREEN_HEIGHT) {
             player_position = SCREEN_HEIGHT - PLAYER_RADIUS - 1;
             vertical_speed = 0;
             data.gamer_over = !ignore_collision;

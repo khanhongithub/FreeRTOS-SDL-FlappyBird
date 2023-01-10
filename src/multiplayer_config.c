@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <inttypes.h>
-#include <assert.h>
 
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -22,39 +21,16 @@
 #include "priorties.h"
 #include "multiplayer_config.h"
 #include "gui.h"
+#include "resources.h"
 
-#define MULTIPLAYERCONFIG_FREQUENCY pdMS_TO_TICKS(35)
+#define RISING_EDGE_VARS(x) \
+        static bool cur_##x, prev_##x; \
+        static bool rising_edge_##x = false;
 
-#define BOTTOM_BOX_WIDTH SCREEN_WIDTH
-#define BOTTOM_BOX_HEIGHT 2 * SCREEN_HEIGHT / 9
-
-void vInputForIP(void *pvParameters);
-void InputForIPStart(void);
-void InputForIPStop(void);
-
-button_array_t mltplyr_config_button_array = { .size = 0 };
-button_array_t *mltplyr_config_button_array_ptr = &mltplyr_config_button_array;
-
-enum ip_entering_status {    
-        untouched,
-        in_progress,
-        correct,
-        incorrect
-    };
-
-TaskHandle_t MultiplayerConfigTask = NULL;
-
-TaskHandle_t IPEnteringTask = NULL;
-
-void vInputForIP(void *pvParameters)
-{
-    #define RISING_EDGE_VARS(x) \
-        static bool cur_##x, prev_##x, rising_edge_##x = false;
-
-    #define RISING_EDGE(x) \
+#define RISING_EDGE(x) \
     if (xSemaphoreTake(buttons.lock, 0) == pdPASS) \
     { \
-        cur_##x = buttons.buttons[KEYCODE(#x)]; \
+        cur_##x = buttons.buttons[KEYCODE(x)]; \
         rising_edge_##x = !prev_##x && cur_##x; \
         prev_##x = cur_##x; \
         xSemaphoreGive(buttons.lock); \
@@ -71,8 +47,7 @@ void vInputForIP(void *pvParameters)
     RISING_EDGE(7); \
     RISING_EDGE(8); \
     RISING_EDGE(9); \
-    RISING_EDGE(.); \
-    RISING_EDGE(ESCAPE)
+    RISING_EDGE(PERIOD)
 
     #define IP_INPUT_GENERATE_DEBOUNCING_VARS() \
     RISING_EDGE_VARS(0); \
@@ -85,25 +60,135 @@ void vInputForIP(void *pvParameters)
     RISING_EDGE_VARS(7); \
     RISING_EDGE_VARS(8); \
     RISING_EDGE_VARS(9); \
-    RISING_EDGE_VARS(.); \
-    RISING_EDGE_VARS(ESCAPE)
-    
+    RISING_EDGE_VARS(PERIOD)
+
+#define IF_PRESSED_APPEND(key, ip) \
+do { if (rising_edge_##key) {   \
+    done = IPCreate(key + '0', ip); \
+}} while (0)
+
+
+#define MULTIPLAYERCONFIG_FREQUENCY pdMS_TO_TICKS(35)
+#define IP_ENTERING_FREQUENCY pdMS_TO_TICKS(20)
+
+#define untouched 0
+#define in_progress 1
+#define correct 2
+#define incorrect 3
+
+#define BOTTOM_BOX_WIDTH SCREEN_WIDTH
+#define BOTTOM_BOX_HEIGHT 2 * SCREEN_HEIGHT / 9
+
+void vInputForIP(void *pvParameters);
+void InputForIPStart(void);
+void InputForIPStop(void);
+
+void RemoveChar(char* s, char c);
+bool IPCreate(char input, ipv4 output);
+
+typedef struct ip_button_information {
+    short int ip_entering_status;
+    button_t *ip_button_ptr;
+    SemaphoreHandle_t lock;
+} ip_button_information_t;
+
+ip_button_information_t ip_button_info = { .ip_entering_status = 0};
+
+multiplayer_config_t mltplyr_cfg = { .own_ip = "127.0.0.1\0" };
+
+button_array_t mltplyr_config_button_array = { .size = 0 };
+button_array_t *mltplyr_config_button_array_ptr = &mltplyr_config_button_array;
+
+TaskHandle_t MultiplayerConfigTask = NULL;
+TaskHandle_t IPEnteringTask = NULL;
+
+void InputForIPStart(void) 
+{
+    if(xTaskCreate(vInputForIP, "InputForIPTask", 
+                   mainGENERIC_STACK_SIZE / 2, 
+                   NULL, mainGENERIC_PRIORITY - 2, 
+                   &IPEnteringTask) != pdPASS) {
+        DEBUG_PRINT("failed to listener task\n");
+    }
+}
+
+void InputForIPStop(void) 
+{
+    vTaskDelete(IPEnteringTask);
+}
+
+void vInputForIP(void *pvParameters)
+{
+    // send current ipv4 to queue
+    ipv4 current_input_ip = "xxx.xxx.xxx.xxx\0";
+    bool done = false;
+
     IP_INPUT_GENERATE_DEBOUNCING_VARS();
 
     TickType_t last_wake_time = xTaskGetTickCount();
+    TickType_t start_time = xTaskGetTickCount();
 
     while (1)
     {
+        // update and debouce all num, dot and escape keys
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK | FETCH_EVENT_NO_GL_CHECK);
         xGetButtonInput();
-
         IP_INPUT_DEBOUNCE_KEYS();
         
+        // if state was changed and this task wasnt terminated it should
+        // stop after 60s
+        if (xTaskGetTickCount() - start_time >= pdMS_TO_TICKS(60000))
+        {
+            vTaskDelete(NULL);
+        }
+        
+
         // check for rising edges and input them into IP constructer
-         
-        vTaskDelayUntil(&last_wake_time, MULTIPLAYERCONFIG_FREQUENCY);
+        IF_PRESSED_APPEND(1, current_input_ip);
+        IF_PRESSED_APPEND(2, current_input_ip);
+        IF_PRESSED_APPEND(3, current_input_ip);
+        IF_PRESSED_APPEND(4, current_input_ip);
+        IF_PRESSED_APPEND(5, current_input_ip);
+        IF_PRESSED_APPEND(6, current_input_ip);
+        IF_PRESSED_APPEND(7, current_input_ip);
+        IF_PRESSED_APPEND(8, current_input_ip);
+        IF_PRESSED_APPEND(9, current_input_ip);
+        IF_PRESSED_APPEND(0, current_input_ip);
+
+        strcpy(ip_button_info.ip_button_ptr->button_text, current_input_ip);
+        
+        if (rising_edge_PERIOD)
+        {
+            done = IPCreate('.', current_input_ip);
+        }
+
+        if (done) 
+        {
+            // set color to green
+            if (xSemaphoreTake(ip_button_info.lock, portMAX_DELAY) == pdPASS) {
+                ip_button_info.ip_button_ptr->main_color = Light_Green;
+
+                strcpy(ip_button_info.ip_button_ptr->button_text, current_input_ip);
+                strcpy(mltplyr_cfg.other_ip, current_input_ip);
+                
+                ip_button_info.ip_entering_status = correct;
+                
+                xSemaphoreGive(ip_button_info.lock);
+                vTaskDelete(NULL);
+            }
+        }
+        vTaskDelayUntil(&last_wake_time, IP_ENTERING_FREQUENCY);
     }
     
+}
+
+void InitIPButtonInfo(void) {
+    static bool inited = false;
+    if (!inited)
+    {
+        ip_button_info.lock = xSemaphoreCreateMutex();
+        inited = true;
+    }
 }
 
 void ToggleHostClient(button_t *_local_instance_)
@@ -113,32 +198,32 @@ void ToggleHostClient(button_t *_local_instance_)
     if (mode != client)
     {
         this.main_color = Olive;
-        this.button_text = "Host";
+        strcpy(this.button_text, "Host");
+        mltplyr_cfg.type = host;
         mode = client;
     }
     else
     {
         this.main_color = Skyblue;
-        this.button_text = "Client";
+        strcpy(this.button_text, "Client");
+        mltplyr_cfg.type = client;
         mode = host;
     }
 }
 
 void EstablishConnection(button_t *_local_instance_)
 {
-    // fprints(stderr, "callback\n");
     static bool connected = false;
     
+    // connected = ConnectTo(ip);
+
     if (connected)
     {
         this.main_color = Light_Green;
-        connected = false;
     }
-    
     else  
     {
         this.main_color = Dark_Red;
-        connected = true;
     }
 
     // try to establish connection and see if it works
@@ -146,10 +231,8 @@ void EstablishConnection(button_t *_local_instance_)
 
 // functions for for reading in ip
 
-
 void RemoveChar(char* s, char c)
 {
-
     int j;
     int n = strlen(s);
     for (int i = j = 0; i < n; i++)
@@ -208,11 +291,11 @@ bool IPCreate(char input, ipv4 output)
     }
 
     strcpy(output, ip_temp);
-    printf("index:%d\n\n", index);
+    // frints("index:%d\n\n", index);
 
     if (done) {
 	    for (int i = 0; i < 4; i++) {
-	        if (ip_temp[i * 4] == 'x')
+	        if (ip_temp[i * 4] == 'x') // <- if first char is x change to 0
 	    	    ip_temp[i * 4] = '0';
 	        else if (isdigit(ip_temp[i * 4 + 2])) {
 	    	    // extract subpart (.123.) from ip
@@ -241,85 +324,109 @@ bool IPCreate(char input, ipv4 output)
 }
 
 void ReadIP(button_t *_local_instance_)
-{
-    ip_entering_status = untouched;
+{    
+    if (xSemaphoreTake(ip_button_info.lock, 0) == pdPASS) {
 
-    switch (ip_entering_status)
-    {
-    case untouched:
-        this.main_color = Passive_Yellow;
-        ip_entering_status = in_progress;
-        // start listener
-        break;
-    case in_progress:
-        this.main_color = Silver;
-        ip_entering_status = untouched;
-        // stop listener
-        break;
-    default:
-        break;
+        switch (ip_button_info.ip_entering_status)
+        {
+        case correct: // ip was correct, new one is entered now
+        case incorrect: // ip syntactically incorrect, shouldnt happen
+            strcpy(this.button_text, "IP:xxx.xxx.xxx.xxx");
+        case untouched:
+            this.main_color = Passive_Yellow;
+            ip_button_info.ip_entering_status = in_progress;
+            // start listener
+            InputForIPStart();
+            break;
+
+        case in_progress:
+            this.main_color = BUTTON_MAIN_SET; // return to untouched
+            ip_button_info.ip_entering_status = untouched;
+            strcpy(this.button_text, "IP:xxx.xxx.xxx.xxx");
+            // stop listener
+            InputForIPStop();
+            break;
+
+        default:
+            break;
+        }
+        xSemaphoreGive(ip_button_info.lock);
     }
-
-    this.main_color = Passive_Yellow;
-    // parse ip
+    else {
+        // if lock wasnt obtained for some reason
+        this.main_color = Purple;
+    }
 }
 
 void ExitMultiplayerConfig(button_t *_local_instance_)
 {
-    vTaskDelay(pdMS_TO_TICKS(100));
+    // this should go back into main menu
+    InputForIPStop();
     exit(EXIT_SUCCESS);
 }
 
 void MultiplayerInit(void) 
 {
+    static bool inited = false;
 
-AddButton(CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
-          4 * SCREEN_WIDTH / 5,
-          SCREEN_HEIGHT / 3,
-          STD_BUTTON_W, STD_BUTTON_H, "Host / Client", ToggleHostClient),
-          mltplyr_config_button_array_ptr);
+    InitIPButtonInfo();
 
-AddButton(CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
-          4 * SCREEN_WIDTH / 5,
-          SCREEN_HEIGHT / 2,
-          STD_BUTTON_W, STD_BUTTON_H, "IP:xxx.xxx.xxx.xxx", ReadIP), 
-          mltplyr_config_button_array_ptr);
+    if (!inited) { // very important this isnt run more than once      
 
-AddButton(CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
-          4 * SCREEN_WIDTH / 5,
-          2 * SCREEN_HEIGHT / 3,
-          STD_BUTTON_W, STD_BUTTON_H, "Connect", EstablishConnection),
-          mltplyr_config_button_array_ptr);
+    AddButton(CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
+              4 * SCREEN_WIDTH / 5,
+              SCREEN_HEIGHT / 3,
+              STD_BUTTON_W, STD_BUTTON_H, "Host / Client", ToggleHostClient),
+              mltplyr_config_button_array_ptr);
 
-AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-          SCREEN_WIDTH / 5,
-          SCREEN_HEIGHT / 3,
-          STD_BUTTON_W, STD_BUTTON_H, "character 1", NULL),
-          mltplyr_config_button_array_ptr);
+    button_t *just_created_ip_button = CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
+                                       4 * SCREEN_WIDTH / 5,
+                                       SCREEN_HEIGHT / 2,
+                                       STD_BUTTON_W, STD_BUTTON_H, 
+                                       "IP:xxx.xxx.xxx.xxx", ReadIP);
 
-AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-          SCREEN_WIDTH / 5,
-          SCREEN_HEIGHT / 2,
-          STD_BUTTON_W, STD_BUTTON_H, "character 2", NULL),
-          mltplyr_config_button_array_ptr);
+    ip_button_info.ip_button_ptr = just_created_ip_button;
 
-AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-          SCREEN_WIDTH / 5,
-          2 * SCREEN_HEIGHT / 3,
-          STD_BUTTON_W, STD_BUTTON_H, "character 3", NULL),
-          mltplyr_config_button_array_ptr);
+    AddButton(just_created_ip_button, mltplyr_config_button_array_ptr);
 
-AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-          SCREEN_WIDTH / 5,
-          7 * SCREEN_HEIGHT / 8,
-          STD_BUTTON_W, STD_BUTTON_H, "back", ExitMultiplayerConfig),
-          mltplyr_config_button_array_ptr);
+    AddButton(CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
+              4 * SCREEN_WIDTH / 5,
+              2 * SCREEN_HEIGHT / 3,
+              STD_BUTTON_W, STD_BUTTON_H, "Connect", EstablishConnection),
+              mltplyr_config_button_array_ptr);
 
-AddButton(CreateButton(Light_Green, BUTTON_BORDER, 
-          4 * SCREEN_WIDTH / 5,
-          7 * SCREEN_HEIGHT / 8,
-          STD_BUTTON_W, STD_BUTTON_H, "START", NULL),
-          mltplyr_config_button_array_ptr);
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+              SCREEN_WIDTH / 5,
+              SCREEN_HEIGHT / 3,
+              STD_BUTTON_W, STD_BUTTON_H, "character 1", NULL),
+              mltplyr_config_button_array_ptr);
+
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+              SCREEN_WIDTH / 5,
+              SCREEN_HEIGHT / 2,
+              STD_BUTTON_W, STD_BUTTON_H, "character 2", NULL),
+              mltplyr_config_button_array_ptr);
+
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+              SCREEN_WIDTH / 5,
+              2 * SCREEN_HEIGHT / 3,
+              STD_BUTTON_W, STD_BUTTON_H, "character 3", NULL),
+              mltplyr_config_button_array_ptr);
+
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+              SCREEN_WIDTH / 5,
+              7 * SCREEN_HEIGHT / 8,
+              STD_BUTTON_W, STD_BUTTON_H, "back", ExitMultiplayerConfig),
+              mltplyr_config_button_array_ptr);
+
+    AddButton(CreateButton(Light_Green, BUTTON_BORDER, 
+              4 * SCREEN_WIDTH / 5,
+              7 * SCREEN_HEIGHT / 8,
+              STD_BUTTON_W, STD_BUTTON_H, "START", NULL),
+              mltplyr_config_button_array_ptr);    
+
+    inited = true;
+    }
 }
 
 void MultiplayerConfigEnter(void)

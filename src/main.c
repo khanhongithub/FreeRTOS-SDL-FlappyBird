@@ -88,18 +88,26 @@ int main(int argc, char *argv[])
     if(restart_signal_singleplayer == NULL) {
         DEBUG_PRINT("failed to create semaphore");
         goto err_semaphore;
-    }
-    
-    // counting Semaphore
-    
-    // add states    
-        // main menu
-        //AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
-        //AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
+    }    
+
+    // add states here   
+        // main menu:        
+
+        #if 0 // switch between sinleplayer/cheatmenu and muliplayerconfig
         
-        // multiplayer  
+        //cheatmenu:
+        AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
+        
+        // sinpleplayer:
+        AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
+        
+        #else
+
+        // multiplayer config:  
         AddState("MultiplayerConfig", MultiplayerConfigEnter, 
                  MultiplayerConfigRun, MultiplayerConfigExit);
+        #endif
+        
     // create statemachine
 
     #if 1
