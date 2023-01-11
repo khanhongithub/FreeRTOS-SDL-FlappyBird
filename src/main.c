@@ -34,6 +34,7 @@
 #include "cheatmenu.h"
 #include "multiplayer_config.h"
 #include "multiplayer.h"
+#include "main_menu.h"
 
 // handles for all the tasks
 TaskHandle_t StatemachineTask = NULL;
@@ -91,22 +92,26 @@ int main(int argc, char *argv[])
     }    
 
     // add states here   
-        // main menu:        
+        // main menu:  
+        AddState("MainmenuTask", MenuTaskEnter, 
+                 MenuTaskRun, MenuTaskExit);      
 
-        #if 0 // switch between sinleplayer/cheatmenu and muliplayerconfig
-        
+       // #if 0 // switch between sinleplayer/cheatmenu and muliplayerconfig
+
         //cheatmenu:
         AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
         
         // sinpleplayer:
         AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
         
-        #else
+        //#else
 
         // multiplayer config:  
         AddState("MultiplayerConfig", MultiplayerConfigEnter, 
-                 MultiplayerConfigRun, MultiplayerConfigExit);
-        #endif
+        MultiplayerConfigRun, MultiplayerConfigExit);
+
+
+        //#endif
         
     // create statemachine
 
