@@ -29,7 +29,7 @@
 #include "gui.h"
 #include "multiplayer_config.h"
 
-#define RENDER_FREQUENCY pdMS_TO_TICKS(5)
+#define MAINMENU_FREQUENCY pdMS_TO_TICKS(10)
 
 TaskHandle_t   MenuTask = NULL;
 
@@ -43,12 +43,22 @@ image_handle_t multiplayer_sprite = NULL;
 image_handle_t flappydoge_sprite = NULL;
 
 
-void MultiplayerConfigMenu(button_t *_local_instance_)
+void MultiplayerConfigMode(button_t *_local_instance_)
 {
    SetNextState(3);
 //   MultiplayerConfigEnter();
 }
+void Cheats(button_t *_local_instance_)
+{
+   SetNextState(1);
+//   MultiplayerConfigEnter();
+}
 
+void SinglePlayerMode(button_t *_local_instance_)
+{
+   SetNextState(2);
+//   MultiplayerConfigEnter();
+}
 
 
 void DrawMenuScreen()
@@ -75,12 +85,17 @@ void DrawMenuScreen()
     AddButton(CreateButton(Blue, White, 
                                     SCREEN_WIDTH / 2,
                                     SCREEN_HEIGHT / 2,
-                                    150, 30, "Single Player", NULL),
+                                    150, 30, "Single Player", SinglePlayerMode),
                                     mainmenu_button_array_ptr);
     AddButton(CreateButton(Blue, White, 
                                     SCREEN_WIDTH / 2,
                                     SCREEN_HEIGHT / 2 + 100,
-                                    150, 30, "Multiplayer", MultiplayerConfigMenu),
+                                    150, 30, "Multiplayer", MultiplayerConfigMode),
+                                    mainmenu_button_array_ptr);
+    AddButton(CreateButton(Blue, White, 
+                                    SCREEN_WIDTH / 2,
+                                    SCREEN_HEIGHT / 2 + 200,
+                                    150, 30, "Cheat", Cheats),
                                     mainmenu_button_array_ptr);
     flappydoge_sprite = tumDrawLoadScaledImage(FLAPPYDOGE_SPRITE, 0.7);
     tumDrawLoadedImage(flappydoge_sprite,
@@ -135,7 +150,7 @@ void DrawMenuTask(void* pcParameters)
         // moving background regradless what happens
         // raed from queue  
         tumDrawUpdateScreen();
-        vTaskDelayUntil(&last_wake_time, RENDER_FREQUENCY);
+        vTaskDelayUntil(&last_wake_time, MAINMENU_FREQUENCY);
     }   
 }
 
