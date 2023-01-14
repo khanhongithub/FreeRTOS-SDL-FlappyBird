@@ -15,13 +15,15 @@
 #define GAMEOVER_BOX_HEIGHT_CONTENT (GAMEOVER_BOX_HEIGHT - 4)
 #define GAMEOVER_BOX_WIDTH_CONTENT  (GAMEOVER_BOX_WIDTH - 4)
 
-// todo: move these definitions to their own button C file
 #define INGAME_BUTTON_WIDTH 140
 #define INGAME_BUTTON_HEIGTH 30
 
 #define INGAME_BUTTON_CONTENT_WIDTH  (INGAME_BUTTON_WIDTH  - 4)
 #define INGAME_BUTTON_CONTENT_HEIGTH (INGAME_BUTTON_HEIGTH - 4)
 
+void DrawBackground(void);
+void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y);
+void InitDrawPlayersprite(void);
 
 void RendererEnter(void);
 void RendererRun(void);

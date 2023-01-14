@@ -20,6 +20,7 @@
 #include "TUM_Draw.h"
 #include "TUM_Event.h"
 #include "TUM_Sound.h"
+#include "TUM_Print.h"
 #include "TUM_Utils.h"
 #include "TUM_Font.h"
 
@@ -92,29 +93,20 @@ int main(int argc, char *argv[])
     }    
 
     // add states here   
-        // main menu:  
-        AddState("MainmenuTask", MenuTaskEnter, 
-                 MenuTaskRun, MenuTaskExit);      
-
-       // #if 0 // switch between sinleplayer/cheatmenu and muliplayerconfig
-
-        //cheatmenu:
-        AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
+        // main menu: index 0
+        AddState("MainmenuTask", MenuTaskEnter, MenuTaskRun, MenuTaskExit);
         
-        // sinpleplayer:
+        // sinpleplayer: index 1
         AddState("Singlplayer", SingleplayerEnter, SingleplayerRun, SingleplayerExit);
-        
-        //#else
 
-        // multiplayer config:  
+        // multiplayer config: index 2
         AddState("MultiplayerConfig", MultiplayerConfigEnter, 
         MultiplayerConfigRun, MultiplayerConfigExit);
 
-
-        //#endif
+        //cheatmenu: index 3
+        AddState("Cheatmenu", CheatmenuEnter, CheatmenuRun, CheatmenuExit);
         
     // create statemachine
-
     #if 1
     if(xTaskCreate(vStatemachineTask, "StatemachineTask", 
                    STATEMACHINE_STACK_SIZE, 

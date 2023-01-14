@@ -17,7 +17,6 @@
 #include "TUM_Font.h"
 #include "TUM_Print.h"
 
-#include "animations.h"
 #include "timef.h"
 
 #include "statemachine.h"
@@ -28,10 +27,9 @@
 #include "renderer.h"
 #include "cheatmenu.h"
 
-#define SINGLEPLAYER_FREQUENCY pdMS_TO_TICKS(10)
+#define SINGLEPLAYER_FREQUENCY pdMS_TO_TICKS(9)
 
 TaskHandle_t SingleplayerTask = NULL;
-
 
 public void SingleplayerEnter(void)
 {
@@ -45,9 +43,7 @@ public void SingleplayerEnter(void)
 }
 
 public void SingleplayerRun(void)
-{
-
-}
+{}
 
 public void SingleplayerExit(void)
 {
@@ -58,7 +54,6 @@ public void SingleplayerExit(void)
 
 public void vSingleplayerTask(void *pvParameters)
 {
-    // init, innit?
     reset:;
 
     static struct timespec the_time;
@@ -82,6 +77,7 @@ public void vSingleplayerTask(void *pvParameters)
     assert(scene_queue != NULL);
     
     data.player1_position = player_position;
+    data.gamer_over = false;
     xQueueOverwrite(scene_queue, &data);
 
     score = HighScore();
@@ -89,7 +85,6 @@ public void vSingleplayerTask(void *pvParameters)
     
     while(1) 
     {
-        tumEventFetchEvents(FETCH_EVENT_NO_GL_CHECK | FETCH_EVENT_NONBLOCK);
         data.gamer_over = false;
 
         /*
@@ -110,34 +105,33 @@ public void vSingleplayerTask(void *pvParameters)
         global_counter = collision_counter + gap_counter;
 
         // counting is done twice as fast other wise the game is too easy
-        gap_counter += 2 * (gap_counter < SPACE_BETWEEN);
-        collision_counter += 2 * ((collision_counter < (OBSTACLE_WIDTH * 
-                            STANDART_GRID_LENGTH) && gap_counter == SPACE_BETWEEN));
-
-        //printf("gap: %d, col: %d, glob: %d\n", 
-        //       gap_counter, collision_counter, global_counter);
-
-        /*
-        ██████╗ ██╗  ██╗██╗   ██╗███████╗██╗ ██████╗███████╗
-        ██╔══██╗██║  ██║╚██╗ ██╔╝██╔════╝██║██╔════╝██╔════╝
-        ██████╔╝███████║ ╚████╔╝ ███████╗██║██║     ███████╗
-        ██╔═══╝ ██╔══██║  ╚██╔╝  ╚════██║██║██║     ╚════██║
-        ██║     ██║  ██║   ██║   ███████║██║╚██████╗███████║
-        ╚═╝     ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝ ╚═════╝╚══════╝
-        */
+        if (gap_counter < SPACE_BETWEEN)
+        {
+            gap_counter += 2;
+        }
+        
+        if ((collision_counter < (OBSTACLE_WIDTH * 
+                STANDART_GRID_LENGTH) && gap_counter == SPACE_BETWEEN))
+        {        
+            collision_counter += 2;
+        }
+                
+        //physics
        
         // update player position when jumping
         if(xSemaphoreTake(buttons.lock, 0) == pdPASS) {
 
+            tumEventFetchEvents(FETCH_EVENT_NO_GL_CHECK | FETCH_EVENT_NONBLOCK);
             cur_SPACE = buttons.buttons[KEYCODE(SPACE)];
             flap = !prev_SPACE && cur_SPACE;
             prev_SPACE = cur_SPACE;
             xSemaphoreGive(buttons.lock);
+        }
 
-            data.jump = flap;
+        data.jump = flap;
             if(flap)
                 vertical_speed = -4.00;
-        }
+
         player_position += vertical_speed;
 
         // ensure player is within legal position
@@ -154,14 +148,8 @@ public void vSingleplayerTask(void *pvParameters)
         else {
             vertical_speed += GRAVITY;
         }
-        /*
-         ██████╗ ██████╗ ██╗     ██╗     ██╗███████╗██╗ ██████╗ ███╗   ██╗
-        ██╔════╝██╔═══██╗██║     ██║     ██║██╔════╝██║██╔═══██╗████╗  ██║
-        ██║     ██║   ██║██║     ██║     ██║███████╗██║██║   ██║██╔██╗ ██║
-        ██║     ██║   ██║██║     ██║     ██║╚════██║██║██║   ██║██║╚██╗██║
-        ╚██████╗╚██████╔╝███████╗███████╗██║███████║██║╚██████╔╝██║ ╚████║
-         ╚═════╝ ╚═════╝ ╚══════╝╚══════╝╚═╝╚══════╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝                                                   
-        */
+
+        // colision
 
         second_pos = (obstacle_field << 4) >> 12; // <- second pipe for collision
         // check if collision counter is running and first bit is 1
@@ -177,8 +165,11 @@ public void vSingleplayerTask(void *pvParameters)
             &&
             player_position + (PLAYER_RADIUS + 1) <= // bottom pipe
             (12 - (second_pos + 2)) * STANDART_GRID_LENGTH + (MID_GAP / 2)
-            && !ignore_collision; // bypass through cheatmenu
-                
+            && 
+            !ignore_collision // bypass through cheatmenu
+            &&
+            player_position + (PLAYER_RADIUS + 1) <= SCREEN_HEIGHT -FLOOR_HEIGTH;
+
             if(!no_collision) {
                 data.gamer_over = true;
             }
@@ -207,7 +198,7 @@ public void vSingleplayerTask(void *pvParameters)
             }
         }
             
-        // push over obstacle field and generate new obstacle
+        // generate new obstacle
         if(global_counter >= STANDART_GAP_DISTANCE * STANDART_GRID_LENGTH) {
             clock_gettime(CLOCK_REALTIME, &the_time);
             obstacle_field <<= 4;

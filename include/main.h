@@ -7,7 +7,7 @@ extern SemaphoreHandle_t restart_signal_singleplayer;
 #define DEBUG 0
 #if (DEBUG == 1)
     #define DEBUG_PRINT(msg, ...)\
-fprintf(stderr, "\n[DEBUG] " msg); 
+fprints(stderr, "\n[DEBUG] " msg); 
 #endif
 #if (DEBUG == 0)
     #define DEBUG_PRINT(msg) /**/ 

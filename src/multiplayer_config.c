@@ -360,12 +360,10 @@ void ReadIP(button_t *_local_instance_)
 
 void ExitMultiplayerConfig(button_t *_local_instance_)
 {
-    // this should go back into main menu
-    InputForIPStop();
-    exit(EXIT_SUCCESS);
+    SetNextState(0);
 }
 
-void MultiplayerInit(void) 
+void MultiplayerConfigInit(void) 
 {
     static bool inited = false;
 
@@ -442,7 +440,7 @@ void MultiplayerConfigEnter(void)
 
     if (!inited)
     {
-        MultiplayerInit();
+        MultiplayerConfigInit();
         inited = true;
     }
 }
@@ -463,6 +461,8 @@ void vMultiplayerConfigTask(void *pvArgs)
     TickType_t last_wake_time = xTaskGetTickCount();
     while (1)
     {
+        DEBUG_PRINT("MultiplayerConfig\n");
+
         tumDrawClear(Silver);
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
 

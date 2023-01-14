@@ -17,9 +17,6 @@
 #include "TUM_Utils.h"
 #include "TUM_Font.h"
 
-#include "animations.h"
-#include "timef.h"
-
 #include "statemachine.h"
 #include "main.h"
 #include "priorties.h"
@@ -58,7 +55,7 @@ bool ScoreLockInit(void)
 
 void ReturnToMenu(button_t *_local_instance_)
 { 
-    SetNextState(1);
+    SetNextState(0);
 }
 
 void CheatmenuEnter(void)
@@ -142,37 +139,37 @@ void vCheatmenuTask(void *pcParameters) {
     button_array_t cheat_menu_buttons = { .size = 0 };
     button_array_t *cheat_menu_buttons_ptr = &cheat_menu_buttons;
 
-    AddButton(CreateButton(Green, 0x552F05, 
+    AddButton(CreateButton(Green, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 - 30,
                                     150, 30, "Toggle Collision", ToggleCollision),
                                     cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     2 * SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 - 30,
                                     150, 30, "+ 1", IncreaseScoreBy1),
                                     cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     2 * SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2,
                                     150, 30, "+ 10", IncreaseScoreBy10),
                                     cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     2 * SCREEN_WIDTH / 3 + 150,
                                     SCREEN_HEIGHT / 2 - 30,
                                     150, 30, "+ 100", IncreaseScoreBy100),
                                     cheat_menu_buttons_ptr);
     
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     2 * SCREEN_WIDTH / 3 + 150,
                                     SCREEN_HEIGHT / 2,
                                     150, 30, "+ 1000", IncreaseScoreBy1000),
                                     cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 2,
                                     3 * SCREEN_HEIGHT / 4,
                                     150, 30, "Back", ReturnToMenu),

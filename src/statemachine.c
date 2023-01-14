@@ -14,6 +14,7 @@
 #include "TUM_Draw.h"
 #include "TUM_Event.h"
 #include "TUM_Sound.h"
+#include "TUM_Print.h"
 #include "TUM_Utils.h"
 #include "TUM_Font.h" 
     
@@ -73,6 +74,9 @@ short int GetNextState(void)
 
 bool SetNextState(short int next_state_to_be_set)
 {
+    #if DEBUG
+    fprints(stderr, "settingnext state to %d\n", next_state_to_be_set);
+    #endif
 
     if (xSemaphoreTake(next_state.lock, portMAX_DELAY)) {
         next_state.next_state = next_state_to_be_set;
@@ -93,7 +97,9 @@ bool OneIfStateChanged(void)
         change_state = prev_state != cur_state;
         prev_state = cur_state; 
         xSemaphoreGive(next_state.lock);
-        //fprints(stderr, "=======pre: %d cur: %d\n", prev_state, cur_state);
+        #if DEBUG
+        fprints(stderr, "=======pre: %d cur: %d\n", prev_state, cur_state);
+        #endif
     }
     return change_state;
 }
@@ -107,9 +113,9 @@ bool AddState(char *task_name,
     if(!ret)
         return false;
 
-    (ret -> enter) = enter;
-    (ret -> run) = run;
-    (ret -> exit) = exit;
+    (ret->enter) = enter;
+    (ret->run) = run;
+    (ret->exit) = exit;
     
     // pointer to first element of statearray = firstp
     state_array.states = realloc(state_array.states, 
@@ -122,7 +128,6 @@ bool AddState(char *task_name,
 
 void vStatemachineTask(void *pvParameters)
 {
-    // Initialise the xLastWakeTime variable with the current time.
 
     bool state_changed = OneIfStateChanged();
     static int short current_state = 0; 
@@ -137,7 +142,7 @@ void vStatemachineTask(void *pvParameters)
         xGetButtonInput();
         if(state_array.state_counter == 0) {
             DEBUG_PRINT("no states found\n");
-            //exit(EXIT_SUCCESS);
+            // exit(EXIT_SUCCESS);
             goto start;
         }
         
@@ -146,10 +151,14 @@ void vStatemachineTask(void *pvParameters)
 
         if (current_state != GetNextState())
         {
-            //fprints(stderr, "#####next state is differnet that current state\n");            
+            #if DEBUG
+            fprints(stderr, "#####next state is differnet that current state\n");            
+            #endif
             state_array.states[current_state] -> exit_flag = true;
-            //fprints(stderr, "\n exiting\n exit flag of processs:%d is %d\n",
-            //current_state, state_array.states[current_state] -> exit_flag);
+            #if DEBUG
+            fprints(stderr, "\n exiting\n exit flag of processs:%d is %d\n",
+            current_state, state_array.states[current_state] -> exit_flag);
+            #endif
         }
 
         // main state machine
@@ -171,12 +180,16 @@ void vStatemachineTask(void *pvParameters)
             state_array.states[current_state] -> exit_flag = false;
             state_array.states[current_state] -> init_flag = false;
         
-            current_state = GetNextState();    
-            //fprints(stderr, "-----new state: %d\n", current_state);
-            //fprints(stderr, "///////exiting\n");
+            current_state = GetNextState();   
+            #if DEBUG 
+            fprints(stderr, "-----new state: %d\n", current_state);
+            fprints(stderr, "///////exiting\n");
+            #endif
 
             if(current_state >= state_array.state_counter) {
-                DEBUG_PRINT("reached end of state list, returning to start \n");
+                #if DEBUG
+                fprints(stderr, "reached end of state list, returning to start \n");
+                #endif
                 current_state = 0;
             }
         }   
