@@ -1,3 +1,2 @@
 /bin
-
-bin/FreeRTOS_Emulator
+/build
