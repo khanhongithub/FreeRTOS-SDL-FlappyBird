@@ -1,4 +1,5 @@
-bin
-external
-share
+/CmakeFiles
+*.json
+*.txt
+Makefile
 DartConfiguration.tcl
