@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <inttypes.h>
 #include <assert.h>
 
 #include "FreeRTOS.h"
@@ -28,8 +26,15 @@
 
 TaskHandle_t CheatmenuTask = NULL;
 
+image_handle_t cheatmenu_background_sprite = NULL;
+
 enabled_cheats_t cheats = { .ignore_collision = false };
 score_t global_score = { .globabl_highscore = 0 };
+
+void DrawCheatmenuBackground(void)
+{
+    tumDrawScaledImage(cheatmenu_background_sprite, 0, SCREEN_HEIGHT, 1.00);
+}
 
 bool CheatLockInit(void)
 {
@@ -66,6 +71,11 @@ void CheatmenuEnter(void)
                    &CheatmenuTask) != pdPASS) {
         DEBUG_PRINT("failed to cheatmenu task\n");
     }
+    
+    if (cheatmenu_background_sprite == NULL)
+    {
+        cheatmenu_background_sprite = tumDrawLoadScaledImage("cheat_back.png", 1.00);
+    }
 }
 
 void CheatmenuRun(void)
@@ -101,7 +111,6 @@ int HighScore(void) {
     return cheat_high_score;
 }
 
-
 void ToggleCollision(button_t *_local_instance_)
 {
     if (xSemaphoreTake(cheats.lock, 0)) {
@@ -136,50 +145,62 @@ void IncreaseScoreBy1000(button_t *_local_instance_) {
 
 void vCheatmenuTask(void *pcParameters) {
 
+    static bool inited = false;
     button_array_t cheat_menu_buttons = { .size = 0 };
     button_array_t *cheat_menu_buttons_ptr = &cheat_menu_buttons;
 
-    AddButton(CreateButton(Green, BUTTON_BORDER, 
-                                    SCREEN_WIDTH / 3,
-                                    SCREEN_HEIGHT / 2 - 30,
-                                    150, 30, "Toggle Collision", ToggleCollision),
-                                    cheat_menu_buttons_ptr);
+    if (!inited)
+    {    
+        AddButton(CreateButton(Green, BUTTON_BORDER, 
+                               SCREEN_WIDTH / 3,
+                               SCREEN_HEIGHT / 2 - 30,
+                               STD_BUTTON_W, STD_BUTTON_H, "Toggle Collision", 
+                               ToggleCollision),
+                               cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                    2 * SCREEN_WIDTH / 3,
-                                    SCREEN_HEIGHT / 2 - 30,
-                                    150, 30, "+ 1", IncreaseScoreBy1),
-                                    cheat_menu_buttons_ptr);
+        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                               2 * SCREEN_WIDTH / 3,
+                               SCREEN_HEIGHT / 2 - 30,
+                               STD_BUTTON_W, STD_BUTTON_H, "+ 1", 
+                               IncreaseScoreBy1),
+                               cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                    2 * SCREEN_WIDTH / 3,
-                                    SCREEN_HEIGHT / 2,
-                                    150, 30, "+ 10", IncreaseScoreBy10),
-                                    cheat_menu_buttons_ptr);
+        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                               2 * SCREEN_WIDTH / 3,
+                               SCREEN_HEIGHT / 2,
+                               STD_BUTTON_W, STD_BUTTON_H, "+ 10", 
+                               IncreaseScoreBy10),
+                               cheat_menu_buttons_ptr);
 
-    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                    2 * SCREEN_WIDTH / 3 + 150,
-                                    SCREEN_HEIGHT / 2 - 30,
-                                    150, 30, "+ 100", IncreaseScoreBy100),
-                                    cheat_menu_buttons_ptr);
+        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                               2 * SCREEN_WIDTH / 3 + 150,
+                               SCREEN_HEIGHT / 2 - 30,
+                               STD_BUTTON_W, STD_BUTTON_H, "+ 100", 
+                               IncreaseScoreBy100),
+                               cheat_menu_buttons_ptr);
+
+        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                                2 * SCREEN_WIDTH / 3 + 150,
+                                SCREEN_HEIGHT / 2,
+                                STD_BUTTON_W, STD_BUTTON_H, "+ 1000", 
+                                IncreaseScoreBy1000),
+                                cheat_menu_buttons_ptr);
+
+        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                               SCREEN_WIDTH / 2,
+                               3 * SCREEN_HEIGHT / 4,
+                               STD_BUTTON_W, STD_BUTTON_H, "Back", 
+                               ReturnToMenu),
+                               cheat_menu_buttons_ptr);
+        inited = true;
+    }
     
-    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                    2 * SCREEN_WIDTH / 3 + 150,
-                                    SCREEN_HEIGHT / 2,
-                                    150, 30, "+ 1000", IncreaseScoreBy1000),
-                                    cheat_menu_buttons_ptr);
-
-    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                    SCREEN_WIDTH / 2,
-                                    3 * SCREEN_HEIGHT / 4,
-                                    150, 30, "Back", ReturnToMenu),
-                                    cheat_menu_buttons_ptr);
-
     TickType_t last_wake_time = xTaskGetTickCount();
     tumDrawBindThread();
     while(1)
     {
         tumDrawClear(White);
+        DrawCheatmenuBackground();
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
         
         if (xSemaphoreTake(cheats.lock, 0) == pdPASS) {

@@ -4,6 +4,9 @@
 #define BACKGROUND_SPRITE "../resources/background.jpg"
 #define GAME_OVER_SPRITE "../resources/gameover2.png"
 
+
+#define MULTI_BACKGROUND "../resources/multi_back.png"
+
 #define JUMP_ANIMATION_SPRITE "../resources/doge_animation1.png"
 
 #define DEATH_SOUND "../resources/waveforms/death.wav"

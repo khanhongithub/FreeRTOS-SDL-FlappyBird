@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #endif
 
+#define CHEAT_BACKGROUND "cheat_back.png"
+
 typedef struct score_s {
     int globabl_highscore;
     SemaphoreHandle_t lock;

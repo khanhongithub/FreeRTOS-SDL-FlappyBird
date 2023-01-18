@@ -208,6 +208,7 @@ FILE *tumUtilFindResource(char *resource_name, const char *mode)
 char *tumUtilFindResourcePath(char *resource_name)
 {
     if (!resource_name) {
+        fprints(stderr, "%s\n", resource_name);
         PRINT_ERROR("Cannot find invalid resource name");
         return NULL;
     }
