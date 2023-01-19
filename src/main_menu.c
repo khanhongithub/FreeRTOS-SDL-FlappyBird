@@ -126,7 +126,8 @@ void vDrawMenuTask(void* pcParameters)
         DrawBackground();
         DrawMenuScreen();
 
-        DrawPlayer(last_wake_time_animation, SCREEN_WIDTH / 5, 11 * SCREEN_HEIGHT / 15);
+        DrawPlayer(last_wake_time_animation, SCREEN_WIDTH / 5, 
+                    11 * SCREEN_HEIGHT / 15, false, 0);
         last_wake_time_animation = xTaskGetTickCount();
 
         UpdateButtons(mainmenu_button_array_ptr); 

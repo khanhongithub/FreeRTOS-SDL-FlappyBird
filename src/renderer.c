@@ -25,6 +25,7 @@
 
 #define RENDER_FREQUENCY pdMS_TO_TICKS(5)
 #define USUAL_POS -1
+#define SPRITE_PADDING 8
 
 #define BUTTON_DEATH_W 100
 #define BUTTON_DEATH_H 30
@@ -36,6 +37,7 @@ image_handle_t pipe_bottom = NULL;
 image_handle_t pipe_top = NULL;
 image_handle_t background_sprite = NULL;
 image_handle_t gameover_sprite = NULL;
+image_handle_t doge_death_sprite = NULL;
 
 void DrawBackground(void)
 {
@@ -171,16 +173,31 @@ void InitDrawPlayersprite(void)
     }
 }
 
-void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y)
+void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y, bool dead,
+                short int speed)
 {
     if (player_x == -1)
     {
         player_x = FIRST_POSITION + 3 * PLAYER_RADIUS + 3 * OBSTACLE_WIDTH + 5;
     }
-    tumDrawAnimationDrawFrame(
-        forward_sequence,
-        xTaskGetTickCount() - xLastFrameTime,
-        player_x, player_y - 8 - 2 * PLAYER_RADIUS);
+
+    if (doge_death_sprite == NULL)
+    {
+        doge_death_sprite = tumDrawLoadImage(DOGE_DEATH);
+    }
+
+    if (dead)
+    {
+        tumDrawLoadedImage(doge_death_sprite, player_x, 
+                            player_y - SPRITE_PADDING - 2 * PLAYER_RADIUS);
+    }
+    else
+    {
+        tumDrawAnimationDrawFrame(forward_sequence,
+                                  xTaskGetTickCount() - xLastFrameTime, player_x, 
+                                  player_y - SPRITE_PADDING - 2 * PLAYER_RADIUS);
+
+    }
 }
 
 void DrawPlayerHitBox(short int player_height, int color)
@@ -284,7 +301,7 @@ void vRendererTask(void* pcParameters)
 
         DrawObstacle(FOURTH_POSITION, (buffer.obstacles & 0x000F), 
                      buffer.global_counter);
-        #if DEBUG
+        #if 1
             DrawPlayerHitBox(buffer.player1_position, Orange);
         #endif
 
@@ -300,7 +317,8 @@ void vRendererTask(void* pcParameters)
                     SCREEN_HEIGHT / 20 + 15,
                     Black);
         
-        DrawPlayer(last_wake_time_animation, USUAL_POS, buffer.player1_position); 
+        DrawPlayer(last_wake_time_animation, USUAL_POS, buffer.player1_position, 
+                    buffer.gamer_over, 0); 
         last_wake_time_animation = xTaskGetTickCount();
 
         if(buffer.jump && !tumSoundLoadUserSample(JUMP_SOUND)) {

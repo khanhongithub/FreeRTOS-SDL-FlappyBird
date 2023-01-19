@@ -4,6 +4,8 @@
 #define BACKGROUND_SPRITE "../resources/background.jpg"
 #define GAME_OVER_SPRITE "../resources/gameover2.png"
 
+#define DOGE_DEATH "../resources/doge_death.png"
+
 #define JUMP_ANIMATION_SPRITE "../resources/doge_animation1.png"
 
 #define DEATH_SOUND "../resources/waveforms/death.wav"
@@ -22,7 +24,8 @@
 #define INGAME_BUTTON_CONTENT_HEIGTH (INGAME_BUTTON_HEIGTH - 4)
 
 void DrawBackground(void);
-void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y);
+void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y, bool dead,
+                short int speed);
 void InitDrawPlayersprite(void);
 
 void RendererEnter(void);
