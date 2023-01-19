@@ -67,7 +67,7 @@ public void vSingleplayerTask(void *pvParameters)
     bool cur_SPACE, prev_SPACE, flap = false;
     short int gap_counter = 0;
     short int obstacle_field = 0x0000;
-    char second_pos = 0;
+    char opening_mid = 0;
     double player_position = SCREEN_HEIGHT / 2;
     double vertical_speed = 0;
     TickType_t last_wake_time = xTaskGetTickCount();
@@ -150,25 +150,27 @@ public void vSingleplayerTask(void *pvParameters)
         }
 
         // colision
+        if (player_position + (PLAYER_RADIUS + 1) >= SCREEN_HEIGHT - FLOOR_HEIGTH)
+        {
+            data.gamer_over = true;
+        }
 
-        second_pos = (obstacle_field << 4) >> 12; // <- second pipe for collision
+        opening_mid = (obstacle_field << 4) >> 12; // <- second pipe for collision
         // check if collision counter is running and first bit is 1
         if ( !ignore_collision && (collision_counter != 0 
            || gap_counter >= SPACE_BETWEEN - (2 * PLAYER_RADIUS)) 
-           && ((second_pos & 0b1000) != 0)) { // <- check if obstacle visible
+           && ((opening_mid & 0b1000) != 0)) { // <- check if obstacle visible
 
-            second_pos &= 0b0111; // <- extracts obstacle type
+            opening_mid &= 0b0111; // <- extracts obstacle type
 
             bool no_collision = 
-            (12 - (second_pos + 2)) * STANDART_GRID_LENGTH - (MID_GAP / 2) <= 
+            (FLOOR_HEIGTH - opening_mid) * STANDART_GRID_LENGTH - (MID_GAP / 2) <= 
             player_position - (PLAYER_RADIUS + 1) // top pipe
             &&
             player_position + (PLAYER_RADIUS + 1) <= // bottom pipe
-            (12 - (second_pos + 2)) * STANDART_GRID_LENGTH + (MID_GAP / 2)
+            (FLOOR_HEIGTH - opening_mid) * STANDART_GRID_LENGTH + (MID_GAP / 2)
             && 
-            !ignore_collision // bypass through cheatmenu
-            &&
-            player_position + (PLAYER_RADIUS + 1) <= SCREEN_HEIGHT -FLOOR_HEIGTH;
+            !ignore_collision; // bypass through cheatmenu;
 
             if(!no_collision) {
                 data.gamer_over = true;

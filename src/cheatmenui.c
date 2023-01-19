@@ -31,11 +31,6 @@ image_handle_t cheatmenu_background_sprite = NULL;
 enabled_cheats_t cheats = { .ignore_collision = false };
 score_t global_score = { .globabl_highscore = 0 };
 
-void DrawCheatmenuBackground(void)
-{
-    tumDrawScaledImage(cheatmenu_background_sprite, 0, SCREEN_HEIGHT, 1.00);
-}
-
 bool CheatLockInit(void)
 {
     cheats.lock = xSemaphoreCreateMutex();
@@ -58,6 +53,15 @@ bool ScoreLockInit(void)
     return true;
 }
 
+void DrawCheatmenuBackground(void)
+{
+    if (cheatmenu_background_sprite == NULL)
+    {
+        cheatmenu_background_sprite = tumDrawLoadImage(CHEAT_BACKGROUND);
+    }
+    tumDrawLoadedImage(cheatmenu_background_sprite, 0, 0);
+}
+
 void ReturnToMenu(button_t *_local_instance_)
 { 
     SetNextState(0);
@@ -70,11 +74,6 @@ void CheatmenuEnter(void)
                    NULL, mainGENERIC_PRIORITY, 
                    &CheatmenuTask) != pdPASS) {
         DEBUG_PRINT("failed to cheatmenu task\n");
-    }
-    
-    if (cheatmenu_background_sprite == NULL)
-    {
-        cheatmenu_background_sprite = tumDrawLoadScaledImage("cheat_back.png", 1.00);
     }
 }
 
@@ -129,6 +128,14 @@ void ChangeScore(short int delta)
     }
 }
 
+void ResetScore(button_t *_locale_instance_)
+{
+    if (xSemaphoreTake(global_score.lock, 0) == pdPASS) {
+        global_score.globabl_highscore = 0;
+        xSemaphoreGive(global_score.lock);
+    }
+}
+
 void IncreaseScoreBy1(button_t *_local_instance_) {
     ChangeScore(1);
 }
@@ -136,9 +143,11 @@ void IncreaseScoreBy1(button_t *_local_instance_) {
 void IncreaseScoreBy10(button_t *_local_instance_) {
     ChangeScore(10);
 }
+
 void IncreaseScoreBy100(button_t *_local_instance_) {
     ChangeScore(100);
 }
+
 void IncreaseScoreBy1000(button_t *_local_instance_) {
     ChangeScore(1000);
 }
@@ -146,49 +155,56 @@ void IncreaseScoreBy1000(button_t *_local_instance_) {
 void vCheatmenuTask(void *pcParameters) {
 
     static bool inited = false;
-    button_array_t cheat_menu_buttons = { .size = 0 };
-    button_array_t *cheat_menu_buttons_ptr = &cheat_menu_buttons;
+    static button_array_t cheat_menu_buttons = { .size = 0 };
+    static button_array_t *cheat_menu_buttons_ptr = &cheat_menu_buttons;
 
     if (!inited)
     {    
-        AddButton(CreateButton(Green, BUTTON_BORDER, 
-                               SCREEN_WIDTH / 3,
-                               SCREEN_HEIGHT / 2 - 30,
+        AddButton(CreateButton(Green, White, 
+                               SCREEN_WIDTH / 5,
+                               SCREEN_HEIGHT / 3,
                                STD_BUTTON_W, STD_BUTTON_H, "Toggle Collision", 
                                ToggleCollision),
                                cheat_menu_buttons_ptr);
 
-        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                               2 * SCREEN_WIDTH / 3,
-                               SCREEN_HEIGHT / 2 - 30,
+        AddButton(CreateButton(Skyblue, Silver, 
+                               4 * SCREEN_WIDTH / 5,
+                               SCREEN_HEIGHT / 3,
                                STD_BUTTON_W, STD_BUTTON_H, "+ 1", 
                                IncreaseScoreBy1),
                                cheat_menu_buttons_ptr);
 
-        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                               2 * SCREEN_WIDTH / 3,
-                               SCREEN_HEIGHT / 2,
+        AddButton(CreateButton(Skyblue, Silver, 
+                               4 * SCREEN_WIDTH / 5,
+                               SCREEN_HEIGHT / 3 + 50,
                                STD_BUTTON_W, STD_BUTTON_H, "+ 10", 
                                IncreaseScoreBy10),
                                cheat_menu_buttons_ptr);
 
-        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                               2 * SCREEN_WIDTH / 3 + 150,
-                               SCREEN_HEIGHT / 2 - 30,
+        AddButton(CreateButton(Skyblue, Silver, 
+                               4 * SCREEN_WIDTH / 5,
+                               SCREEN_HEIGHT / 3 + 100,
                                STD_BUTTON_W, STD_BUTTON_H, "+ 100", 
                                IncreaseScoreBy100),
                                cheat_menu_buttons_ptr);
 
-        AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                2 * SCREEN_WIDTH / 3 + 150,
-                                SCREEN_HEIGHT / 2,
+        AddButton(CreateButton(Skyblue, Silver, 
+                                4 * SCREEN_WIDTH / 5,
+                                SCREEN_HEIGHT / 3 + 150,
                                 STD_BUTTON_W, STD_BUTTON_H, "+ 1000", 
                                 IncreaseScoreBy1000),
                                 cheat_menu_buttons_ptr);
 
+        AddButton(CreateButton(Skyblue, Silver, 
+                                4 * SCREEN_WIDTH / 5,
+                                SCREEN_HEIGHT / 3 + 200,
+                                STD_BUTTON_W, STD_BUTTON_H, "reset", 
+                                ResetScore),
+                                cheat_menu_buttons_ptr);
+
         AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                SCREEN_WIDTH / 2,
-                               3 * SCREEN_HEIGHT / 4,
+                               7 * SCREEN_HEIGHT / 8,
                                STD_BUTTON_W, STD_BUTTON_H, "Back", 
                                ReturnToMenu),
                                cheat_menu_buttons_ptr);
@@ -205,11 +221,11 @@ void vCheatmenuTask(void *pcParameters) {
         
         if (xSemaphoreTake(cheats.lock, 0) == pdPASS) {
             if (cheats.ignore_collision) 
-                tumDrawCenteredText("Collision: Off", SCREEN_WIDTH / 3, 
-                                    SCREEN_HEIGHT / 2, Black);
+                tumDrawCenteredText("Collision: Off", SCREEN_WIDTH / 5, 
+                                    SCREEN_HEIGHT / 3 + 50, White);
             else
-                tumDrawCenteredText("Collision: On ", SCREEN_WIDTH / 3, 
-                SCREEN_HEIGHT / 2, Black);
+                tumDrawCenteredText("Collision: On ", SCREEN_WIDTH / 5, 
+                                    SCREEN_HEIGHT / 3 + 50, White);
             xSemaphoreGive(cheats.lock);
         }
         
@@ -218,8 +234,8 @@ void vCheatmenuTask(void *pcParameters) {
             sprintf(score_string, "Highscore: %d", global_score.globabl_highscore);
             
             tumDrawCenteredText(score_string,
-                                SCREEN_WIDTH / 2 + 270,
-                                SCREEN_HEIGHT / 2 + 50, Black);
+                                SCREEN_WIDTH / 5,
+                                SCREEN_HEIGHT / 3 + 100, White );
             xSemaphoreGive(global_score.lock);
         }    
 

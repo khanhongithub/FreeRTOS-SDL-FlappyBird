@@ -26,6 +26,9 @@
 #define RENDER_FREQUENCY pdMS_TO_TICKS(5)
 #define USUAL_POS -1
 
+#define BUTTON_DEATH_W 100
+#define BUTTON_DEATH_H 30
+
 TaskHandle_t RenderingTask = NULL;
 
 image_handle_t player_sprite = NULL;
@@ -39,20 +42,19 @@ void DrawBackground(void)
     short int bg_width = 0;
     static float counter = 0; 
 
-    if(background_sprite == NULL) {
+    if (background_sprite == NULL) {
         background_sprite = tumDrawLoadScaledImage(BACKGROUND_SPRITE, 1.15);
         bg_width = tumDrawGetLoadedImageWidth(background_sprite);
     }
+
     bg_width = tumDrawGetLoadedImageWidth(background_sprite);
+    
     // counter has length of image width for seemless texture scrolling
     counter = counter + 0.25;
     counter *= (counter <= bg_width);
     
-    tumDrawLoadedImage(background_sprite, - counter, 0);
-    tumDrawLoadedImage(background_sprite, - counter + bg_width, 0);   
-    tumDrawLoadedImage(background_sprite, - counter + 2 * bg_width, 0);
-    tumDrawLoadedImage(background_sprite, - counter + 3 * bg_width, 0);  
-    tumDrawLoadedImage(background_sprite, - counter + 4 * bg_width, 0);    
+    for (int i = 0; i < 5; i++)
+        tumDrawLoadedImage(background_sprite, - counter + i * bg_width, 0);
 }
 
 void DrawObstacle(short int x_position, char type, short int counter)
@@ -81,7 +83,6 @@ void DrawObstacle(short int x_position, char type, short int counter)
     // get obstacle
     top_length = 11 * STANDART_GRID_LENGTH - ((type + 1) * STANDART_GRID_LENGTH); 
     bottom_length = (type + 2) * STANDART_GRID_LENGTH;
-    // printf("tl: %d, t: %d\n", top_length, type);
     
     // top pipe  
     if((image_height_top_pipe = tumDrawGetLoadedImageHeight(pipe_top)) != -1) {
@@ -179,19 +180,16 @@ void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y)
     tumDrawAnimationDrawFrame(
         forward_sequence,
         xTaskGetTickCount() - xLastFrameTime,
-        player_x, player_y - 3 - 2 * PLAYER_RADIUS);
+        player_x, player_y - 8 - 2 * PLAYER_RADIUS);
 }
 
 void DrawPlayerHitBox(short int player_height, int color)
 {
-    if(player_sprite == NULL) 
-    {
-        player_sprite = tumDrawLoadScaledImage(PLAYER_SPRITE, 0.09);
-    }
-
-    tumDrawCircle(FIRST_POSITION + PLAYER_RADIUS + 
-                  OBSTACLE_WIDTH * STANDART_GRID_LENGTH, 
-                   player_height, PLAYER_RADIUS, Orange);
+    tumDrawFilledBox(FIRST_POSITION + 
+                     OBSTACLE_WIDTH * STANDART_GRID_LENGTH,
+                     player_height - PLAYER_RADIUS , 
+                     2 * PLAYER_RADIUS, 2 * PLAYER_RADIUS,
+                     Red);
 }
 
 void RendererEnter(void)
@@ -242,15 +240,17 @@ void vRendererTask(void* pcParameters)
     button_array_t gameover_buttons = { .size = 0 };
     button_array_t *gameover_buttons_ptr = &gameover_buttons;
     
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 - 30,
-                                    100, 30, "Restart", RestarGameSinglePlayer),
+                                    BUTTON_DEATH_W, BUTTON_DEATH_H, "Restart", 
+                                    RestarGameSinglePlayer),
                                     gameover_buttons_ptr);
-    AddButton(CreateButton(0xe6611e, 0x552F05, 
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 + 30,
-                                    100, 30, "Exit", ExitSinglePlayer), 
+                                    BUTTON_DEATH_W, BUTTON_DEATH_H, "Exit", 
+                                    ExitSinglePlayer), 
                                     gameover_buttons_ptr);
 
     TickType_t last_wake_time = xTaskGetTickCount();
@@ -282,7 +282,7 @@ void vRendererTask(void* pcParameters)
         DrawObstacle(THIRD_POSITION, (buffer.obstacles & 0x00F0) >> 4, 
                      buffer.global_counter);
 
-        DrawObstacle(FOURTH_POSITION, (buffer.obstacles & 0x000F) >> 0, 
+        DrawObstacle(FOURTH_POSITION, (buffer.obstacles & 0x000F), 
                      buffer.global_counter);
         #if DEBUG
             DrawPlayerHitBox(buffer.player1_position, Orange);

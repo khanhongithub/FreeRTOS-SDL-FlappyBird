@@ -16,6 +16,7 @@
 #include "TUM_Print.h"
 #include "TUM_Font.h"
 
+
 #include "statemachine.h"
 #include "main.h"
 #include "priorties.h"
@@ -23,58 +24,8 @@
 #include "gui.h"
 #include "resources.h"
 
-#define RISING_EDGE_VARS(x) \
-        static bool cur_##x, prev_##x; \
-        static bool rising_edge_##x = false;
-
-#define RISING_EDGE(x) \
-    if (xSemaphoreTake(buttons.lock, 0) == pdPASS) \
-    { \
-        cur_##x = buttons.buttons[KEYCODE(x)]; \
-        rising_edge_##x = !prev_##x && cur_##x; \
-        prev_##x = cur_##x; \
-        xSemaphoreGive(buttons.lock); \
-    }
-
-    #define IP_INPUT_DEBOUNCE_KEYS() \
-    RISING_EDGE(0); \
-    RISING_EDGE(1); \
-    RISING_EDGE(2); \
-    RISING_EDGE(3); \
-    RISING_EDGE(4); \
-    RISING_EDGE(5); \
-    RISING_EDGE(6); \
-    RISING_EDGE(7); \
-    RISING_EDGE(8); \
-    RISING_EDGE(9); \
-    RISING_EDGE(PERIOD)
-
-    #define IP_INPUT_GENERATE_DEBOUNCING_VARS() \
-    RISING_EDGE_VARS(0); \
-    RISING_EDGE_VARS(1); \
-    RISING_EDGE_VARS(2); \
-    RISING_EDGE_VARS(3); \
-    RISING_EDGE_VARS(4); \
-    RISING_EDGE_VARS(5); \
-    RISING_EDGE_VARS(6); \
-    RISING_EDGE_VARS(7); \
-    RISING_EDGE_VARS(8); \
-    RISING_EDGE_VARS(9); \
-    RISING_EDGE_VARS(PERIOD)
-
-#define IF_PRESSED_APPEND(key, ip) \
-do { if (rising_edge_##key) {   \
-    done = IPCreate(key + '0', ip); \
-}} while (0)
-
-
 #define MULTIPLAYERCONFIG_FREQUENCY pdMS_TO_TICKS(35)
 #define IP_ENTERING_FREQUENCY pdMS_TO_TICKS(20)
-
-#define untouched 0
-#define in_progress 1
-#define correct 2
-#define incorrect 3
 
 #define BOTTOM_BOX_WIDTH SCREEN_WIDTH
 #define BOTTOM_BOX_HEIGHT 2 * SCREEN_HEIGHT / 9
@@ -98,6 +49,8 @@ multiplayer_config_t mltplyr_cfg = { .own_ip = "127.0.0.1\0" };
 
 button_array_t mltplyr_config_button_array = { .size = 0 };
 button_array_t *mltplyr_config_button_array_ptr = &mltplyr_config_button_array;
+
+image_handle_t multiplayerconfig_background_sprite = NULL;
 
 TaskHandle_t MultiplayerConfigTask = NULL;
 TaskHandle_t IPEnteringTask = NULL;
@@ -142,18 +95,17 @@ void vInputForIP(void *pvParameters)
             vTaskDelete(NULL);
         }
         
-
         // check for rising edges and input them into IP constructer
-        IF_PRESSED_APPEND(1, current_input_ip);
-        IF_PRESSED_APPEND(2, current_input_ip);
-        IF_PRESSED_APPEND(3, current_input_ip);
-        IF_PRESSED_APPEND(4, current_input_ip);
-        IF_PRESSED_APPEND(5, current_input_ip);
-        IF_PRESSED_APPEND(6, current_input_ip);
-        IF_PRESSED_APPEND(7, current_input_ip);
-        IF_PRESSED_APPEND(8, current_input_ip);
-        IF_PRESSED_APPEND(9, current_input_ip);
-        IF_PRESSED_APPEND(0, current_input_ip);
+        IF_PRESSED_APPEND(1 to current_input_ip);
+        IF_PRESSED_APPEND(2 to current_input_ip);
+        IF_PRESSED_APPEND(3 to current_input_ip);
+        IF_PRESSED_APPEND(4 to current_input_ip);
+        IF_PRESSED_APPEND(5 to current_input_ip);
+        IF_PRESSED_APPEND(6 to current_input_ip);
+        IF_PRESSED_APPEND(7 to current_input_ip);
+        IF_PRESSED_APPEND(8 to current_input_ip);
+        IF_PRESSED_APPEND(9 to current_input_ip);
+        IF_PRESSED_APPEND(0 to current_input_ip);
 
         strcpy(ip_button_info.ip_button_ptr->button_text, current_input_ip);
         
@@ -180,6 +132,16 @@ void vInputForIP(void *pvParameters)
         vTaskDelayUntil(&last_wake_time, IP_ENTERING_FREQUENCY);
     }
     
+}
+
+void MultiplayerConfigInit(void)
+{
+    static bool inited = false;
+    if (!inited)
+    {
+        mltplyr_cfg.lock = xSemaphoreCreateMutex();
+        inited = true;
+    }
 }
 
 void InitIPButtonInfo(void) {
@@ -363,11 +325,9 @@ void ExitMultiplayerConfig(button_t *_local_instance_)
     SetNextState(0);
 }
 
-void MultiplayerConfigInit(void) 
+void MultiplayerConfigMenuInit(void) 
 {
     static bool inited = false;
-
-    InitIPButtonInfo();
 
     if (!inited) { // very important this isnt run more than once      
 
@@ -427,6 +387,15 @@ void MultiplayerConfigInit(void)
     }
 }
 
+void DrawMultiplayerConfigBackground(void)
+{
+    if (multiplayerconfig_background_sprite == NULL)
+    {
+        multiplayerconfig_background_sprite = tumDrawLoadImage(MULTI_BACKGROUND);
+    }
+    tumDrawLoadedImage(multiplayerconfig_background_sprite, 0, 0);
+}
+
 void MultiplayerConfigEnter(void)
 {
     static bool inited = false;
@@ -441,6 +410,8 @@ void MultiplayerConfigEnter(void)
     if (!inited)
     {
         MultiplayerConfigInit();
+        MultiplayerConfigMenuInit();
+        InitIPButtonInfo();
         inited = true;
     }
 }
@@ -463,7 +434,7 @@ void vMultiplayerConfigTask(void *pvArgs)
     {
         DEBUG_PRINT("MultiplayerConfig\n");
 
-        tumDrawClear(Silver);
+        DrawMultiplayerConfigBackground();
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
 
         tumDrawFilledBox(0, SCREEN_HEIGHT - BOTTOM_BOX_HEIGHT, 

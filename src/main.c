@@ -8,8 +8,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <inttypes.h>
-#include <assert.h>
 
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -23,9 +21,6 @@
 #include "TUM_Print.h"
 #include "TUM_Utils.h"
 #include "TUM_Font.h"
-
-#include "animations.h"
-#include "timef.h"
 
 #include "statemachine.h"
 #include "main.h"
