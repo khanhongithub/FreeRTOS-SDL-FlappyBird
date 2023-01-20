@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -23,12 +22,7 @@
 #include "renderer.h"
 #include "gui.h"
 
-#define RENDER_FREQUENCY pdMS_TO_TICKS(5)
-#define USUAL_POS -1
-#define SPRITE_PADDING 8
-
-#define BUTTON_DEATH_W 100
-#define BUTTON_DEATH_H 30
+#define RENDER_FREQUENCY pdMS_TO_TICKS(8)
 
 TaskHandle_t RenderingTask = NULL;
 
@@ -53,7 +47,7 @@ void DrawBackground(void)
     bg_width = tumDrawGetLoadedImageWidth(background_sprite);
     
     // counter has length of image width for seemless texture scrolling
-    counter = counter + 0.25;
+    counter = counter + 0.25; // counts in quaters to be slower
     counter *= (counter <= bg_width);
     
     for (int i = 0; i < 5; i++)
@@ -70,12 +64,12 @@ void DrawObstacle(short int x_position, char type, short int counter)
 
     if(pipe_top == NULL) 
     {
-        pipe_top = tumDrawLoadScaledImage(PIPE_TOP_SPRITE, 1.98);
+        pipe_top = tumDrawLoadScaledImage(PIPE_TOP_SPRITE, PIPE_SCALE_FACTOR);
     }
 
     if(pipe_bottom == NULL) 
     {
-        pipe_bottom = tumDrawLoadScaledImage(PIPE_BOTTOM_SPRITE, 1.98);
+        pipe_bottom = tumDrawLoadScaledImage(PIPE_BOTTOM_SPRITE, PIPE_SCALE_FACTOR);
     }
 
     if((type & 0x8) == 0) {
@@ -171,12 +165,12 @@ void DrawGameoverScreen(short int high_score, short int score)
         
         tumDrawText(high_score_text, 
                     5 * SCREEN_WIDTH / 8,
-                    SCREEN_HEIGHT / 2 + 15,
+                    SCREEN_HEIGHT / 2 + STD_BUTTON_SPACING,
                     Black);
 
         tumDrawText(score_text, 
                     5 * SCREEN_WIDTH / 8,
-                    SCREEN_HEIGHT / 2 - 15,
+                    SCREEN_HEIGHT / 2 - STD_BUTTON_SPACING,
                     Black);
     }         
 }
@@ -191,7 +185,7 @@ void InitDrawPlayersprite(void)
     {
         char *jump_spritesheet_path = tumUtilFindResourcePath(JUMP_ANIMATION_SPRITE);
         image_handle_t jump_spritesheet_image =
-            tumDrawLoadScaledImage(jump_spritesheet_path, 1.00);
+            tumDrawLoadImage(jump_spritesheet_path);
         
         jump_spritesheet =
             tumDrawLoadSpritesheet(jump_spritesheet_image, 8, 1);    
@@ -213,7 +207,7 @@ void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y, bool dead
 {
     if (player_x == -1)
     {
-        player_x = FIRST_POSITION + 3 * PLAYER_RADIUS + 3 * OBSTACLE_WIDTH + 5;
+        player_x = SINGLEPLAYER_USUAL_POS_X;
     }
 
     if (doge_death_sprite == NULL)
@@ -249,15 +243,13 @@ void DrawScores(game_data_t *buffer)
     char highscore_text[30];
     char score_text[30];
         sprintf(highscore_text, "high score: %d", buffer->highscore);
-        tumDrawText(highscore_text,
-                    10,
+        tumDrawText(highscore_text, SCORE_NUM_X,
                     SCREEN_HEIGHT / 20,
                     Black);
 
         sprintf(score_text, "score: %d", buffer->score);
-        tumDrawText(score_text,
-                    10,
-                    SCREEN_HEIGHT / 20 + 15,
+        tumDrawText(score_text, SCORE_NUM_X,
+                    SCREEN_HEIGHT / 20 + STD_BUTTON_SPACING,
                     Black);
 }
 

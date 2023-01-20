@@ -18,11 +18,25 @@
 #define DEATH_SOUND "../resources/waveforms/death.wav"
 #define JUMP_SOUND "../resources/waveforms/jump.wav"
 
+#define SINGLEPLAYER_USUAL_POS_X (FIRST_POSITION + 3 \
+        * PLAYER_RADIUS + 3 * OBSTACLE_WIDTH + 5)
+
 #define GAMEOVER_BOX_HEIGHT 300
 #define GAMEOVER_BOX_WIDTH 600
 
+#define USUAL_POS -1
+#define SPRITE_PADDING 8
+
+#define BUTTON_DEATH_W 100
+#define BUTTON_DEATH_H 30
+
+#define PIPE_SCALE_FACTOR 1.98
+
 #define GAMEOVER_BOX_HEIGHT_CONTENT (GAMEOVER_BOX_HEIGHT - 4)
 #define GAMEOVER_BOX_WIDTH_CONTENT  (GAMEOVER_BOX_WIDTH - 4)
+
+#define SCORE_NUM_X 10
+#define STD_BUTTON_SPACING 15
 
 #define INGAME_BUTTON_WIDTH 140
 #define INGAME_BUTTON_HEIGTH 30
