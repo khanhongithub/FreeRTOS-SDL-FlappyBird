@@ -129,7 +129,6 @@ bool AddState(char *task_name,
 void vStatemachineTask(void *pvParameters)
 {
 
-    bool state_changed = OneIfStateChanged();
     static int short current_state = 0; 
     
     xLastWakeTime = xTaskGetTickCount();
