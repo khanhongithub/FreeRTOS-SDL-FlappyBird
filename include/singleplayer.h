@@ -27,6 +27,7 @@ typedef struct game_data {
     short int player1_position;
     bool gamer_over;
     bool pause;
+    bool waiting;
     char jump;
 }game_data_t;
 

@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <inttypes.h>
 #include <assert.h>
 
 #include "FreeRTOS.h"
@@ -88,11 +87,11 @@ public void vSingleplayerTask(void *pvParameters)
         
         while(!space_pressed_first_time) {
             if(xSemaphoreTake(buttons.lock, 0) != pdPASS) {
-                
                 xGetButtonInput();
                 tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
-                
                 space_pressed_first_time = (bool)buttons.buttons[KEYCODE(SPACE)];
+                data.waiting = !space_pressed_first_time;
+                xQueueOverwrite(scene_queue, &data);
                 xSemaphoreGive(buttons.lock);
             }
             vTaskDelayUntil(&last_wake_time, SINGLEPLAYER_FREQUENCY);

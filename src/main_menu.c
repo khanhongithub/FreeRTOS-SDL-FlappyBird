@@ -38,7 +38,7 @@ image_handle_t background_sprite1 = NULL;
 image_handle_t player_sprite1 = NULL;
 image_handle_t start_sprite = NULL;
 image_handle_t multiplayer_sprite = NULL;
-image_handle_t flappydoge_sprite = NULL;
+image_handle_t title_sprite = NULL;
 
 void SinglePlayerMode(button_t *_local_instance_)
 {
@@ -94,7 +94,7 @@ void MenuInit()
                                         "Exit", ExitGame),
                                         mainmenu_button_array_ptr);
 
-        flappydoge_sprite = tumDrawLoadScaledImage(FLAPPYDOGE_SPRITE, 0.7);
+        title_sprite = tumDrawLoadImage(TITLE_SPRITE);
 
         player_sprite1 = tumDrawLoadScaledImage(PLAYER_SPRITE, 0.1);
 
@@ -104,10 +104,12 @@ void MenuInit()
 }
 
 void DrawMenuScreen()
-{    
-    tumDrawLoadedImage(flappydoge_sprite,
-                       SCREEN_WIDTH / 2 - 130,
-                       SCREEN_HEIGHT / 2 - 200);
+{   
+    static int image_h = 0, image_w = 0;
+    tumGetImageSize(TITLE_SPRITE, &image_w, &image_h);
+    tumDrawLoadedImage(title_sprite,
+                       (SCREEN_WIDTH / 2) - (image_w / 2),
+                       (SCREEN_HEIGHT / 5) - image_h / 2);
 }
 
 void vDrawMenuTask(void* pcParameters)

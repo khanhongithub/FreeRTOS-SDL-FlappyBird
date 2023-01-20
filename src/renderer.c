@@ -38,6 +38,7 @@ image_handle_t pipe_top = NULL;
 image_handle_t background_sprite = NULL;
 image_handle_t gameover_sprite = NULL;
 image_handle_t doge_death_sprite = NULL;
+image_handle_t get_ready_sprite = NULL;
 
 void DrawBackground(void)
 {
@@ -103,6 +104,11 @@ void DrawObstacle(short int x_position, char type, short int counter)
 
 void DrawGameoverScreen(short int high_score, short int score)
 {
+    static image_handle_t medal_bronze_sprite = NULL;    
+    static image_handle_t medal_silver_sprite = NULL;
+    static image_handle_t medal_gold_sprite = NULL;    
+    static image_handle_t medal_platin_sprite = NULL;
+    
     char high_score_text[30];
     char score_text[30];
     static int image_height, image_width;
@@ -110,6 +116,15 @@ void DrawGameoverScreen(short int high_score, short int score)
         gameover_sprite = tumDrawLoadScaledImage(GAME_OVER_SPRITE, 0.25);
     } 
     
+    if (medal_bronze_sprite == NULL || medal_silver_sprite == NULL || 
+        medal_gold_sprite == NULL || medal_platin_sprite == NULL)
+    {
+        medal_bronze_sprite = tumDrawLoadImage(MEDAL_BRONZE_SPRITE);
+        medal_silver_sprite = tumDrawLoadImage(MEDAL_SILVER_SPRITE);
+        medal_gold_sprite = tumDrawLoadImage(MEDAL_GOLD_SPRITE);
+        medal_platin_sprite = tumDrawLoadImage(MEDAL_PLATIN_SPRITE);
+    }
+
     tumDrawFilledBox(SCREEN_WIDTH / 2 - (GAMEOVER_BOX_WIDTH / 2), 
                                  (SCREEN_HEIGHT / 2) - (GAMEOVER_BOX_HEIGHT / 2), 
                                  GAMEOVER_BOX_WIDTH, 
@@ -123,13 +138,33 @@ void DrawGameoverScreen(short int high_score, short int score)
                                  GAMEOVER_BOX_HEIGHT_CONTENT, 
                                  SGLPLY_MENU_MAIN);
 
+    switch (score)
+    {
+    case 0 ... 9:
+        break;
+    
+    case 10 ... 19:
+        tumDrawLoadedImage(medal_bronze_sprite, MEDAL_X, MEDAL_Y);
+        break;
+
+    case 20 ... 29:
+        tumDrawLoadedImage(medal_silver_sprite, MEDAL_X, MEDAL_Y);
+        break;
+        
+    case 30 ... 39:
+        tumDrawLoadedImage(medal_gold_sprite, MEDAL_X, MEDAL_Y);
+        break;
+    
+    default: // 40 and beyond
+        tumDrawLoadedImage(medal_platin_sprite, MEDAL_X, MEDAL_Y);
+        break;
+    }
+
     if((image_height = tumDrawGetLoadedImageHeight(gameover_sprite)) != -1 &&
        (image_width = tumDrawGetLoadedImageWidth(gameover_sprite)) != -1) {
        
-       tumDrawLoadedImage(gameover_sprite,
-                          SCREEN_WIDTH / 2
-                          - image_width / 2,
-                          SCREEN_HEIGHT / 3 - image_height / 2);
+       tumDrawLoadedImage(gameover_sprite, SCREEN_WIDTH / 2 - image_width / 2,
+                          SCREEN_HEIGHT / 6 - image_height / 2);
 
         sprintf(high_score_text, "best: %d", high_score);
         sprintf(score_text, "score: %d", score);
@@ -183,7 +218,7 @@ void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y, bool dead
 
     if (doge_death_sprite == NULL)
     {
-        doge_death_sprite = tumDrawLoadImage(DOGE_DEATH);
+        doge_death_sprite = tumDrawLoadImage(DOGE_DEATH_SPRITE);
     }
 
     if (dead)
@@ -261,6 +296,18 @@ void DrawFloor(void)
     {
         counter = 0;
     }
+}
+
+void DrawGetReady(void)
+{
+    static int image_h = 0, image_w = 0;
+    if (get_ready_sprite == NULL || image_h == 0 || image_w == 0)
+    {
+        get_ready_sprite = tumDrawLoadImage(GET_READY_SPRITE);
+        tumGetImageSize(GET_READY_SPRITE, &image_w, &image_h);
+    }
+    tumDrawLoadedImage(get_ready_sprite, (SCREEN_WIDTH / 2 - image_w / 2), 
+                       (SCREEN_HEIGHT / 5 - image_h / 2));
 }
 
 void RendererEnter(void)
@@ -366,8 +413,7 @@ void vRendererTask(void* pcParameters)
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
         xQueuePeek(scene_queue, &buffer, 0);
 
-        DrawBackground();
-        
+        DrawBackground();        
         DrawFloor();
 
         DrawObstacle(FIRST_POSITION, (buffer.obstacles & 0xF000) >> 12, 
@@ -392,6 +438,10 @@ void vRendererTask(void* pcParameters)
 
         if(buffer.jump && !tumSoundLoadUserSample(JUMP_SOUND)) {
                 tumSoundPlayUserSample(JUMP_SOUND);
+        }
+
+        if (buffer.waiting) {
+            DrawGetReady();
         }
 
         // moving background regradless what happens
