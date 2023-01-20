@@ -3,6 +3,7 @@
 #define PIPE_BOTTOM_SPRITE "../resources/pipe_bottom.png" 
 #define BACKGROUND_SPRITE "../resources/background.jpg"
 #define GAME_OVER_SPRITE "../resources/gameover2.png"
+#define FLOOR_SPRITE "../resources/floor.png"
 
 #define DOGE_DEATH "../resources/doge_death.png"
 

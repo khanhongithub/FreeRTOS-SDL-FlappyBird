@@ -244,6 +244,25 @@ void DrawPauseMenu(void)
                         SCREEN_HEIGHT / 3 + PAUSE_MENU_PADDING, Black);
 }
 
+void DrawFloor(void)
+{
+    static image_handle_t floor_sprite = NULL;
+    static int counter = 0;
+    if (floor_sprite == NULL)
+    {
+        floor_sprite = tumDrawLoadImage(FLOOR_SPRITE);
+    }
+    
+    tumDrawLoadedImage(floor_sprite, -counter , SCREEN_HEIGHT - FLOOR_HEIGTH);
+    tumDrawLoadedImage(floor_sprite, -counter + SCREEN_WIDTH, 
+                                        SCREEN_HEIGHT - FLOOR_HEIGTH);
+    counter++;
+    if (counter >= SCREEN_WIDTH)
+    {
+        counter = 0;
+    }
+}
+
 void RendererEnter(void)
 {
     static bool inited = false;
@@ -348,12 +367,8 @@ void vRendererTask(void* pcParameters)
         xQueuePeek(scene_queue, &buffer, 0);
 
         DrawBackground();
-
-        tumDrawFilledBox(0 , SCREEN_HEIGHT - FLOOR_HEIGTH, 
-                            SCREEN_WIDTH, FLOOR_HEIGTH, 0xDED798);
-
-        tumDrawFilledBox(0 , SCREEN_HEIGHT - FLOOR_HEIGTH, 
-                            SCREEN_WIDTH, 1, 0x543847);
+        
+        DrawFloor();
 
         DrawObstacle(FIRST_POSITION, (buffer.obstacles & 0xF000) >> 12, 
                      buffer.global_counter);
