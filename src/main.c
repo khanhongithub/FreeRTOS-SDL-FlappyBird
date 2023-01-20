@@ -39,6 +39,7 @@ TaskHandle_t StatemachineTask = NULL;
 QueueHandle_t scene_queue = NULL;
 
 SemaphoreHandle_t restart_signal_singleplayer = NULL;
+SemaphoreHandle_t resume_signal_singleplayer = NULL;
 
 buttons_buffer_t buttons = { 0 };
 
@@ -83,6 +84,12 @@ int main(int argc, char *argv[])
 
     restart_signal_singleplayer = xSemaphoreCreateBinary();
     if(restart_signal_singleplayer == NULL) {
+        DEBUG_PRINT("failed to create semaphore");
+        goto err_semaphore;
+    }    
+
+    resume_signal_singleplayer = xSemaphoreCreateBinary();
+    if(resume_signal_singleplayer == NULL) {
         DEBUG_PRINT("failed to create semaphore");
         goto err_semaphore;
     }    

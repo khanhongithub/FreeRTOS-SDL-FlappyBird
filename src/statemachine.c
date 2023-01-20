@@ -22,7 +22,7 @@
 #include "statemachine.h"
 #include "resources.h"
 
-#define STATEMACHINE_FREQUENCY 150
+#define STATEMACHINE_FREQUENCY 30
 
 TickType_t xLastWakeTime;
 

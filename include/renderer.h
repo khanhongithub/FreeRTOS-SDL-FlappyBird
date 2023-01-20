@@ -23,6 +23,15 @@
 #define INGAME_BUTTON_CONTENT_WIDTH  (INGAME_BUTTON_WIDTH  - 4)
 #define INGAME_BUTTON_CONTENT_HEIGTH (INGAME_BUTTON_HEIGTH - 4)
 
+#define PAUSE_BOX_WIDTH 150
+#define PAUSE_BOX_HEIGTH 200
+#define PAUSE_BOX_WIDTH_CONTENT (PAUSE_BOX_WIDTH - 4)
+#define PAUSE_BOX_HEIGTH_CONTENT (PAUSE_BOX_HEIGTH - 4) 
+#define PAUSE_MENU_PADDING 20
+
+#define SGLPLY_MENU_BORDER 0x52394a
+#define SGLPLY_MENU_MAIN 0xded794
+
 void DrawBackground(void);
 void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y, bool dead,
                 short int speed);

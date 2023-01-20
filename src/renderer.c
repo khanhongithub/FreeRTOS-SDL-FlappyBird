@@ -45,7 +45,7 @@ void DrawBackground(void)
     static float counter = 0; 
 
     if (background_sprite == NULL) {
-        background_sprite = tumDrawLoadScaledImage(BACKGROUND_SPRITE, 1.15);
+        background_sprite = tumDrawLoadImage(BACKGROUND_SPRITE);
         bg_width = tumDrawGetLoadedImageWidth(background_sprite);
     }
 
@@ -114,14 +114,14 @@ void DrawGameoverScreen(short int high_score, short int score)
                                  (SCREEN_HEIGHT / 2) - (GAMEOVER_BOX_HEIGHT / 2), 
                                  GAMEOVER_BOX_WIDTH, 
                                  GAMEOVER_BOX_HEIGHT, 
-                                 0x52394a);
-    
+                                 SGLPLY_MENU_BORDER);
+
     tumDrawFilledBox((SCREEN_WIDTH / 2) - (GAMEOVER_BOX_WIDTH_CONTENT / 2), 
                                  SCREEN_HEIGHT / 2 - 
                                  (GAMEOVER_BOX_HEIGHT_CONTENT / 2), 
                                  GAMEOVER_BOX_WIDTH_CONTENT, 
                                  GAMEOVER_BOX_HEIGHT_CONTENT, 
-                                 0xded794);
+                                 SGLPLY_MENU_MAIN);
 
     if((image_height = tumDrawGetLoadedImageHeight(gameover_sprite)) != -1 &&
        (image_width = tumDrawGetLoadedImageWidth(gameover_sprite)) != -1) {
@@ -209,6 +209,41 @@ void DrawPlayerHitBox(short int player_height, int color)
                      Red);
 }
 
+void DrawScores(game_data_t *buffer) 
+{
+    char highscore_text[30];
+    char score_text[30];
+        sprintf(highscore_text, "high score: %d", buffer->highscore);
+        tumDrawText(highscore_text,
+                    10,
+                    SCREEN_HEIGHT / 20,
+                    Black);
+
+        sprintf(score_text, "score: %d", buffer->score);
+        tumDrawText(score_text,
+                    10,
+                    SCREEN_HEIGHT / 20 + 15,
+                    Black);
+}
+
+void DrawPauseMenu(void)
+{
+    tumDrawFilledBox(SCREEN_WIDTH / 2 - (PAUSE_BOX_WIDTH / 2), 
+                     (SCREEN_HEIGHT / 2) - (PAUSE_BOX_HEIGTH / 2), 
+                     PAUSE_BOX_WIDTH, 
+                     PAUSE_BOX_HEIGTH, 
+                     SGLPLY_MENU_BORDER);
+
+    tumDrawFilledBox((SCREEN_WIDTH / 2) - (PAUSE_BOX_WIDTH_CONTENT / 2), 
+                     SCREEN_HEIGHT / 2 - 
+                     (PAUSE_BOX_HEIGTH_CONTENT / 2), 
+                     PAUSE_BOX_WIDTH_CONTENT, 
+                     PAUSE_BOX_HEIGTH_CONTENT, 
+                     SGLPLY_MENU_MAIN);
+    tumDrawCenteredText("Pause", SCREEN_WIDTH / 2, 
+                        SCREEN_HEIGHT / 3 + PAUSE_MENU_PADDING, Black);
+}
+
 void RendererEnter(void)
 {
     static bool inited = false;
@@ -224,12 +259,16 @@ void RendererEnter(void)
         InitDrawPlayersprite();
         inited = true;
     }
-    
 }
 
-void RestarGameSinglePlayer(button_t *_local_instance_)
+void RestartGameSinglePlayer(button_t *_local_instance_)
 {
     xSemaphoreGive(restart_signal_singleplayer);
+}
+
+void ResumeGameSinglePlayer(button_t *_local_instance_)
+{
+    xSemaphoreGive(resume_signal_singleplayer);
 }
 
 void ExitSinglePlayer(button_t  *_local_instance_)
@@ -248,20 +287,19 @@ void RendererExit(void)
 void vRendererTask(void* pcParameters)
 {
     game_data_t buffer;
-    char highscore_text[30];
-    char score_text[30];
     
     buffer.gamer_over = false;
+    buffer.pause = false;
     bool played_sound = false;
 
-    button_array_t gameover_buttons = { .size = 0 };
-    button_array_t *gameover_buttons_ptr = &gameover_buttons;
+    static button_array_t gameover_buttons = { .size = 0 };
+    static button_array_t *gameover_buttons_ptr = &gameover_buttons;
     
     AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
                                     SCREEN_HEIGHT / 2 - 30,
                                     BUTTON_DEATH_W, BUTTON_DEATH_H, "Restart", 
-                                    RestarGameSinglePlayer),
+                                    RestartGameSinglePlayer),
                                     gameover_buttons_ptr);
     AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
@@ -270,6 +308,22 @@ void vRendererTask(void* pcParameters)
                                     ExitSinglePlayer), 
                                     gameover_buttons_ptr);
 
+    static button_array_t resume_buttons = { .size = 0 };
+    static button_array_t *resume_buttons_ptr = &resume_buttons;
+    
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                                    SCREEN_WIDTH / 2,
+                                    SCREEN_HEIGHT / 2 - 30,
+                                    BUTTON_DEATH_W, BUTTON_DEATH_H, "Resume", 
+                                    ResumeGameSinglePlayer),
+                                    resume_buttons_ptr);
+    AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
+                                    SCREEN_WIDTH / 2,
+                                    SCREEN_HEIGHT / 2 + 30,
+                                    BUTTON_DEATH_W, BUTTON_DEATH_H, "Exit", 
+                                    ExitSinglePlayer), 
+                                    resume_buttons_ptr);
+
     TickType_t last_wake_time = xTaskGetTickCount();
     TickType_t last_wake_time_animation = xTaskGetTickCount();
     
@@ -277,11 +331,22 @@ void vRendererTask(void* pcParameters)
 
     tumDrawBindThread();
     while (1)
-    {
+    {        
+        while (buffer.pause)
+        {
+            xQueuePeek(scene_queue, &buffer, 0);
+            DrawPauseMenu();
+            DrawScores(&buffer);
+            UpdateButtons(resume_buttons_ptr);
+            DrawButtons(resume_buttons_ptr);
+            tumDrawUpdateScreen();
+            vTaskDelayUntil(&last_wake_time, RENDER_FREQUENCY);
+        }
+
         tumDrawClear(White);
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
         xQueuePeek(scene_queue, &buffer, 0);
-        
+
         DrawBackground();
 
         tumDrawFilledBox(0 , SCREEN_HEIGHT - FLOOR_HEIGTH, 
@@ -301,22 +366,11 @@ void vRendererTask(void* pcParameters)
 
         DrawObstacle(FOURTH_POSITION, (buffer.obstacles & 0x000F), 
                      buffer.global_counter);
-        #if 1
+        #if DEBUG
             DrawPlayerHitBox(buffer.player1_position, Orange);
         #endif
 
-        sprintf(highscore_text, "high score: %d", buffer.highscore);
-        tumDrawText(highscore_text,
-                    10,
-                    SCREEN_HEIGHT / 20,
-                    Black);
-
-        sprintf(score_text, "score: %d", buffer.score);
-        tumDrawText(score_text,
-                    10,
-                    SCREEN_HEIGHT / 20 + 15,
-                    Black);
-        
+        DrawScores(&buffer);
         DrawPlayer(last_wake_time_animation, USUAL_POS, buffer.player1_position, 
                     buffer.gamer_over, 0); 
         last_wake_time_animation = xTaskGetTickCount();
@@ -333,7 +387,6 @@ void vRendererTask(void* pcParameters)
                 played_sound = true;            
             }
 
-            tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
             DrawGameoverScreen(buffer.highscore, buffer.score);
             UpdateButtons(gameover_buttons_ptr);
             DrawButtons(gameover_buttons_ptr);
