@@ -1,7 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <inttypes.h>
 
 #include "FreeRTOS.h"
 #include "queue.h"
@@ -144,7 +142,8 @@ void MultiplayerConfigInit(void)
     }
 }
 
-void InitIPButtonInfo(void) {
+void InitIPButtonInfo(void) 
+{
     static bool inited = false;
     if (!inited)
     {
@@ -208,7 +207,7 @@ void RemoveChar(char* s, char c)
 bool IPCreate(char input, ipv4 output)
 {
     static ipv4 ip_temp = "xxx.xxx.xxx.xxx\0";
-    static int8_t index = 0;
+    static short int index = 0;
     bool done = false;
     short int temp_sub_value = 0;
 
@@ -253,7 +252,6 @@ bool IPCreate(char input, ipv4 output)
     }
 
     strcpy(output, ip_temp);
-    // frints("index:%d\n\n", index);
 
     if (done) {
 	    for (int i = 0; i < 4; i++) {
@@ -337,8 +335,8 @@ void MultiplayerConfigMenuInit(void)
               STD_BUTTON_W, STD_BUTTON_H, "Host / Client", ToggleHostClient),
               mltplyr_config_button_array_ptr);
 
-    button_t *just_created_ip_button = CreateButton(BUTTON_MAIN_SET, BUTTON_BORDER, 
-                                       4 * SCREEN_WIDTH / 5,
+    button_t *just_created_ip_button = CreateButton(BUTTON_MAIN_SET, 
+                                       BUTTON_BORDER, 4 * SCREEN_WIDTH / 5,
                                        SCREEN_HEIGHT / 2,
                                        STD_BUTTON_W, STD_BUTTON_H, 
                                        "IP:xxx.xxx.xxx.xxx", ReadIP);

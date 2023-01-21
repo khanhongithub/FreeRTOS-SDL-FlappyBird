@@ -152,7 +152,7 @@ public void vSingleplayerTask(void *pvParameters)
 
         data.jump = flap;
             if(flap)
-                vertical_speed = -4.00;
+                vertical_speed = JUMP_IMPULSE_SPEED;
 
         player_position += vertical_speed;
 
@@ -172,12 +172,13 @@ public void vSingleplayerTask(void *pvParameters)
         }
 
         // colision
-        if (player_position + (PLAYER_RADIUS + 1) >= SCREEN_HEIGHT - FLOOR_HEIGTH)
+        if (player_position + (PLAYER_RADIUS + 1) 
+                    >= SCREEN_HEIGHT - FLOOR_HEIGTH)
         {
             data.gamer_over = !ignore_collision;
         }
 
-        opening_mid = (obstacle_field << 4) >> 12; // <- second pipe for collision
+        opening_mid = (obstacle_field << 4) >> 12; // <- second pipe for collis.
         // check if collision counter is running and first bit is 1
         if ( !ignore_collision && (collision_counter != 0 
            || gap_counter >= SPACE_BETWEEN - (2 * PLAYER_RADIUS)) 
@@ -200,7 +201,8 @@ public void vSingleplayerTask(void *pvParameters)
         }
 
         // detect that player has left obstcle
-        score += (gap_counter == PLAYER_RADIUS && ((obstacle_field & 0xA000) != 0));
+        score += (gap_counter == PLAYER_RADIUS && 
+                 ((obstacle_field & 0xA000) != 0));
         // update high score
         if(score >= high_score)
             high_score = score;

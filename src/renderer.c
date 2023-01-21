@@ -225,7 +225,6 @@ void DrawPlayer(TickType_t xLastFrameTime, int player_x, int player_y, bool dead
         tumDrawAnimationDrawFrame(forward_sequence,
                                   xTaskGetTickCount() - xLastFrameTime, player_x, 
                                   player_y - SPRITE_PADDING - 2 * PLAYER_RADIUS);
-
     }
 }
 
@@ -267,6 +266,7 @@ void DrawPauseMenu(void)
                      PAUSE_BOX_WIDTH_CONTENT, 
                      PAUSE_BOX_HEIGTH_CONTENT, 
                      SGLPLY_MENU_MAIN);
+    
     tumDrawCenteredText("Pause", SCREEN_WIDTH / 2, 
                         SCREEN_HEIGHT / 3 + PAUSE_MENU_PADDING, Black);
 }
@@ -282,7 +282,7 @@ void DrawFloor(void)
     
     tumDrawLoadedImage(floor_sprite, -counter , SCREEN_HEIGHT - FLOOR_HEIGTH);
     tumDrawLoadedImage(floor_sprite, -counter + SCREEN_WIDTH, 
-                                        SCREEN_HEIGHT - FLOOR_HEIGTH);
+                       SCREEN_HEIGHT - FLOOR_HEIGTH);
     counter++;
     if (counter >= SCREEN_WIDTH)
     {
@@ -355,13 +355,13 @@ void vRendererTask(void* pcParameters)
     
     AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
-                                    SCREEN_HEIGHT / 2 - 30,
+                                    SCREEN_HEIGHT / 2 - 2 * STD_BUTTON_SPACING,
                                     BUTTON_DEATH_W, BUTTON_DEATH_H, "Restart", 
                                     RestartGameSinglePlayer),
                                     gameover_buttons_ptr);
     AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 3,
-                                    SCREEN_HEIGHT / 2 + 30,
+                                    SCREEN_HEIGHT / 2 + 2 * STD_BUTTON_SPACING,
                                     BUTTON_DEATH_W, BUTTON_DEATH_H, "Exit", 
                                     ExitSinglePlayer), 
                                     gameover_buttons_ptr);
@@ -371,13 +371,13 @@ void vRendererTask(void* pcParameters)
     
     AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 2,
-                                    SCREEN_HEIGHT / 2 - 30,
+                                    SCREEN_HEIGHT / 2 - 2 * STD_BUTTON_SPACING,
                                     BUTTON_DEATH_W, BUTTON_DEATH_H, "Resume", 
                                     ResumeGameSinglePlayer),
                                     resume_buttons_ptr);
     AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
                                     SCREEN_WIDTH / 2,
-                                    SCREEN_HEIGHT / 2 + 30,
+                                    SCREEN_HEIGHT / 2 + 2 * STD_BUTTON_SPACING,
                                     BUTTON_DEATH_W, BUTTON_DEATH_H, "Exit", 
                                     ExitSinglePlayer), 
                                     resume_buttons_ptr);
@@ -390,7 +390,7 @@ void vRendererTask(void* pcParameters)
     tumDrawBindThread();
     while (1)
     {        
-        while (buffer.pause)
+        while (buffer.pause) // waiting while paused
         {
             xQueuePeek(scene_queue, &buffer, 0);
             DrawPauseMenu();

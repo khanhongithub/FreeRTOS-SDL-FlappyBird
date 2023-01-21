@@ -1,3 +1,20 @@
+/*
+    singlplayer responsible for taking player input, checking for collision
+    and generating level
+*/
+/*
+    obstacle field explanation:
+        
+        visibilty bit determines if obstacle is rendered 
+       |                    and considered for collision 
+       |
+    █████╗█████╗█████╗█████╗   
+    ╚════╝╚════╝╚════╝╚════╝  x 4, foreach of the 4 obstacles -> 2 bytes 
+           \______________/                                     -> short int
+                |
+                lower 3 bits determine one of the 8 possible heigths 
+                                     of the openings in the obstacle
+*/
 #ifndef _STDBOOL_H
 #include <stdbool.h>
 #endif
@@ -18,6 +35,7 @@
 #define PLAYER_RADIUS 18
 
 #define GRAVITY 0.1
+#define JUMP_IMPULSE_SPEED -4.0
 
 typedef struct game_data {
     short int highscore;

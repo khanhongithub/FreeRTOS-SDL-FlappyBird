@@ -1,3 +1,6 @@
+/*
+    enable global debug here
+*/
 extern TaskHandle_t StatemachineTask;
 
 extern QueueHandle_t scene_queue;

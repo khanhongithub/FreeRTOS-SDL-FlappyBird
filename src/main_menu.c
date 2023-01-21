@@ -25,10 +25,6 @@
 
 #define MAINMENU_FREQUENCY pdMS_TO_TICKS(25)
 
-#define BUTTON_START_Y 5 * SCREEN_HEIGHT / 12
-#define BUTTON_MAIN_MENU_H 35
-#define BUTTON_MAIN_MENU_W 260
-
 TaskHandle_t MenuTask = NULL;
 
 button_array_t  mainmenu_button_array = { .size = 0 };
@@ -67,32 +63,32 @@ void MenuInit()
     if (!inited) 
     {
         AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                        SCREEN_WIDTH / 2,
-                                        BUTTON_START_Y,
-                                        BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
-                                        "Single Player", SinglePlayerMode),
-                                        mainmenu_button_array_ptr);
+                               SCREEN_WIDTH / 2,
+                               BUTTON_START_Y,
+                               BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
+                               "Single Player", SinglePlayerMode),
+                               mainmenu_button_array_ptr);
 
         AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                        SCREEN_WIDTH / 2,
-                                        BUTTON_START_Y + 75,
-                                        BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
-                                        "Multiplayer", MultiplayerConfigMode),
-                                        mainmenu_button_array_ptr);
+                               SCREEN_WIDTH / 2,
+                               BUTTON_START_Y + 75,
+                               BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
+                               "Multiplayer", MultiplayerConfigMode),
+                               mainmenu_button_array_ptr);
 
         AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                        SCREEN_WIDTH / 2,
-                                        BUTTON_START_Y + 150,
-                                        BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
-                                        "Cheat Menu", Cheats),
-                                        mainmenu_button_array_ptr);
+                               SCREEN_WIDTH / 2,
+                               BUTTON_START_Y + 150,
+                               BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
+                               "Cheat Menu", Cheats),
+                               mainmenu_button_array_ptr);
 
         AddButton(CreateButton(BUTTON_MAIN, BUTTON_BORDER, 
-                                        SCREEN_WIDTH / 2,
-                                        BUTTON_START_Y + 225,
-                                        BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
-                                        "Exit", ExitGame),
-                                        mainmenu_button_array_ptr);
+                               SCREEN_WIDTH / 2,
+                               BUTTON_START_Y + 225,
+                               BUTTON_MAIN_MENU_W, BUTTON_MAIN_MENU_H, 
+                               "Exit", ExitGame),
+                               mainmenu_button_array_ptr);
 
         title_sprite = tumDrawLoadImage(TITLE_SPRITE);
 
@@ -100,10 +96,9 @@ void MenuInit()
 
         inited = true;
     }
-
 }
 
-void DrawMenuScreen()
+void DrawMenuScreen(void)
 {   
     static int image_h = 0, image_w = 0;
     tumGetImageSize(TITLE_SPRITE, &image_w, &image_h);
@@ -143,8 +138,8 @@ void vDrawMenuTask(void* pcParameters)
 void MenuTaskEnter(void)
 {
     xTaskCreate(vDrawMenuTask, "DrawmenuTask", 
-                   mainGENERIC_STACK_SIZE, 
-                   NULL, mainGENERIC_PRIORITY, &MenuTask);
+                mainGENERIC_STACK_SIZE, 
+                NULL, mainGENERIC_PRIORITY, &MenuTask);
     MenuInit();
 
 }

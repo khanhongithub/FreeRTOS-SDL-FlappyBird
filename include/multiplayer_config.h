@@ -1,3 +1,7 @@
+/*
+    used to configure multiplayer and conduct a handshake between 
+    the 2 players
+*/
 #ifndef _STDBOOL_H
 #include <stdbool.h>
 #endif

@@ -1,3 +1,6 @@
+/*
+    renderer receives gamedata from queue and renders it
+*/
 #define PLAYER_SPRITE "../resources/doge1.png"
 #define PIPE_TOP_SPRITE "../resources/pipe_top.png"
 #define PIPE_BOTTOM_SPRITE "../resources/pipe_bottom.png" 

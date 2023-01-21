@@ -1,3 +1,13 @@
+/*
+	contains buttons which can be created at runtime;
+	buttons are usually added into an array from which 
+	they are updated and drawn;
+	buttons can have a callbackfunction which is run
+	when a button has been pressed, callback functions
+	have take a pointer to their parent button as an arg;
+	the button and its properties can be accessed in callback
+	functions via the java-like "this" - "keyword"
+*/
 #ifndef __TUM_DRAW_H__
 #include "TUM_Draw.h"
 #endif

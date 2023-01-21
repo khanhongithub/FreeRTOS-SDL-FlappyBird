@@ -1,3 +1,6 @@
+/*
+    custom state machine used to transition between states
+*/
 #ifndef _STDBOOL_H
 #include <stdbool.h>
 #endif

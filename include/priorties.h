@@ -1,3 +1,6 @@
+/*
+    defines a bunch priorities standart priorites
+*/
 #define STATEMACHINE_PRIORTY 8
 #define STATEMACHINE_STACK_SIZE ((unsigned short) 2560)
  

@@ -14,6 +14,9 @@ typedef struct enabled_cheats {
     SemaphoreHandle_t lock;
 }enabled_cheats_t;
 
+/*
+    menu to set highscore and toggle collision
+*/
 void CheatmenuEnter(void);
 void CheatmenuRun(void);
 void CheatmenuExit(void);

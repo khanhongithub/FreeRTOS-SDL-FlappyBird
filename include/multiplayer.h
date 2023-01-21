@@ -1,3 +1,10 @@
+/*
+    handles the exchange of game data between 
+    host and client, the host is in charge of 
+    the map and obstacle generation,
+    the client only provides his character
+    position and playerinput
+*/
 typedef struct host_package {
     char type_of_msg;
     short int obstacle_field;

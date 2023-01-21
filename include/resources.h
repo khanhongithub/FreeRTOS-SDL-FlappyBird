@@ -1,3 +1,6 @@
+/*
+    header for button related input handling
+*/
 #ifndef _STDBOOL_H
 #include <stdbool.h>
 #endif
@@ -14,10 +17,3 @@ extern buttons_buffer_t buttons;
 
 bool buttonsInit(void);
 void xGetButtonInput(void);
-
-typedef struct global_counter {
-    int counter;
-    SemaphoreHandle_t lock;
-}global_counter_t;
-
-extern global_counter_t glob_counter;
