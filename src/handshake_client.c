@@ -91,7 +91,7 @@ void HandshakeTaskInit(void)
 
     handshake_t my_handshake_args = {0};
     printf("This is client\n");
-    handshakeclient_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(int), 
+    handshakeclient_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(int), 
     HandshakecallbackClient, (void *) &my_handshake_args);
 }
 void vHandshakeTaskClient(void *pvParameters)
