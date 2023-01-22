@@ -49,32 +49,10 @@ void HandshakeTaskEnter(void)
         DEBUG_PRINT("failed to send msg\n");
     }
 }
- /*   if(mltplyr_cfg.type == client)
-    {
-    if(xTaskCreate(vHandshakeClientTask, "HandshakeTask", 
-                   mainGENERIC_STACK_SIZE / 2, 
-                   NULL, mainGENERIC_PRIORITY + 2, 
-                   &HandshakeClientTask) != pdPASS) {
-        DEBUG_PRINT("failed to send msg\n");
-    }
-    }
 
-}
-*/
 
 void HandshakecallbackClient(size_t recv_size, char *buffer, void *args)
 {
-//    int recv_value = *((int *) buffer);
-//    float sqrt_value = sqrtf(recv_value);
-
-//    struct slave_args *my_slave_args = (struct slave_args *) args;
-
-//    printf("Prev sent value was %d, new sqrt is %d\n", my_slave_args->prev_value, 
-//            recv_value);
-
-//    my_slave_args->prev_value = recv_value;
-
-//    printf("Received %d, sqrt is %f\n", recv_value, sqrt_value)
 
 
    handshake_t *my_handshake_args_client = (handshake_t *) args;
@@ -99,11 +77,11 @@ void vHandshakeTaskClient(void *pvParameters)
     tumDrawBindThread();
     HandshakeTaskInit();
      
-/*        if(handshakeclient_handle&&handshakehost_handle == NULL){
+        if(handshakeclient_handle == NULL){
         PRINT_ERROR(" UDP socket failed to open");
         exit(EXIT_FAILURE);
         }
-*/
+
     while (1) {
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
 
