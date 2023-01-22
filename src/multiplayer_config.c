@@ -21,6 +21,9 @@
 #include "multiplayer_config.h"
 #include "gui.h"
 #include "resources.h"
+#include "handshake_client.h"
+
+
 
 #define MULTIPLAYERCONFIG_FREQUENCY pdMS_TO_TICKS(35)
 #define IP_ENTERING_FREQUENCY pdMS_TO_TICKS(20)
@@ -28,9 +31,11 @@
 #define BOTTOM_BOX_WIDTH SCREEN_WIDTH
 #define BOTTOM_BOX_HEIGHT 2 * SCREEN_HEIGHT / 9
 
+
 void vInputForIP(void *pvParameters);
 void InputForIPStart(void);
 void InputForIPStop(void);
+
 
 void RemoveChar(char* s, char c);
 bool IPCreate(char input, ipv4 output);
@@ -45,6 +50,7 @@ ip_button_information_t ip_button_info = { .ip_entering_status = 0};
 
 multiplayer_config_t mltplyr_cfg = { .own_ip = "127.0.0.1\0" };
 
+
 button_array_t mltplyr_config_button_array = { .size = 0 };
 button_array_t *mltplyr_config_button_array_ptr = &mltplyr_config_button_array;
 
@@ -52,6 +58,8 @@ image_handle_t multiplayerconfig_background_sprite = NULL;
 
 TaskHandle_t MultiplayerConfigTask = NULL;
 TaskHandle_t IPEnteringTask = NULL;
+
+
 
 void InputForIPStart(void) 
 {
@@ -152,10 +160,11 @@ void InitIPButtonInfo(void)
     }
 }
 
+
+
 void ToggleHostClient(button_t *_local_instance_)
 {
-    static connection_mode mode = client;
-
+    static bool mode = client;
     if (mode != client)
     {
         this.main_color = Olive;
@@ -176,7 +185,7 @@ void EstablishConnection(button_t *_local_instance_)
 {
     static bool connected = false;
     
-    // connected = ConnectTo(ip);
+    // connected = ConnectTo();
 
     if (connected)
     {
@@ -186,9 +195,12 @@ void EstablishConnection(button_t *_local_instance_)
     {
         this.main_color = Dark_Red;
     }
+    
 
     // try to establish connection and see if it works
 }
+
+
 
 // functions for for reading in ip
 
@@ -404,7 +416,11 @@ void MultiplayerConfigEnter(void)
                &MultiplayerConfigTask) != pdPASS) {
         DEBUG_PRINT("failed to cheatmenu task\n");
     }
-
+    
+    HandshakeTaskEnter();
+        
+ 
+ 
     if (!inited)
     {
         MultiplayerConfigInit();
@@ -420,6 +436,9 @@ void MultiplayerConfigRun(void)
 void MultiplayerConfigExit(void)
 {
     vTaskDelete(MultiplayerConfigTask);
+
+    HandshakeTaskStop();
+
 }
 
 void vMultiplayerConfigTask(void *pvArgs)
@@ -431,10 +450,10 @@ void vMultiplayerConfigTask(void *pvArgs)
     while (1)
     {
         DEBUG_PRINT("MultiplayerConfig\n");
-
+        //ToggleHostClient(this);
         DrawMultiplayerConfigBackground();
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
-
+        
         tumDrawFilledBox(0, SCREEN_HEIGHT - BOTTOM_BOX_HEIGHT, 
                         BOTTOM_BOX_WIDTH, BOTTOM_BOX_HEIGHT, 
                         Teal);

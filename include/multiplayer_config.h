@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #endif
 
+//#include "gui.h" //to use button_array_t
+
 #include "FreeRTOS.h"
 #include "queue.h"
 #include "semphr.h"
@@ -71,17 +73,17 @@ do { if (rising_edge_##key) {   \
     done = IPCreate(key + '0', ip); \
 }} while (0)
 
-typedef bool connection_mode;
-
 typedef char ipv4[16];
 
 typedef struct multiplayer_config {
-    connection_mode type; // <- either host or client
+    bool type; // <- either host or client
     SemaphoreHandle_t lock;
     ipv4 own_ip; // <- own instance
     ipv4 other_ip; // <- instance that is being connected to
 
 }multiplayer_config_t;
+
+extern multiplayer_config_t mltplyr_cfg;
 
 void MultiplayerConfigEnter(void);
 void MultiplayerConfigRun(void);

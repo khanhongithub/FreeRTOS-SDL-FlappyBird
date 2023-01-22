@@ -8,6 +8,8 @@
 // buttons
 #define KEYCODE(CHAR) SDL_SCANCODE_##CHAR
 
+void DrawBackground(void);
+
 typedef struct buttons_buffer {
     unsigned char buttons[SDL_NUM_SCANCODES];
     SemaphoreHandle_t lock;
