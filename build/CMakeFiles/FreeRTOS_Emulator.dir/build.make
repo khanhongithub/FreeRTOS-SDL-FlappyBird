@@ -105,28 +105,28 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o.provides: CMakeFiles/FreeRTOS_Emula
 CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o.provides.build: CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o
 
 
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o: ../src/handshake_client.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/khanhcrbale/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o   -c /home/khanhcrbale/ESPL/src/handshake_client.c
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o: ../src/handshake_host.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/khanhcrbale/ESPL/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o   -c /home/khanhcrbale/ESPL/src/handshake_host.c
 
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/khanhcrbale/ESPL/src/handshake_client.c > CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.i
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/khanhcrbale/ESPL/src/handshake_host.c > CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.i
 
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/khanhcrbale/ESPL/src/handshake_client.c -o CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.s
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/khanhcrbale/ESPL/src/handshake_host.c -o CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.s
 
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.requires:
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.requires:
 
-.PHONY : CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.requires
+.PHONY : CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.requires
 
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.provides: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.requires
-	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.provides.build
-.PHONY : CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.provides
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.provides: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.requires
+	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.provides.build
+.PHONY : CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.provides
 
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.provides.build: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.provides.build: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o
 
 
 CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o: CMakeFiles/FreeRTOS_Emulator.dir/flags.make
@@ -709,7 +709,7 @@ CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o.provides.build: CMakeFi
 FreeRTOS_Emulator_OBJECTS = \
 "CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o" \
-"CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o" \
+"CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o" \
 "CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o" \
@@ -740,7 +740,7 @@ FreeRTOS_Emulator_EXTERNAL_OBJECTS =
 
 ../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o
 ../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o
-../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o
+../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o
 ../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o
 ../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o
 ../bin/FreeRTOS_Emulator: CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o
@@ -788,7 +788,7 @@ CMakeFiles/FreeRTOS_Emulator.dir/build: ../bin/FreeRTOS_Emulator
 
 CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o.requires
 CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o.requires
-CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.requires
+CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o.requires
 CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o.requires
 CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o.requires
 CMakeFiles/FreeRTOS_Emulator.dir/requires: CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o.requires

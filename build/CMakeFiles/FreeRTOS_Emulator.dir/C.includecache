@@ -20,7 +20,7 @@ stdbool.h
 TUM_Draw.h
 ../include/TUM_Draw.h
 
-../include/handshake_client.h
+../include/handshake_host.h
 
 ../include/main.h
 
@@ -592,7 +592,7 @@ TUM_Print.h
 gui.h
 /home/khanhcrbale/ESPL/src/gui.h
 
-/home/khanhcrbale/ESPL/src/handshake_client.c
+/home/khanhcrbale/ESPL/src/handshake_host.c
 stdio.h
 -
 stdlib.h
@@ -637,8 +637,8 @@ gui.h
 /home/khanhcrbale/ESPL/src/gui.h
 resources.h
 /home/khanhcrbale/ESPL/src/resources.h
-handshake_client.h
-/home/khanhcrbale/ESPL/src/handshake_client.h
+handshake_host.h
+/home/khanhcrbale/ESPL/src/handshake_host.h
 
 /home/khanhcrbale/ESPL/src/main.c
 stdio.h
@@ -775,8 +775,8 @@ gui.h
 /home/khanhcrbale/ESPL/src/gui.h
 resources.h
 /home/khanhcrbale/ESPL/src/resources.h
-handshake_client.h
-/home/khanhcrbale/ESPL/src/handshake_client.h
+handshake_host.h
+/home/khanhcrbale/ESPL/src/handshake_host.h
 
 /home/khanhcrbale/ESPL/src/renderer.c
 stdio.h

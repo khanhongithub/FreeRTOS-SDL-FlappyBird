@@ -7,6 +7,6 @@ typedef struct handshake {
 } handshake_t;
 
 
-void vHandshakeTaskClient(void *pvParameter);
+void vHandshakeTaskHost(void *pvParameter);
 void HandshakeTaskEnter(void);
 void HandshakeTaskStop(void);

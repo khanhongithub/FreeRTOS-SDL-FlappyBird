@@ -21,7 +21,7 @@
 #include "multiplayer_config.h"
 #include "gui.h"
 #include "resources.h"
-#include "handshake_client.h"
+#include "handshake_host.h"
 
 
 

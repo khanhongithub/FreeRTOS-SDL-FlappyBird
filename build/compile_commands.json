@@ -11,8 +11,8 @@
 },
 {
   "directory": "/home/khanhcrbale/ESPL/build",
-  "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/include -I/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/khanhcrbale/ESPL/include -I/home/khanhcrbale/ESPL/lib/Gfx/include -I/home/khanhcrbale/ESPL/lib/AsyncIO/include -I/home/khanhcrbale/ESPL/lib/tracer/include  -g   -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o   -c /home/khanhcrbale/ESPL/src/handshake_client.c",
-  "file": "/home/khanhcrbale/ESPL/src/handshake_client.c"
+  "command": "/usr/bin/cc  -I/usr/include/SDL2 -I/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/include -I/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix -I/home/khanhcrbale/ESPL/include -I/home/khanhcrbale/ESPL/lib/Gfx/include -I/home/khanhcrbale/ESPL/lib/AsyncIO/include -I/home/khanhcrbale/ESPL/lib/tracer/include  -g   -Wall -O0 -o CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o   -c /home/khanhcrbale/ESPL/src/handshake_host.c",
+  "file": "/home/khanhcrbale/ESPL/src/handshake_host.c"
 },
 {
   "directory": "/home/khanhcrbale/ESPL/build",

@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o"
-  "CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o"
+  "CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o"
   "CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o"

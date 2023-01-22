@@ -622,32 +622,32 @@ src/gui.c.s:
 	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.s
 .PHONY : src/gui.c.s
 
-src/handshake_client.o: src/handshake_client.c.o
+src/handshake_host.o: src/handshake_host.c.o
 
-.PHONY : src/handshake_client.o
+.PHONY : src/handshake_host.o
 
 # target to build an object file
-src/handshake_client.c.o:
-	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o
-.PHONY : src/handshake_client.c.o
+src/handshake_host.c.o:
+	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o
+.PHONY : src/handshake_host.c.o
 
-src/handshake_client.i: src/handshake_client.c.i
+src/handshake_host.i: src/handshake_host.c.i
 
-.PHONY : src/handshake_client.i
+.PHONY : src/handshake_host.i
 
 # target to preprocess a source file
-src/handshake_client.c.i:
-	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.i
-.PHONY : src/handshake_client.c.i
+src/handshake_host.c.i:
+	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.i
+.PHONY : src/handshake_host.c.i
 
-src/handshake_client.s: src/handshake_client.c.s
+src/handshake_host.s: src/handshake_host.c.s
 
-.PHONY : src/handshake_client.s
+.PHONY : src/handshake_host.s
 
 # target to generate assembly for a file
-src/handshake_client.c.s:
-	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.s
-.PHONY : src/handshake_client.c.s
+src/handshake_host.c.s:
+	$(MAKE) -f CMakeFiles/FreeRTOS_Emulator.dir/build.make CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.s
+.PHONY : src/handshake_host.c.s
 
 src/main.o: src/main.c.o
 
@@ -929,9 +929,9 @@ help:
 	@echo "... src/gui.o"
 	@echo "... src/gui.i"
 	@echo "... src/gui.s"
-	@echo "... src/handshake_client.o"
-	@echo "... src/handshake_client.i"
-	@echo "... src/handshake_client.s"
+	@echo "... src/handshake_host.o"
+	@echo "... src/handshake_host.i"
+	@echo "... src/handshake_host.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

@@ -205,11 +205,11 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o
  ../lib/Gfx/include/TUM_Sound.h
  ../lib/Gfx/include/TUM_Utils.h
  /home/khanhcrbale/ESPL/src/gui.c
-CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o
+CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o
  ../include/EmulatorConfig.h
  ../include/FreeRTOSConfig.h
  ../include/gui.h
- ../include/handshake_client.h
+ ../include/handshake_host.h
  ../include/main.h
  ../include/multiplayer_config.h
  ../include/priorties.h
@@ -232,7 +232,7 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o
  ../lib/Gfx/include/TUM_Print.h
  ../lib/Gfx/include/TUM_Sound.h
  ../lib/Gfx/include/TUM_Utils.h
- /home/khanhcrbale/ESPL/src/handshake_client.c
+ /home/khanhcrbale/ESPL/src/handshake_host.c
 CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o
  ../include/EmulatorConfig.h
  ../include/FreeRTOSConfig.h
@@ -310,7 +310,7 @@ CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.o
  ../include/EmulatorConfig.h
  ../include/FreeRTOSConfig.h
  ../include/gui.h
- ../include/handshake_client.h
+ ../include/handshake_host.h
  ../include/main.h
  ../include/multiplayer_config.h
  ../include/priorties.h

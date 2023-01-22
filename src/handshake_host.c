@@ -25,7 +25,7 @@
 #include "multiplayer_config.h"
 #include "gui.h"
 #include "resources.h"
-#include "handshake_client.h"
+#include "handshake_host.h"
 
 
 #define MOSI_PORT 1234
@@ -35,14 +35,14 @@
 
 TaskHandle_t HandshakeTask = NULL;
 //TaskHandle_t HandshakeClientTask = NULL;
-//aIO_handle_t handshakehost_handle;
-aIO_handle_t handshakeclient_handle;
+aIO_handle_t handshakehost_handle;
+//aIO_handle_t handshakeclient_handle;
 
 
 void HandshakeTaskEnter(void)
 {  
 
-    if(xTaskCreate(vHandshakeTaskClient, "HandshakeTask", 
+    if(xTaskCreate(vHandshakeTaskHost, "HandshakeTask", 
                    mainGENERIC_STACK_SIZE / 2, 
                    NULL, mainGENERIC_PRIORITY + 2, 
                    &HandshakeTask) != pdPASS) {
@@ -62,7 +62,7 @@ void HandshakeTaskEnter(void)
 }
 */
 
-void HandshakecallbackClient(size_t recv_size, char *buffer, void *args)
+void HandshakecallbackHost(size_t recv_size, char *buffer, void *args)
 {
 //    int recv_value = *((int *) buffer);
 //    float sqrt_value = sqrtf(recv_value);
@@ -77,12 +77,12 @@ void HandshakecallbackClient(size_t recv_size, char *buffer, void *args)
 //    printf("Received %d, sqrt is %f\n", recv_value, sqrt_value)
 
 
-   handshake_t *my_handshake_args_client = (handshake_t *) args;
-   int host_msg = *((int *) buffer);
-   my_handshake_args_client->msg = 0;
-   printf("This is client , receive msg %d from host\n",host_msg);
-   printf("This is client");
-   if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_args_client->msg), sizeof(int)))
+   handshake_t *my_handshake_args_host = (handshake_t *) args;
+   int client_msg = *((int *) buffer);
+   my_handshake_args_host->msg = 1;
+   printf("This is host , receive msg %d from host\n",client_msg);
+   printf("This is host");
+   if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_args_host->msg), sizeof(int)))
    PRINT_ERROR("Failed to send msg to host");
 
 }
@@ -91,10 +91,10 @@ void HandshakeTaskInit(void)
 
     handshake_t my_handshake_args = {0};
     printf("This is client\n");
-    handshakeclient_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(int), 
-    HandshakecallbackClient, (void *) &my_handshake_args);
+    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(int), 
+    HandshakecallbackHost, (void *) &my_handshake_args);
 }
-void vHandshakeTaskClient(void *pvParameters)
+void vHandshakeTaskHost(void *pvParameters)
 {
     tumDrawBindThread();
     HandshakeTaskInit();

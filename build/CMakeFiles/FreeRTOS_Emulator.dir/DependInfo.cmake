@@ -22,7 +22,7 @@ set(CMAKE_DEPENDS_CHECK_C
   "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Utils.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o"
   "/home/khanhcrbale/ESPL/src/cheatmenui.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o"
   "/home/khanhcrbale/ESPL/src/gui.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o"
-  "/home/khanhcrbale/ESPL/src/handshake_client.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o"
+  "/home/khanhcrbale/ESPL/src/handshake_host.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_host.c.o"
   "/home/khanhcrbale/ESPL/src/main.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o"
   "/home/khanhcrbale/ESPL/src/main_menu.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o"
   "/home/khanhcrbale/ESPL/src/multiplayer.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o"
