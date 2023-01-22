@@ -34,9 +34,9 @@
 #define IPv4_addr "127.0.0.1"
 
 TaskHandle_t HandshakeTask = NULL;
-//TaskHandle_t HandshakeClientTask = NULL;
+
 aIO_handle_t handshakehost_handle;
-//aIO_handle_t handshakeclient_handle;
+
 
 
 void HandshakeTaskEnter(void)
@@ -49,33 +49,9 @@ void HandshakeTaskEnter(void)
         DEBUG_PRINT("failed to send msg\n");
     }
 }
- /*   if(mltplyr_cfg.type == client)
-    {
-    if(xTaskCreate(vHandshakeClientTask, "HandshakeTask", 
-                   mainGENERIC_STACK_SIZE / 2, 
-                   NULL, mainGENERIC_PRIORITY + 2, 
-                   &HandshakeClientTask) != pdPASS) {
-        DEBUG_PRINT("failed to send msg\n");
-    }
-    }
-
-}
-*/
 
 void HandshakecallbackHost(size_t recv_size, char *buffer, void *args)
 {
-//    int recv_value = *((int *) buffer);
-//    float sqrt_value = sqrtf(recv_value);
-
-//    struct slave_args *my_slave_args = (struct slave_args *) args;
-
-//    printf("Prev sent value was %d, new sqrt is %d\n", my_slave_args->prev_value, 
-//            recv_value);
-
-//    my_slave_args->prev_value = recv_value;
-
-//    printf("Received %d, sqrt is %f\n", recv_value, sqrt_value)
-
 
    handshake_t *my_handshake_args_host = (handshake_t *) args;
    int client_msg = *((int *) buffer);
@@ -99,11 +75,11 @@ void vHandshakeTaskHost(void *pvParameters)
     tumDrawBindThread();
     HandshakeTaskInit();
      
-/*        if(handshakeclient_handle&&handshakehost_handle == NULL){
+       if(handshakehost_handle == NULL){
         PRINT_ERROR(" UDP socket failed to open");
         exit(EXIT_FAILURE);
         }
-*/
+
     while (1) {
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
 
