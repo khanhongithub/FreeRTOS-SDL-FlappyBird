@@ -80,7 +80,7 @@ void HandshakecallbackHost(size_t recv_size, char *buffer, void *args)
    handshake_t *my_handshake_args_host = (handshake_t *) args;
    int client_msg = *((int *) buffer);
    my_handshake_args_host->msg = 1;
-   printf("This is host , receive msg %d from host\n",client_msg);
+   printf("This is host , receive msg %d from client\n",client_msg);
    printf("This is host");
    if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_args_host->msg), sizeof(int)))
    PRINT_ERROR("Failed to send msg to host");
@@ -90,7 +90,7 @@ void HandshakeTaskInit(void)
 {       
 
     handshake_t my_handshake_args = {0};
-    printf("This is client\n");
+    printf("This is host\n");
     handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(int), 
     HandshakecallbackHost, (void *) &my_handshake_args);
 }
