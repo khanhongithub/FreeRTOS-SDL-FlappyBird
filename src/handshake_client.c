@@ -82,7 +82,7 @@ void HandshakecallbackClient(size_t recv_size, char *buffer, void *args)
    my_handshake_args_client->msg = 0;
    printf("This is client , receive msg %d from host\n",host_msg);
    printf("This is client");
-   if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_args_client->msg), sizeof(int)))
+   if(aIOSocketPut(UDP, IPv4_addr, MISO_PORT, (char *)&(my_handshake_args_client->msg), sizeof(int)))
    PRINT_ERROR("Failed to send msg to host");
 
 }
