@@ -62,7 +62,7 @@ void HandshakecallbackHost(size_t recv_size, char *buffer, void *args)
 void HandshakeTaskInit(void)
 {       
     printf("This is host\n");
-    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(my_handshake_host.msg), 
+    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(my_handshake_host.msg), 
     HandshakecallbackHost, NULL);
 }
 void vHandshakeTaskHost(void *pvParameters)
