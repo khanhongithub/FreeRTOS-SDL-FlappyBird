@@ -50,7 +50,7 @@ ip_button_information_t ip_button_info = { .ip_entering_status = 0};
 
 multiplayer_config_t mltplyr_cfg = { .own_ip = "127.0.0.1\0" };
 
-
+multiplayer_connect_t mltplyr_connect = {.connected = false };
 button_array_t mltplyr_config_button_array = { .size = 0 };
 button_array_t *mltplyr_config_button_array_ptr = &mltplyr_config_button_array;
 
@@ -183,11 +183,9 @@ void ToggleHostClient(button_t *_local_instance_)
 
 void EstablishConnection(button_t *_local_instance_)
 {
-    static bool connected = false;
     
-    // connected = ConnectTo();
-
-    if (connected)
+ 
+    if (mltplyr_connect.connected)
     {
         this.main_color = Light_Green;
     }
@@ -197,7 +195,6 @@ void EstablishConnection(button_t *_local_instance_)
     }
     
 
-    // try to establish connection and see if it works
 }
 
 
