@@ -23,7 +23,7 @@
 #include "main_menu.h"
 #include "gui.h"
 
-#define MAINMENU_FREQUENCY pdMS_TO_TICKS(100)
+#define MAINMENU_FREQUENCY pdMS_TO_TICKS(25)
 
 TaskHandle_t MenuTask = NULL;
 
