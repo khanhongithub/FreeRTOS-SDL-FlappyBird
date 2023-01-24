@@ -46,6 +46,8 @@ typedef struct ip_button_information {
     SemaphoreHandle_t lock;
 } ip_button_information_t;
 
+
+multiplayer_connect_t mltplyr_connect ={.connected = false};
 ip_button_information_t ip_button_info = { .ip_entering_status = 0};
 
 multiplayer_config_t mltplyr_cfg = { .own_ip = "127.0.0.1\0" };
@@ -183,11 +185,9 @@ void ToggleHostClient(button_t *_local_instance_)
 
 void EstablishConnection(button_t *_local_instance_)
 {
-    static bool connected = false;
     
-    // connected = ConnectTo();
-
-    if (connected)
+ 
+    if (mltplyr_connect.connected)
     {
         this.main_color = Light_Green;
     }
@@ -196,8 +196,6 @@ void EstablishConnection(button_t *_local_instance_)
         this.main_color = Dark_Red;
     }
     
-
-    // try to establish connection and see if it works
 }
 
 

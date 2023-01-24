@@ -46,6 +46,7 @@ void HandshakeTaskEnter(void)
                    &HandshakeTask) != pdPASS) {
         DEBUG_PRINT("failed to send msg\n");
     }
+    mltplyr_connect.connected = true;
 }
 
 

@@ -83,6 +83,12 @@ typedef struct multiplayer_config {
 
 }multiplayer_config_t;
 
+typedef struct multiplayer_connected{
+    bool connected;
+    SemaphoreHandle_t lock;
+}multiplayer_connect_t;
+extern multiplayer_connect_t mltplyr_connect;
+
 extern multiplayer_config_t mltplyr_cfg;
 
 void MultiplayerConfigEnter(void);
