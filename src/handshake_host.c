@@ -55,21 +55,14 @@ void HandshakecallbackHost(size_t recv_size, char *buffer, void *args)
 
    int client_msg = *((int *) buffer);
    printf("This is host , receive msg %d from client\n",client_msg);
-   if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_host.msg), sizeof(my_handshake_host.msg)))
-   PRINT_ERROR("Failed to send msg to host");
+   
+}
 
-}
-void HandshakeTaskInit(void)
-{       
-    printf("This is host\n");
-    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(my_handshake_host.msg), 
-    HandshakecallbackHost, NULL);
-}
 void vHandshakeTaskHost(void *pvParameters)
 {
     tumDrawBindThread();
-    HandshakeTaskInit();
-     
+    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(my_handshake_host.msg), 
+    HandshakecallbackHost, NULL);
        if(handshakehost_handle == NULL){
         PRINT_ERROR(" UDP socket failed to open");
         exit(EXIT_FAILURE);
@@ -77,6 +70,8 @@ void vHandshakeTaskHost(void *pvParameters)
 
     while (1) {
         tumEventFetchEvents(FETCH_EVENT_NONBLOCK);
+        if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_host.msg), sizeof(my_handshake_host.msg)))
+        PRINT_ERROR("Failed to send msg to host");
 
 
         // Basic sleep of 1000 milliseconds
