@@ -37,7 +37,7 @@ TaskHandle_t HandshakeTask = NULL;
 
 aIO_handle_t handshakehost_handle;
 
-
+handshake_t my_handshake_host = {.msg = 1};
 
 void HandshakeTaskEnter(void)
 {  
@@ -53,17 +53,16 @@ void HandshakeTaskEnter(void)
 void HandshakecallbackHost(size_t recv_size, char *buffer, void *args)
 {
 
-   handshake_t my_handshake_host = {.msg = 1};
    int client_msg = *((int *) buffer);
    printf("This is host , receive msg %d from client\n",client_msg);
-   if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_host.msg), sizeof(int)))
+   if(aIOSocketPut(UDP, IPv4_addr, MOSI_PORT, (char *)&(my_handshake_host.msg), sizeof(my_handshake_host.msg)))
    PRINT_ERROR("Failed to send msg to host");
 
 }
 void HandshakeTaskInit(void)
 {       
     printf("This is host\n");
-    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(int), 
+    handshakehost_handle = aIOOpenUDPSocket(IPv4_addr, MOSI_PORT, sizeof(my_handshake_host.msg), 
     HandshakecallbackHost, NULL);
 }
 void vHandshakeTaskHost(void *pvParameters)
