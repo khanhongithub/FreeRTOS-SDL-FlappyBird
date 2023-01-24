@@ -1,48 +1,40 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "C"
   )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_C
-  "/home/khanhcrbale/ESPL/lib/AsyncIO/AsyncIO.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/croutine.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/croutine.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/list.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/list.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix/port.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/portable/GCC/Posix/port.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/portable/MemMang/heap_3.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/portable/MemMang/heap_3.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/queue.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/queue.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/tasks.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/tasks.c.o"
-  "/home/khanhcrbale/ESPL/lib/FreeRTOS_Kernel/timers.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/timers.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Ball.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Ball.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Draw.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Event.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Event.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Font.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Print.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Sound.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o"
-  "/home/khanhcrbale/ESPL/lib/Gfx/TUM_Utils.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o"
-  "/home/khanhcrbale/ESPL/src/cheatmenui.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o"
-  "/home/khanhcrbale/ESPL/src/gui.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o"
-  "/home/khanhcrbale/ESPL/src/handshake_client.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o"
-  "/home/khanhcrbale/ESPL/src/main.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o"
-  "/home/khanhcrbale/ESPL/src/main_menu.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o"
-  "/home/khanhcrbale/ESPL/src/multiplayer.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o"
-  "/home/khanhcrbale/ESPL/src/multiplayer_config.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.o"
-  "/home/khanhcrbale/ESPL/src/renderer.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o"
-  "/home/khanhcrbale/ESPL/src/resources.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o"
-  "/home/khanhcrbale/ESPL/src/singleplayer.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o"
-  "/home/khanhcrbale/ESPL/src/statemachine.c" "/home/khanhcrbale/ESPL/build/CMakeFiles/FreeRTOS_Emulator.dir/src/statemachine.c.o"
-  )
-set(CMAKE_C_COMPILER_ID "GNU")
 
-# The include file search paths:
-set(CMAKE_C_TARGET_INCLUDE_PATH
-  "/usr/include/SDL2"
-  "../lib/FreeRTOS_Kernel/include"
-  "../lib/FreeRTOS_Kernel/portable/GCC/Posix"
-  "../include"
-  "../lib/Gfx/include"
-  "../lib/AsyncIO/include"
-  "../lib/tracer/include"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/knguyen/ESPL_Project/ESPL/lib/AsyncIO/AsyncIO.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/AsyncIO/AsyncIO.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/croutine.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/croutine.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/croutine.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/list.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/list.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/list.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/portable/GCC/Posix/port.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/portable/GCC/Posix/port.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/portable/GCC/Posix/port.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/portable/MemMang/heap_3.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/portable/MemMang/heap_3.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/portable/MemMang/heap_3.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/queue.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/queue.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/queue.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/tasks.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/tasks.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/tasks.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/FreeRTOS_Kernel/timers.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/timers.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/FreeRTOS_Kernel/timers.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Ball.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Ball.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Ball.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Draw.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Draw.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Event.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Event.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Event.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Font.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Font.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_FreeRTOS_Utils.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_FreeRTOS_Utils.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Print.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Print.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Sound.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Sound.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/lib/Gfx/TUM_Utils.c" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/lib/Gfx/TUM_Utils.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/cheatmenui.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/cheatmenui.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/gui.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/gui.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/handshake_client.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/handshake_client.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/main.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/main.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/main_menu.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/main_menu.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/multiplayer.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/multiplayer_config.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/multiplayer_config.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/renderer.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/renderer.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/resources.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/resources.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/singleplayer.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/singleplayer.c.o.d"
+  "/home/knguyen/ESPL_Project/ESPL/src/statemachine.c" "CMakeFiles/FreeRTOS_Emulator.dir/src/statemachine.c.o" "gcc" "CMakeFiles/FreeRTOS_Emulator.dir/src/statemachine.c.o.d"
   )
 
 # Targets to which this target links.

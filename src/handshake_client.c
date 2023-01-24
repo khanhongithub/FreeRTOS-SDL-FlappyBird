@@ -34,8 +34,6 @@
 #define IPv4_addr "127.0.0.1"
 
 TaskHandle_t HandshakeTask = NULL;
-//TaskHandle_t HandshakeClientTask = NULL;
-//aIO_handle_t handshakehost_handle;
 aIO_handle_t handshakeclient_handle;
 
 
@@ -55,22 +53,19 @@ void HandshakecallbackClient(size_t recv_size, char *buffer, void *args)
 {
 
 
-   handshake_t *my_handshake_args_client = (handshake_t *) args;
+   handshake_t my_handshake_client = {.msg = 0};
    int host_msg = *((int *) buffer);
-   my_handshake_args_client->msg = 0;
    printf("This is client , receive msg %d from host\n",host_msg);
-   printf("This is client");
-   if(aIOSocketPut(UDP, IPv4_addr, MISO_PORT, (char *)&(my_handshake_args_client->msg), sizeof(int)))
+   if(aIOSocketPut(UDP, IPv4_addr, MISO_PORT, (char *)&(my_handshake_client.msg), sizeof(my_handshake_client.msg)))
    PRINT_ERROR("Failed to send msg to host");
 
 }
 void HandshakeTaskInit(void)
 {       
 
-    handshake_t my_handshake_args = {0};
     printf("This is client\n");
     handshakeclient_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(int), 
-    HandshakecallbackClient, (void *) &my_handshake_args);
+    HandshakecallbackClient, NULL);
 }
 void vHandshakeTaskClient(void *pvParameters)
 {
