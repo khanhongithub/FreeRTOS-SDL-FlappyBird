@@ -35,7 +35,7 @@
 
 TaskHandle_t HandshakeTask = NULL;
 aIO_handle_t handshakeclient_handle;
-
+handshake_t my_handshake_client = {.msg = 0};
 
 void HandshakeTaskEnter(void)
 {  
@@ -53,7 +53,7 @@ void HandshakecallbackClient(size_t recv_size, char *buffer, void *args)
 {
 
 
-   handshake_t my_handshake_client = {.msg = 0};
+
    int host_msg = *((int *) buffer);
    printf("This is client , receive msg %d from host\n",host_msg);
    if(aIOSocketPut(UDP, IPv4_addr, MISO_PORT, (char *)&(my_handshake_client.msg), sizeof(my_handshake_client.msg)))
@@ -64,7 +64,7 @@ void HandshakeTaskInit(void)
 {       
 
     printf("This is client\n");
-    handshakeclient_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(int), 
+    handshakeclient_handle = aIOOpenUDPSocket(IPv4_addr, MISO_PORT, sizeof(my_handshake_client.msg), 
     HandshakecallbackClient, NULL);
 }
 void vHandshakeTaskClient(void *pvParameters)
