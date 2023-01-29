@@ -4,7 +4,7 @@ My partner who names is Nino and I design this Flappy bird game, which is an app
 We use the FReeRTOS Emulator of our tutor and deploy it on x86 System, this helps us get to know about FreeRTOS without the need of embedded hardware. We could also design it on STM32 board
 
 
-![](20230128185224.png)  
+![](20230129135009.png)  
 
 ## Dependencies
 
